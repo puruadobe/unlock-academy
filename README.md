@@ -135,12 +135,23 @@ cybersecurity lab, orbital flight deck, and generic research room are built from
 3D geometry, with lighting, shadows, evidence workstations, and a sliding exit.
 No external asset service or AI connection is required for the 3D experience.
 
-Each lock now enters a distinct environment. The cyber mission moves from a
-verification office to an identity vault and a response center; physics moves
-from an observation deck to a propulsion bay and an energy workshop. Custom
-rooms use an observation garden, pattern archive, workshop, evidence chamber,
-lookout, and synthesis hall across up to six locks. Layouts, furniture, central
-landmarks, materials, lighting, and ceiling details change with the task.
+Each section shuffles its answer choices, evidence order, workstation assignments,
+and decision-terminal location. Six tested floor plans and six terminal locations
+are selected without replacement across the supported six locks. The saved mission
+start time seeds the shuffle: inspecting clues, retries, and reloads preserve the
+layout; restarting creates a new arrangement. Displayed choices retain their
+original answer indexes and feedback, while clues retain their evidence IDs.
+
+Scenery follows the current question, learning objective, story, and evidence,
+with the overall topic as a fallback. Cyber missions use offices, identity vaults,
+and response centers; physics uses observation decks, propulsion bays, and energy
+workshops. Imported and generated lessons also have number studios, shape galleries,
+living laboratories, molecule labs, history collections, and reading rooms. Math
+stories about lanterns, carrots, and stepping stones get matching courtyard,
+garden, and model-bridge details. Unknown subjects use a neutral archive with the
+actual question and section title. Scenery is illustrative; authored evidence
+remains the source of facts for solving the question.
+
 An arrival card identifies the new sector, and the unlocked exit names the next
 destination. Transitions and moving scenery respect reduced-motion preferences.
 
@@ -151,6 +162,22 @@ destination. Transitions and moving scenery respect reduced-motion preferences.
 - Correct solutions open the hatch. Click it, walk toward it, or use the continue button.
 - **Room overview**, **Reset view**, and **Expand** control the view. Escape leaves the expanded view.
 
+### Theme music
+
+Solo rooms and draft play-tests include seven original ambient scores, synthesized
+locally with Web Audio: cyber signals, spacious orbital pads, garden melodies,
+playful discovery music, workshop rhythms, quiet reading music, and historical
+ambience. Music follows the same question-based environment selection as the
+scenery and fades between sections. It starts at 25% volume when entering a room;
+browsers that require another gesture show **Play music**.
+
+Use the music toggle and volume slider above the room. Preferences save locally.
+Clue and answer dialogs lower the music automatically; hiding the tab pauses it,
+and leaving the room stops it. Opening evidence reuses the room and soundtrack
+instead of restarting them. Music also works with the WebGL fallback and in the
+self-contained HTML build, without downloads, provider keys, or external tracks.
+The scores, scheduler, and audio lifecycle live in `src/room-music.mjs`.
+
 The existing grading, hints, browser saves, custom-room validation, and draft
 preview isolation remain in use. Cooperative multiplayer retains its shared
 team board; it does not synchronize 3D player movement. If WebGL is unavailable,
@@ -158,8 +185,10 @@ evidence buttons and the decision terminal remain usable.
 
 Edit `src/scene3d.js` for the renderer and `src/movement.mjs` for movement/collision.
 Environment definitions live in `src/room-environments.mjs`; their local geometry
-lives in `src/environment-scenery.mjs`. Path tests cover access to every station
-and the exit even with the maximum six evidence items.
+lives in `src/environment-scenery.mjs`. Seeded presentation order lives in
+`src/section-presentation.mjs`. Tests cover all 36 floor-plan/terminal combinations
+with six evidence items, stable saved layouts, grading after shuffling, and
+subject selection for starter and imported rooms.
 Run `npm run build` after changes; it bundles the renderer into `public/scene.js`
 and regenerates the self-contained `Unlock-Academy.html`. The generated bundle is
 checked in so `npm start` also works without a separate build step.

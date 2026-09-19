@@ -1,11 +1,14 @@
 import * as THREE from 'three';
 import { movePlayer } from './movement.mjs';
-import { environmentFor, stationCollider } from './room-environments.mjs';
+import { sectionOrder } from './section-presentation.mjs';
+import { environmentFor, stationCollider, terminalCollider } from './room-environments.mjs';
 import { buildScenery } from './environment-scenery.mjs';
+import { createRoomMusic } from './room-music.mjs';
 
 // A single live renderer owns the room. It is reused when evidence changes and
 // disposed when the learner leaves or advances, including GPU resources.
 let active = null;
+const music = createRoomMusic();
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const themes = {
   cyber: { accent: 0x72f4ce, secondary: 0xffb66f, title: 'NORTHSTAR / INVESTIGATION UNIT', zone: 'The verification lab', color: '#72f4ce' },
@@ -21,25 +24,50 @@ function el(tag, cls, text) {
 function button(text, cls, action) {
   const n = el('button', cls, text); n.type = 'button'; n.onclick = action; return n;
 }
+function musicControls(environment) {
+  const root=el('div','game-music'); root.setAttribute('role','group');root.setAttribute('aria-label','Background music');
+  const toggle=button('♫ Play music','game-action',()=>music.toggle());
+  const track=el('span','game-music-track');
+  const volumeLabel=el('label','game-music-volume','Volume');
+  const volume=el('input','');volume.type='range';volume.min='0';volume.max='100';volume.step='5';volume.setAttribute('aria-label','Music volume');
+  volume.oninput=()=>music.setVolume(Number(volume.value)/100);
+  volumeLabel.append(volume);root.append(toggle,track,volumeLabel);
+  const unsubscribe=music.subscribe(status=>{
+    toggle.textContent=status.unavailable?'Music unavailable':status.playing?'♫ Music on':status.enabled?'♫ Play music':'♫ Music off';
+    toggle.setAttribute('aria-label',status.playing?'Mute background music':'Play background music');
+    toggle.setAttribute('aria-pressed',String(status.playing));toggle.disabled=status.unavailable;
+    track.textContent=status.profile;volume.value=String(Math.round(status.volume*100));
+    volume.setAttribute('aria-valuetext',Math.round(status.volume*100)+' percent');
+  });
+  const visibility=()=>music.setHidden(document.hidden);
+  const duck=()=>music.setDucked(!!document.querySelector('dialog[open]'));
+  const dialogs=new MutationObserver(duck);
+  document.querySelectorAll('dialog').forEach(dialog=>dialogs.observe(dialog,{attributes:true,attributeFilter:['open']}));
+  document.addEventListener('visibilitychange',visibility);
+  visibility();duck();music.enter(environment);
+  return {root,dispose(){unsubscribe();dialogs.disconnect();document.removeEventListener('visibilitychange',visibility);}};
+}
 function create(room, puzzle, seen, onInspect, options = {}) {
-  if (active?.room === room && active.puzzle === puzzle) {
+  if (active?.room === room && active.puzzle === puzzle && active.seed === options.seed) {
     active.update(seen, options); return active.root;
   }
   const wasExpanded = active?.root.classList.contains('expanded');
-  dispose();
+  dispose(false);
   const index = room.puzzles.indexOf(puzzle);
-  const environment = environmentFor(room, index);
-  const nextEnvironment = index + 1 < room.puzzles.length ? environmentFor(room, index + 1) : null;
+  const environment = environmentFor(room, index, options.seed);
+  const nextEnvironment = index + 1 < room.puzzles.length ? environmentFor(room, index + 1, options.seed) : null;
   const kind = environment.kind;
+  const evidence = sectionOrder(room, puzzle, options.seed).evidence;
   const theme = { ...themes[kind], accent:environment.accent, color:environment.color };
   const root = el('section', 'game-room');
   root.style.setProperty('--game-accent', theme.color);
   root.dataset.environment = environment.id;
+  root.dataset.layout = String(environment.layoutIndex);
   if (wasExpanded) { root.classList.add('expanded'); document.body.classList.add('game-expanded'); }
   root.setAttribute('aria-label', 'Interactive 3D puzzle room');
   const bar = el('div', 'game-bar');
   const identity = el('div', 'game-identity');
-  identity.append(el('span', 'game-live-dot'), el('span', '', theme.title));
+  identity.append(el('span', 'game-live-dot'), el('span', '', environment.title.toUpperCase()));
   const actions = el('div', 'game-actions');
   const stage = el('div', 'game-viewport');
   const viewport = el('div', 'game-canvas');
@@ -69,7 +97,8 @@ function create(room, puzzle, seen, onInspect, options = {}) {
   inventory.setAttribute('aria-label', 'Evidence inventory');
   footer.append(keysText, terminalButton);
   stage.append(viewport, hud, markers, crosshair, prompt, toast, map);
-  root.append(bar, stage, footer, inventory);
+  const sound = musicControls(environment);
+  root.append(bar, sound.root, stage, footer, inventory);
   const arrival = el('div', 'game-arrival');
   arrival.setAttribute('role', 'status');
   arrival.append(el('span','game-overline',`ENTERING SECTOR ${String(index+1).padStart(2,'0')}`),el('strong','',environment.title),el('span','',puzzle.title));
@@ -89,9 +118,9 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     clearTimeout(arrivalTimer);
     stage.replaceChildren(el('div', 'game-fallback', '3D rendering is unavailable in this browser. You can still inspect every clue below and use the decision terminal.'));
     const update = (ids, next) => { options = next; count.textContent = `${ids.length} / ${puzzle.evidence.length}`; };
-    puzzle.evidence.forEach(e => inventory.append(button(e.title, 'game-item', () => onInspect(e))));
+    evidence.forEach(e => inventory.append(button(e.title, 'game-item', () => onInspect(e))));
     bar.append(identity);
-    active = { root, room, puzzle, update, dispose() { document.body.classList.remove('game-expanded'); } }; update(seen, options); return root;
+    active = { root, room, puzzle, seed:options.seed, update, dispose() { sound.dispose(); document.body.classList.remove('game-expanded'); } }; update(seen, options); return root;
   }
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
   renderer.setClearColor(environment.sky);
@@ -171,7 +200,7 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     box(2.8, .1, 1.4, black, 0, roofHeight-.16, z, ceilingDetails);
     for (let i = 0; i < 9; i++) box(2.5, .08, .04, edge, 0, roofHeight-.23, z - .55 + i * .14, ceilingDetails);
   }
-  const naturalFloor = ['office','archive','garden','hall'].includes(environment.id);
+  const naturalFloor = ['office','archive','garden','hall','counting','history','library','biology'].includes(environment.id);
   for (let x = -6; x <= 6; x += naturalFloor ? .5 : 1.5) box(.015, .008, 13, edge, x, -.018, 1);
   for (let z = -5; z <= 7; z += naturalFloor ? 3 : 1.5) box(12, .008, .012, edge, 0, -.018, z);
   box(4.9, roofHeight, .25, wallMat, -3.65, roofHeight/2, -5);
@@ -196,7 +225,7 @@ function create(room, puzzle, seen, onInspect, options = {}) {
   box(.045, 2.8, .035, warmGlow, .49, 0, .12, leftDoor);
   box(.045, 2.8, .035, warmGlow, -.49, 0, .12, rightDoor);
   for (const x of [-1.3, 1.3]) box(.07, 3.45, .07, glow, x, 1.78, -4.68);
-  const doorLabel = textSurface(['AIRLOCK / EXIT', 'SOLVE TO RELEASE'], 2.1, .6, '#ffb66f'); doorLabel.position.set(0, 3.53, -4.68); world.add(doorLabel);
+  const doorLabel = textSurface([kind === 'space' ? 'AIRLOCK / EXIT' : 'NEXT SECTION / EXIT', 'SOLVE TO RELEASE'], 2.1, .6, '#ffb66f'); doorLabel.position.set(0, 3.53, -4.68); world.add(doorLabel);
   for (let z = -3.8; z < 4; z += 1.15) { const chevron = box(.3, .015, .05, warmGlow, 0, .005, z); chevron.rotation.y = -.6; }
   // Scenic window, with geometry outside instead of a flat background image.
   box(3.1, 2.2, .13, black, 3.75, 2.45, -4.8);
@@ -206,12 +235,16 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     planet.position.set(3.9, 2.65, -4.57); planet.scale.z = .35; world.add(planet);
     const ring = new THREE.Mesh(new THREE.TorusGeometry(.9, .02, 6, 70), warmGlow); ring.position.copy(planet.position); ring.rotation.x = 1; ring.rotation.z = -.35; world.add(ring);
     for (let i = 0; i < 28; i++) { const star = box(.018, .018, .015, white, 2.5 + ((i * 37) % 100) / 40, 1.6 + ((i * 61) % 100) / 57, -4.65); star.castShadow = false; }
-  } else {
+  } else if (kind === 'cyber') {
     for (let i = 0; i < 11; i++) {
       const h = .25 + ((i * 19) % 10) * .13;
       box(.18, h, .05, panelMat, 2.48 + i * .25, 1.49 + h / 2, -4.64);
       for (let j = 0; j < h * 6; j++) box(.045, .03, .018, j % 2 ? glow : warmGlow, 2.48 + i * .25, 1.54 + j * .15, -4.60);
     }
+  }
+  if (kind === 'archive') {
+    const task = textSurface(['CURRENT QUESTION', environment.focus], 2.8, 1.85);
+    task.position.set(3.75, 2.45, -4.57); world.add(task);
   }
   box(3, .035, .04, glow, 3.75, 1.4, -4.58);
   const movingScenery = buildScenery({ THREE, world, env:environment, box, cylinder, mat, textSurface, glow, warmGlow, white, black, edge, panelMat, roof:ceilingDetails, colliders });
@@ -225,7 +258,7 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     const pinText = el('span', 'game-pin-text', label); pin.append(number, pinText); markers.append(pin);
     target.pin = pin; target.number = number; targets.push(target); return target;
   }
-  puzzle.evidence.forEach((e, i) => {
+  evidence.forEach((e, i) => {
     const p = positions[i % positions.length];
     const group = new THREE.Group(); group.position.set(p[0], 0, p[1]); group.rotation.y = p[2]; world.add(group);
     const station = environment.station;
@@ -256,7 +289,7 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     }
     const screenZ = station === 'rack' ? .48 : -.12;
     box(1.5,.95,.12,black,0,screenY,screenZ-.07,group);
-    const screen = textSurface(['0'+(i+1)+' / '+(e.type || 'EVIDENCE'),e.title,'SELECT TO INVESTIGATE'],1.38,.82);
+    const screen = textSurface(['0'+(puzzle.evidence.indexOf(e)+1)+' / '+(e.type || 'EVIDENCE'),e.title,'SELECT TO INVESTIGATE'],1.38,.82);
     screen.position.set(0,screenY+.01,screenZ); group.add(screen);
     colliders.push(stationCollider(p));
     group.updateMatrixWorld(true);
@@ -265,19 +298,22 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     target.inventory = button('', 'game-item', () => activate(target)); inventory.append(target.inventory);
     const mapDot = el('i', 'map-clue'); mapDot.style.left = `${50 + p[0] * 6.5}%`; mapDot.style.top = `${14 + (p[1] + 5) * 6}%`; map.append(mapDot); target.mapDot = mapDot;
   });
-  // Terminal beside the exit, linked to the existing answer/evidence engine.
-  const terminal = new THREE.Group(); terminal.position.set(1.9, 0, -3.45); world.add(terminal);
+  // A different answer-terminal position for every section.
+  const [terminalX, terminalZ] = environment.terminal;
+  const terminal = new THREE.Group(); terminal.position.set(terminalX, 0, terminalZ); world.add(terminal);
   box(.48, 1.15, .48, edge, 0, .575, 0, terminal);
   const screenCase = box(.9, .65, .12, black, 0, 1.43, 0, terminal); screenCase.rotation.x = -.15;
   const terminalScreen = textSurface(['DECISION', 'AUTHORIZE EXIT'], .8, .52, '#ffb66f'); terminalScreen.position.set(0, 1.45, .09); terminalScreen.rotation.x = -.15; terminal.add(terminalScreen);
-  const terminalTarget = targetFor(terminal, new THREE.Vector3(1.9, 2.1, -3.45), 'Decision terminal', () => options.onTerminal?.());
+  const terminalTarget = targetFor(terminal, new THREE.Vector3(terminalX, 2.1, terminalZ), 'Decision terminal', () => options.onTerminal?.());
   const doorTarget = { group: leftDoor, anchor: new THREE.Vector3(0, 1.6, -4.5), label: 'Exit hatch', action() { if (solved) options.onExit?.(); else options.onTerminal?.(); } };
   leftDoor.userData.target = rightDoor.userData.target = doorTarget; meshes.push(leftDoor, rightDoor);
   const exitMaterial = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false });
   materials.push(exitMaterial);
   const exitTrigger = box(2.1, 3, .03, exitMaterial, 0, 1.5, -4.35);
   exitTrigger.userData.target = doorTarget; meshes.push(exitTrigger);
-  colliders.push({ x: 1.9, z: -3.45, w: .8, d: .6 });
+  colliders.push(terminalCollider(environment.terminal));
+  const terminalDot = el('i', 'map-clue'); terminalDot.style.background = '#ffb66f';
+  terminalDot.style.left = `${50+terminalX*6.5}%`; terminalDot.style.top = `${14+(terminalZ+5)*6}%`; map.append(terminalDot);
   const clueSummary = el('span', 'game-inventory-label', 'FIELD NOTES'); inventory.prepend(clueSummary);
   let toastTimer, departureTimer, departing = false;
   function notify(message) { toast.textContent = message; toast.classList.add('visible'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('visible'), 3400); }
@@ -352,7 +388,7 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     objective.textContent = solved ? (nextEnvironment ? `Exit unlocked. Next stop: ${nextEnvironment.title}.` : 'Exit unlocked. Your mission debrief is ready.') : ready ? 'Evidence collected. Make your decision at the amber terminal.' : environment.subtitle;
     root.classList.toggle('is-solved', solved);
     if (solved !== displayedDoorState) {
-      const label = textSurface(solved ? ['ACCESS GRANTED', 'PROCEED TO NEXT SECTOR'] : ['AIRLOCK / EXIT', 'SOLVE TO RELEASE'], 2.1, .6, solved ? theme.color : '#ffb66f');
+      const label = textSurface(solved ? ['ACCESS GRANTED', 'PROCEED TO NEXT SECTOR'] : [kind === 'space' ? 'AIRLOCK / EXIT' : 'NEXT SECTION / EXIT', 'SOLVE TO RELEASE'], 2.1, .6, solved ? theme.color : '#ffb66f');
       doorLabel.material = label.material; label.geometry.dispose(); displayedDoorState = solved;
     }
     if (seen.length > previous.length) notify(ready ? 'EVIDENCE COMPLETE / Decision terminal ready' : 'EVIDENCE RECOVERED / Added to your field notes');
@@ -381,26 +417,40 @@ function create(room, puzzle, seen, onInspect, options = {}) {
     crosshair.classList.toggle('on-target', !!hover);
     canvas.style.cursor = pointerDown ? 'grabbing' : hover ? 'pointer' : 'grab';
     const rect = stage.getBoundingClientRect();
+    const placedPins = [];
     for (const t of targets) {
       projected.copy(t.anchor).project(camera);
       const visible = projected.z < 1 && projected.z > -1 && Math.abs(projected.x) < .93 && Math.abs(projected.y) < .78;
       t.pin.hidden = !visible;
-      if (visible) { const margin = t.pin.offsetWidth / 2 + 10; t.pin.style.left = `${THREE.MathUtils.clamp((projected.x+1)*rect.width/2, margin, rect.width-margin)}px`; t.pin.style.top = `${(1-projected.y)*rect.height/2}px`; }
+      if (visible) {
+        const w=t.pin.offsetWidth, h=t.pin.offsetHeight, margin=w/2+10;
+        const x=THREE.MathUtils.clamp((projected.x+1)*rect.width/2,margin,rect.width-margin);
+        const anchorY=(1-projected.y)*rect.height/2;
+        let y=anchorY;
+        // Random desk assignments can project onto each other. Keep their
+        // clickable labels separate while staying near the physical objects.
+        for(const offset of [0,-1,1,-2,2,-3,3,-4,4]) {
+          const candidate=THREE.MathUtils.clamp(anchorY+offset*(h+8),h/2+10,rect.height-h/2-70);
+          if(placedPins.every(p=>Math.abs(x-p.x)>(w+p.w)/2+8 || Math.abs(candidate-p.y)>(h+p.h)/2+8)) { y=candidate; break; }
+        }
+        placedPins.push({x,y,w,h});
+        t.pin.style.left=x+'px'; t.pin.style.top=y+'px';
+      }
     }
     mapPlayer.style.left = `${50+player.x*6.5}%`; mapPlayer.style.top = `${14+(player.z+5)*6}%`; mapPlayer.style.transform = `translate(-50%,-50%) rotate(${-yaw}rad)`;
     if (!reduceMotion && !modal && !departing) for (const item of movingScenery) item.object.rotation[item.axis] += dt*item.speed;
     renderer.render(world, camera);
   }
-  const instance = { root, room, puzzle, update, depart(done) {
+  const instance = { root, room, puzzle, seed:options.seed, update, depart(done) {
     if (departing) return;
     departing = true; keys.clear(); root.inert = true; root.classList.add('is-departing');
     departureTimer = setTimeout(done, reduceMotion ? 0 : 260);
   }, dispose() {
-    dead = true; document.body.classList.remove('game-expanded'); cancelAnimationFrame(frame); clearTimeout(toastTimer); clearTimeout(arrivalTimer); clearTimeout(departureTimer); observer.disconnect(); events.abort();
+    sound.dispose(); dead = true; document.body.classList.remove('game-expanded'); cancelAnimationFrame(frame); clearTimeout(toastTimer); clearTimeout(arrivalTimer); clearTimeout(departureTimer); observer.disconnect(); events.abort();
     world.traverse(o => o.geometry?.dispose()); new Set(materials).forEach(m => m.dispose()); textures.forEach(t => t.dispose()); keyLight.shadow.dispose(); renderer.dispose(); renderer.forceContextLoss();
   } };
   active = instance; update(seen, options); frame = requestAnimationFrame(animate);
   return root;
 }
-function dispose() { active?.dispose(); active = null; }
-window.RoomScenes = { create, dispose, depart(done) { if (active?.depart) active.depart(done); else done(); } };
+function dispose(stopMusic = true) { active?.dispose(); active = null; if(stopMusic) music.leave(); }
+window.RoomScenes = { create, dispose, sectionOrder, depart(done) { if (active?.depart) active.depart(done); else done(); } };

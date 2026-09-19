@@ -189,7 +189,8 @@ function renderMission() {
   renderEvidence(p);
   renderReasoning(p);
   $("answerChoices").replaceChildren();
-  p.options.forEach((option, i) => {
+  RoomScenes.sectionOrder(r, p, s.started).options.forEach((i) => {
+    const option = p.options[i];
     const l = document.createElement("label");
     l.className = "answer";
     const input = document.createElement("input");
@@ -215,6 +216,7 @@ function renderInteractiveScene(p) {
   const seen = state().seen[p.id] || [];
   $("sceneExplorer").replaceChildren(
     RoomScenes.create(room(), p, seen, (e) => openEvidence(p, e), {
+      seed: state().started,
       solved: !!pending,
       onTerminal: () => $("decisionDialog").showModal(),
       onExit: advancePuzzle,
@@ -261,7 +263,7 @@ function renderEvidence(p) {
   $("evidenceCount").textContent =
     seen.length + " / " + p.evidence.length + " inspected";
   $("evidenceGrid").replaceChildren();
-  for (const e of p.evidence) {
+  for (const e of RoomScenes.sectionOrder(room(), p, state().started).evidence) {
     const b = document.createElement("button");
     b.className = "evidence-card" + (seen.includes(e.id) ? " seen" : "");
     b.innerHTML =
@@ -678,13 +680,13 @@ function renderReasoning(p) {
   if(!p.reasoning) return;
   const title=document.createElement('h3');title.textContent=p.reasoning.prompt;box.append(title);
   const note=document.createElement('p');note.className='small';note.textContent='Select only the supporting clues. Open a card to make it available here.';box.append(note);
-  p.evidence.forEach(e=>{const label=document.createElement('label');label.className='reasoning-option';const input=document.createElement('input');input.type='checkbox';input.value=e.id;input.checked=selected.includes(e.id);input.disabled=!!pending||!state().seen[p.id]?.includes(e.id);const text=document.createElement('span');text.textContent=e.title;label.append(input,text);box.append(label)});
+  RoomScenes.sectionOrder(room(), p, state().started).evidence.forEach(e=>{const label=document.createElement('label');label.className='reasoning-option';const input=document.createElement('input');input.type='checkbox';input.value=e.id;input.checked=selected.includes(e.id);input.disabled=!!pending||!state().seen[p.id]?.includes(e.id);const text=document.createElement('span');text.textContent=e.title;label.append(input,text);box.append(label)});
 }
 function renderTransfer(r,s) {
   if(!r.transfer)return;
   const t=r.transfer,section=document.createElement('section');section.className='transfer-panel';
   section.innerHTML='<span class="eyebrow">ONE MORE STEP / APPLY IT SOMEWHERE NEW</span><h3>'+esc(t.question)+'</h3><p class="small">The story has changed. Which principle still applies?</p>';
-  t.options.forEach((option,i)=>{const b=document.createElement('button');b.className='secondary transfer-option';b.textContent=option;b.onclick=()=>{s.transferChoice=i;s.transferAttempts=(s.transferAttempts||0)+1;save();renderDebrief()};section.append(b)});
+  RoomScenes.sectionOrder(r, t, s.started).options.forEach(i=>{const option=t.options[i];const b=document.createElement('button');b.className='secondary transfer-option';b.textContent=option;b.onclick=()=>{s.transferChoice=i;s.transferAttempts=(s.transferAttempts||0)+1;save();renderDebrief()};section.append(b)});
   if(s.transferChoice!==null&&s.transferChoice!==undefined){const result=document.createElement('p');result.className='feedback-box'+(s.transferChoice===t.answer?' correct':'');result.textContent=s.transferChoice===t.answer?'You applied the principle. '+t.explanation:'Not yet. Revisit the lesson and consider how it applies in this new situation.';section.append(result)}
   $('debrief').append(section);
 }
