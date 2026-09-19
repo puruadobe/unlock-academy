@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Unlock Academy — Learn your way out</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <a href="#" id="home" class="brand"
+        ><span class="brandmark">u↗</span>unlock<span>academy</span></a
+      >
+      <nav aria-label="Main navigation">
+        <button id="libraryNav" class="nav-button active">Explore rooms</button
+        ><button id="studioNav" class="nav-button">Create a room</button
+        ><button id="coachNav" class="coach-button">✦ Learning coach</button>
+      </nav>
+    </header>
+    <main id="library">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">CURIOSITY IS THE KEY</span>
+          <h1>Don’t just learn it.<br /><em>Find your way through it.</em></h1>
+          <p>
+            Enter a story. Connect the clues. Unlock a new understanding.<br />Learning
+            escape rooms for any subject, one discovery at a time.
+          </p>
+          <button class="primary large" id="startFeatured">
+            Enter the cyber mission <span>↗</span>
+          </button>
+          <div class="hero-meta">
+            <span>3 locks to solve</span><span>No deadline</span
+            ><span>Hints when you need them</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbital orbit-one"></div>
+          <div class="orbital orbit-two"></div>
+          <div class="floating-tag tag-top">01 / INSPECT</div>
+          <div class="keyhole">
+            <div></div>
+            <span>?</span>
+          </div>
+          <div class="floating-tag tag-bottom">
+            THE ANSWER IS IN THE EVIDENCE
+          </div>
+          <div class="spark spark-one">✳</div>
+          <div class="spark spark-two">✧</div>
+        </div>
+      </section>
+      <section class="room-section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">PICK YOUR NEXT DISCOVERY</span>
+            <h2>The room collection</h2>
+          </div>
+          <span class="muted" id="roomCount"></span>
+        </div>
+        <div class="room-grid" id="roomGrid"></div>
+      </section>
+      <section class="how">
+        <span class="eyebrow">A LITTLE MYSTERY. A LASTING LESSON.</span>
+        <div>
+          <h3>01 · Explore</h3>
+          <p>Read the evidence and notice what matters.</p>
+        </div>
+        <div>
+          <h3>02 · Connect</h3>
+          <p>Explain your choice. Mistakes become clues.</p>
+        </div>
+        <div>
+          <h3>03 · Take it with you</h3>
+          <p>Leave with a debrief and ideas you can use.</p>
+        </div>
+      </section>
+    </main>
+    <main id="play" hidden>
+      <div class="mission-top">
+        <button id="backLibrary" class="text-button">← Room collection</button
+        ><span id="missionTopic" class="pill"></span
+        ><button id="restartRoom" class="text-button">Restart room</button>
+      </div>
+      <div class="mission-heading">
+        <div>
+          <span class="eyebrow" id="missionLabel"></span>
+          <h1 id="missionTitle"></h1>
+        </div>
+        <div class="mission-counter">
+          <strong id="lockCount"></strong><span>locks opened</span>
+        </div>
+      </div>
+      <div id="lockRail" class="lock-rail" aria-label="Mission progress"></div>
+      <section id="puzzleArea">
+        <div class="mission-layout">
+          <div>
+            <div class="story-panel">
+              <span id="puzzleEyebrow" class="eyebrow"></span>
+              <h2 id="puzzleTitle"></h2>
+              <p id="puzzleStory"></p>
+              <p id="puzzleObjective" class="small"></p>
+            </div>
+            <div class="section-heading evidence-heading">
+              <h3>Your evidence board</h3>
+              <span class="muted" id="evidenceCount"></span>
+            </div>
+            <div id="evidenceGrid" class="evidence-grid"></div>
+            <p class="small">
+              Open the cards marked “Required” before making a decision. Every
+              clue is part of this fictional exercise.
+            </p>
+          </div>
+          <aside class="decision-panel">
+            <span class="eyebrow">YOUR MOVE</span>
+            <h2 id="puzzleQuestion"></h2>
+            <div
+              id="answerChoices"
+              role="radiogroup"
+              aria-label="Answer choices"
+            ></div>
+            <div id="reasoningChoices" class="reasoning-choices"></div>
+            <button id="submitAnswer" class="primary full">
+              Test my reasoning →
+            </button>
+            <div id="feedback" role="status" aria-live="polite"></div>
+            <div class="hint-section">
+              <button id="hintButton" class="text-button">
+                ✦ Give me a nudge</button
+              ><span id="hintCount" class="small"></span>
+              <div id="hints"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+      <section id="debrief" class="debrief" hidden></section>
+      <div class="mission-foot">
+        <p id="fiction" class="small"></p>
+        <span id="saveStatus" class="small"
+          >Progress saves in this browser.</span
+        >
+      </div>
+    </main>
+    <main id="studio" hidden>
+      <div class="studio-heading">
+        <span class="eyebrow">EVERY TOPIC HAS A STORY</span>
+        <h1>Make a room of your own.</h1>
+        <p>
+          Turn a lesson into a discovery. Write a challenge, add evidence, and
+          explain the answer.
+        </p>
+      </div>
+      <section class="ai-studio panel">
+        <div class="section-heading"><div><span class="eyebrow">TRUEFORGE ROOM ARCHITECT</span><h2>From a topic to a learning adventure.</h2></div><span class="pill">Draft → Check → Review → Publish</span></div>
+        <p class="small">Choose what the learner should understand. TrueForge drafts a connected mission; you review its claims and answer keys before publishing. Your brief is sent to your configured model provider.</p>
+        <form id="aiBriefForm"><div class="form-row"><label>Topic to explore<input id="aiTopic" required maxlength="150" placeholder="Photosynthesis, probability, cyber awareness…"></label><label>Who is learning?<input id="aiAudience" required maxlength="200" value="Curious beginners"></label></div>
+        <label>What should they be able to explain or do?<textarea id="aiGoal" required maxlength="1000" rows="2" placeholder="Explain how plants turn light into stored chemical energy."></textarea></label>
+        <div class="form-row"><label>Challenge depth<select id="aiDifficulty"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label><label>Number of connected locks<select id="aiLocks"><option>3</option><option>4</option><option>5</option></select></label></div>
+        <div class="section-heading"><button id="generateRoom" class="primary" type="submit">Design with TrueForge ✦</button><button id="exampleDraft" class="secondary" type="button">Explore an authored example</button></div></form>
+        <div id="draftRun" role="status" aria-live="polite"></div><ol id="draftEvents" class="draft-events"></ol>
+      </section>
+      <section id="draftReview" class="draft-review" hidden>
+        <div class="section-heading"><div><span class="eyebrow" id="draftOrigin"></span><h2>Review before anyone plays.</h2></div><button id="exportDraft" class="secondary">Export draft ↓</button></div>
+        <p class="small">Structure checks are automatic. Factual accuracy and instructional quality still need your review. No external sources are fetched or verified by this workflow.</p>
+        <div id="draftAudit"></div><div id="draftPreview"></div>
+        <details><summary>Edit the room JSON</summary><label>Draft JSON<textarea id="draftJson" rows="12" spellcheck="false"></textarea></label><button id="applyDraftEdits" class="secondary">Validate and apply edits</button><p id="draftEditStatus" class="small" role="status"></p></details>
+        <label>Revision request<textarea id="revisionRequest" maxlength="1500" rows="2" placeholder="Make the second lock require comparing two sources; make the hints less revealing."></textarea></label><button id="reviseRoom" class="secondary">Ask TrueForge to revise ↗</button>
+        <div class="approval-box"><h3>Human review</h3><label><input type="checkbox" id="reviewFacts">I checked the factual claims and any supplied sources.</label><label><input type="checkbox" id="reviewAnswers">I checked that evidence supports the answers and explanations.</label><label><input type="checkbox" id="reviewAudience">The language, difficulty, and hints fit the intended learners.</label><button id="publishDraft" class="primary" disabled>Approve & publish to my collection ↗</button><p id="publishStatus" class="small" role="status"></p></div>
+      </section>
+      <div class="manual-divider"><span class="eyebrow">PREFER TO WRITE IT YOURSELF?</span><h2>Manual room creator</h2></div>
+      <div class="studio-layout">
+        <form id="roomForm" class="studio-form">
+          <h2>The world</h2>
+          <div class="form-row">
+            <label
+              >Topic<input
+                id="draftTopic"
+                required
+                maxlength="80"
+                placeholder="e.g. History, biology, personal finance" /></label
+            ><label
+              >Room title<input
+                id="draftTitle"
+                required
+                maxlength="100"
+                placeholder="e.g. The Missing Civilization"
+            /></label>
+          </div>
+          <label
+            >Mission briefing<textarea
+              id="draftStory"
+              required
+              maxlength="1600"
+              rows="3"
+              placeholder="Who is the learner, and what must they figure out?"
+            ></textarea></label
+          ><label
+            >Learning objective<input
+              id="draftObjective"
+              required
+              maxlength="300"
+              placeholder="What should someone understand after escaping?"
+          /></label>
+          <div class="section-heading">
+            <h2>The locks</h2>
+            <button type="button" id="addPuzzle" class="secondary">
+              + Add a lock
+            </button>
+          </div>
+          <div id="puzzleForms"></div>
+          <div id="studioErrors" role="alert"></div>
+          <button class="primary large" type="submit">
+            Publish to my room collection ↗
+          </button>
+          <p class="small">
+            Publishing saves locally to this browser. Export a room to share it
+            or keep a backup.
+          </p>
+        </form>
+        <aside class="studio-aside">
+          <div class="note-card">
+            <span class="eyebrow">A GOOD LEARNING LOCK</span>
+            <h3>Make the evidence do the teaching.</h3>
+            <p>
+              Give the learner two useful clues, three plausible choices, and an
+              explanation that connects the clues to the answer.
+            </p>
+            <p>
+              Keep the answer grounded in what you provide. A learner should
+              never have to guess what the author intended.
+            </p>
+          </div>
+          <div class="note-card">
+            <h3>Bring a room with you</h3>
+            <p>
+              Import an exported room to play or reuse it. Files are checked
+              before they enter your collection.
+            </p>
+            <label class="secondary file-label"
+              >Import room JSON<input
+                type="file"
+                id="importRoom"
+                accept="application/json,.json"
+                hidden
+            /></label>
+            <p id="importStatus" class="small" role="status"></p>
+            <button id="downloadTemplate" class="text-button">
+              Download example room ↓
+            </button>
+          </div>
+          <div class="note-card">
+            <h3>Want help shaping a topic?</h3>
+            <p>
+              The optional TrueForge coach can help you turn a subject into a
+              story and learning objectives.
+            </p>
+            <button id="studioCoach" class="secondary">
+              Open learning coach ↗
+            </button>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <footer>
+      <span>unlock academy · Built for curious minds.</span
+      ><span>Learning by doing. Without the real-world consequences.</span>
+    </footer>
+    <dialog id="evidenceDialog">
+      <div class="section-heading">
+        <span id="evidenceType" class="eyebrow"></span
+        ><button
+          id="closeEvidence"
+          aria-label="Close evidence"
+          class="icon-button"
+        >
+          ✕
+        </button>
+      </div>
+      <h2 id="evidenceTitle"></h2>
+      <pre id="evidenceBody"></pre>
+      <div class="clue">
+        <span class="eyebrow">SOMETHING TO NOTICE</span>
+        <p id="evidenceClue"></p>
+      </div>
+      <button id="finishEvidence" class="primary full">
+        Back to the evidence board →
+      </button>
+    </dialog>
+    <dialog id="coachDialog">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">YOUR THINKING PARTNER</span>
+          <h2>Learning coach</h2>
+        </div>
+        <button id="closeCoach" aria-label="Close coach" class="icon-button">
+          ✕
+        </button>
+      </div>
+      <p class="small">
+        TrueForge can guide you with questions and hints. Messages go to your
+        configured model provider. Don’t include personal data or secrets.
+      </p>
+      <div id="coachStatus" class="coach-status">Checking TrueForge…</div>
+      <div id="chat" aria-live="polite"></div>
+      <form id="coachForm">
+        <label
+          >Your question<textarea
+            id="coachQuestion"
+            required
+            maxlength="2000"
+            rows="3"
+            placeholder="Help me think about this clue without revealing the answer."
+          ></textarea></label
+        ><button id="askCoach" class="primary">Ask coach ✦</button>
+      </form>
+      <p id="trace" class="small"></p>
+    </dialog>
+    <script src="rooms.js"></script>
+    <script src="engine.js"></script>
+    <script src="draft.js"></script>
+    <script src="app.js"></script>
+    <script src="studio-ai.js"></script>
+  </body>
+</html>
