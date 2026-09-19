@@ -15,6 +15,8 @@ const $ = (id) => document.getElementById(id),
 const KEY = "unlock-academy-v1";
 let custom = [],
   states = {},
+  previewRoom = null,
+  previewState = null,
   currentId = null,
   choice = null,
   screen = "library",
@@ -38,9 +40,10 @@ try {
     "Browser storage unavailable. Progress will last for this visit only.";
 }
 const rooms = () => [...STARTER_ROOMS, ...custom],
-  room = () => rooms().find((r) => r.id === currentId),
-  state = () => states[currentId];
+  room = () => previewRoom || rooms().find((r) => r.id === currentId),
+  state = () => previewRoom ? previewState : states[currentId];
 function save() {
+  if (previewRoom) return true;
   try {
     localStorage.setItem(KEY, JSON.stringify({ custom, states }));
     return true;
@@ -51,6 +54,9 @@ function save() {
   }
 }
 function navigate(to) {
+  if (to !== "play") { previewRoom = null; previewState = null; }
+  $("previewBanner").hidden = !previewRoom;
+  $("saveStatus").hidden = !!previewRoom;
   screen = to;
   for (const id of ["library", "play", "studio"]) $(id).hidden = id !== to;
   $("libraryNav").classList.toggle("active", to === "library");
@@ -115,7 +121,24 @@ function renderLibrary() {
   add.querySelector("button").onclick = () => navigate("studio");
   $("roomGrid").append(add);
 }
+function startPreview(draft) {
+  const errors = RoomEngine.validate(draft);
+  if (errors.length) throw Error(errors.join(" "));
+  previewRoom = JSON.parse(JSON.stringify(draft));
+  previewRoom.id = "preview-" + crypto.randomUUID();
+  currentId = previewRoom.id;
+  previewState = RoomEngine.initial();
+  previewState.started = Date.now();
+  choice = null;
+  pending = null;
+  coachSession = null;
+  navigate("play");
+  renderMission();
+}
+$("returnToDraft").onclick = () => navigate("studio");
 function start(id) {
+  previewRoom = null;
+  previewState = null;
   currentId = id;
   states[id] = RoomEngine.restore(room(), states[id]);
   if (!state().started) state().started = Date.now();
@@ -344,6 +367,7 @@ function renderDebrief() {
   renderTransfer(r,s);
 }
 $("restartRoom").onclick = () => {
+  if (previewRoom) { startPreview(previewRoom); return; }
   if (confirm("Restart this room and clear its saved progress?")) {
     states[currentId] = RoomEngine.initial();
     start(currentId);

@@ -76,6 +76,7 @@
       </section>
     </main>
     <main id="play" hidden>
+      <aside id="previewBanner" class="transfer-panel" hidden><strong>Draft play-test</strong><p>Try the evidence, answers, and hints. This run does not publish the room or change saved learning progress.</p><button id="returnToDraft" class="secondary">← Return to draft review</button></aside>
       <div class="mission-top">
         <button id="backLibrary" class="text-button">← Room collection</button
         ><span id="missionTopic" class="pill"></span
@@ -159,7 +160,7 @@
         <div id="draftRun" role="status" aria-live="polite"></div><ol id="draftEvents" class="draft-events"></ol>
       </section>
       <section id="draftReview" class="draft-review" hidden>
-        <div class="section-heading"><div><span class="eyebrow" id="draftOrigin"></span><h2>Review before anyone plays.</h2></div><button id="exportDraft" class="secondary">Export draft ↓</button></div>
+        <div class="section-heading"><div><span class="eyebrow" id="draftOrigin"></span><h2>Review and play-test before publishing.</h2></div><button id="previewDraft" class="primary">Play-test draft ↗</button><button id="exportDraft" class="secondary">Export draft ↓</button></div>
         <p class="small">Structure checks are automatic. Factual accuracy and instructional quality still need your review. No external sources are fetched or verified by this workflow.</p>
         <div id="draftAudit"></div><div id="draftPreview"></div>
         <details><summary>Edit the room JSON</summary><label>Draft JSON<textarea id="draftJson" rows="12" spellcheck="false"></textarea></label><button id="applyDraftEdits" class="secondary">Validate and apply edits</button><p id="draftEditStatus" class="small" role="status"></p></details>

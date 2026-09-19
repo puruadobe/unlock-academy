@@ -1160,6 +1160,7 @@ pre {
       </section>
     </main>
     <main id="play" hidden>
+      <aside id="previewBanner" class="transfer-panel" hidden><strong>Draft play-test</strong><p>Try the evidence, answers, and hints. This run does not publish the room or change saved learning progress.</p><button id="returnToDraft" class="secondary">← Return to draft review</button></aside>
       <div class="mission-top">
         <button id="backLibrary" class="text-button">← Room collection</button
         ><span id="missionTopic" class="pill"></span
@@ -1243,7 +1244,7 @@ pre {
         <div id="draftRun" role="status" aria-live="polite"></div><ol id="draftEvents" class="draft-events"></ol>
       </section>
       <section id="draftReview" class="draft-review" hidden>
-        <div class="section-heading"><div><span class="eyebrow" id="draftOrigin"></span><h2>Review before anyone plays.</h2></div><button id="exportDraft" class="secondary">Export draft ↓</button></div>
+        <div class="section-heading"><div><span class="eyebrow" id="draftOrigin"></span><h2>Review and play-test before publishing.</h2></div><button id="previewDraft" class="primary">Play-test draft ↗</button><button id="exportDraft" class="secondary">Export draft ↓</button></div>
         <p class="small">Structure checks are automatic. Factual accuracy and instructional quality still need your review. No external sources are fetched or verified by this workflow.</p>
         <div id="draftAudit"></div><div id="draftPreview"></div>
         <details><summary>Edit the room JSON</summary><label>Draft JSON<textarea id="draftJson" rows="12" spellcheck="false"></textarea></label><button id="applyDraftEdits" class="secondary">Validate and apply edits</button><p id="draftEditStatus" class="small" role="status"></p></details>
@@ -2010,6 +2011,8 @@ const $ = (id) => document.getElementById(id),
 const KEY = "unlock-academy-v1";
 let custom = [],
   states = {},
+  previewRoom = null,
+  previewState = null,
   currentId = null,
   choice = null,
   screen = "library",
@@ -2033,9 +2036,10 @@ try {
     "Browser storage unavailable. Progress will last for this visit only.";
 }
 const rooms = () => [...STARTER_ROOMS, ...custom],
-  room = () => rooms().find((r) => r.id === currentId),
-  state = () => states[currentId];
+  room = () => previewRoom || rooms().find((r) => r.id === currentId),
+  state = () => previewRoom ? previewState : states[currentId];
 function save() {
+  if (previewRoom) return true;
   try {
     localStorage.setItem(KEY, JSON.stringify({ custom, states }));
     return true;
@@ -2046,6 +2050,9 @@ function save() {
   }
 }
 function navigate(to) {
+  if (to !== "play") { previewRoom = null; previewState = null; }
+  $("previewBanner").hidden = !previewRoom;
+  $("saveStatus").hidden = !!previewRoom;
   screen = to;
   for (const id of ["library", "play", "studio"]) $(id).hidden = id !== to;
   $("libraryNav").classList.toggle("active", to === "library");
@@ -2110,7 +2117,24 @@ function renderLibrary() {
   add.querySelector("button").onclick = () => navigate("studio");
   $("roomGrid").append(add);
 }
+function startPreview(draft) {
+  const errors = RoomEngine.validate(draft);
+  if (errors.length) throw Error(errors.join(" "));
+  previewRoom = JSON.parse(JSON.stringify(draft));
+  previewRoom.id = "preview-" + crypto.randomUUID();
+  currentId = previewRoom.id;
+  previewState = RoomEngine.initial();
+  previewState.started = Date.now();
+  choice = null;
+  pending = null;
+  coachSession = null;
+  navigate("play");
+  renderMission();
+}
+$("returnToDraft").onclick = () => navigate("studio");
 function start(id) {
+  previewRoom = null;
+  previewState = null;
   currentId = id;
   states[id] = RoomEngine.restore(room(), states[id]);
   if (!state().started) state().started = Date.now();
@@ -2339,6 +2363,7 @@ function renderDebrief() {
   renderTransfer(r,s);
 }
 $("restartRoom").onclick = () => {
+  if (previewRoom) { startPreview(previewRoom); return; }
   if (confirm("Restart this room and clear its saved progress?")) {
     states[currentId] = RoomEngine.initial();
     start(currentId);
@@ -2628,7 +2653,7 @@ renderLibrary();
   function brief(){return {topic:$('aiTopic').value.trim(),audience:$('aiAudience').value.trim(),goal:$('aiGoal').value.trim(),difficulty:$('aiDifficulty').value,locks:Number($('aiLocks').value)}}
   function persist(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify({draft,origin,revision,brief:brief()}));}catch{$('draftEditStatus').textContent='Draft is available for this visit only. Export it before closing.';}}
   function resetApproval(){approvals.forEach(id=>$(id).checked=false);$('publishStatus').textContent='';updateApproval();}
-  function updateApproval(){$('publishDraft').disabled=running||!draft||!latestAudit?.publishable||!approvals.every(id=>$(id).checked);}
+  function updateApproval(){$('previewDraft').disabled=running||!draft||!latestAudit?.publishable||$('draftJson').value!==JSON.stringify(draft,null,2);$('publishDraft').disabled=running||!draft||!latestAudit?.publishable||!approvals.every(id=>$(id).checked);}
   function render(){
     $('draftReview').hidden=!draft;if(!draft)return;
     latestAudit=DraftReview.audit(draft);$('draftOrigin').textContent=origin+' · VERSION '+revision;
@@ -2660,7 +2685,8 @@ renderLibrary();
   $('aiBriefForm').onsubmit=e=>{e.preventDefault();generate()};$('reviseRoom').onclick=()=>generate(true);
   $('exampleDraft').onclick=()=>{$('aiTopic').value='Cybersecurity';$('aiAudience').value='Students and employees new to cyber-awareness';$('aiGoal').value='Use independent verification and evidence to recognize and contain a suspicious payment request.';$('aiDifficulty').value='Beginner';$('aiLocks').value='3';adopt(JSON.parse(JSON.stringify(STARTER_ROOMS[0])),'Authored example · not AI-generated');$('draftRun').className='';$('draftRun').textContent='Loaded an authored example so you can explore the review workflow without a model.';$('draftEvents').replaceChildren();$('draftReview').scrollIntoView({behavior:'smooth'});};
   $('applyDraftEdits').onclick=()=>{try{const parsed=DraftReview.parse($('draftJson').value);adopt(parsed,'Edited draft · needs human review');$('draftEditStatus').textContent='Edits validated. Recheck the review boxes for this version.';}catch(e){$('draftEditStatus').textContent='Edits not applied: '+e.message;approvals.forEach(id=>$(id).checked=false);$('publishDraft').disabled=true;}};
-  $('draftJson').addEventListener('input',()=>{approvals.forEach(id=>$(id).checked=false);$('publishDraft').disabled=true;$('draftEditStatus').textContent='Unapplied edits. Validate and apply them before publishing.';});
+  $('previewDraft').onclick=()=>{if(running||!draft)return;if($('draftJson').value!==JSON.stringify(draft,null,2)){$('draftEditStatus').textContent='Validate and apply your edits before play-testing.';return;}startPreview(draft);};
+  $('draftJson').addEventListener('input',()=>{$('previewDraft').disabled=true;approvals.forEach(id=>$(id).checked=false);$('publishDraft').disabled=true;$('draftEditStatus').textContent='Unapplied edits. Validate and apply them before publishing.';});
   approvals.forEach(id=>$(id).onchange=()=>{if($('draftJson').value!==JSON.stringify(draft,null,2)){$('publishDraft').disabled=true;return;}updateApproval();});
   $('exportDraft').onclick=()=>{if(draft)download('draft-'+draft.id+'.json',JSON.stringify(draft,null,2));};
   $('publishDraft').onclick=()=>{if(running||!draft||!approvals.every(id=>$(id).checked))return;const audit=DraftReview.audit(draft);if(audit.errors.length||$('draftJson').value!==JSON.stringify(draft,null,2)){resetApproval();return;}if(custom.length>=20){$('publishStatus').textContent='Local collection limit reached. Export the draft to keep a copy.';return;}const published=JSON.parse(JSON.stringify(draft));published.id='custom-'+crypto.randomUUID();published.level=draft.level||'Reviewed room';published.review={origin,version:revision,reviewedAt:new Date().toISOString(),scope:'Human acknowledged factual, answer-key and audience review; not independently verified.'};custom.push(published);const saved=save();$('publishStatus').textContent=saved?'Published to this browser’s collection.':'Published for this visit only. Export the room to keep a copy.';approvals.forEach(id=>$(id).checked=false);updateApproval();navigate('library');};

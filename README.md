@@ -32,7 +32,7 @@ Custom collections are limited to 20 rooms per browser. Progress and custom room
 
 The studio accepts a topic, audience, learning goal, difficulty, and 3–5 locks. With a configured TrueForge model, an architect agent drafts room JSON using the design guide and reviewer tools. The server validates the result and permits one repair attempt. Actual tool events appear in the run trace. An explicitly authored example is available without a model.
 
-Review evidence, answer keys, progressive hints, and learning objectives before approving a draft for this browser’s collection. The three review acknowledgements cover factual accuracy, answers, and audience suitability; automated checks do not establish factual accuracy. Drafts can be revised or exported.
+Review evidence, answer keys, progressive hints, and learning objectives before approving a draft for this browser’s collection. The three review acknowledgements cover factual accuracy, answers, and audience suitability; automated checks do not establish factual accuracy. Drafts can be revised or exported. Use **Play-test draft** to try the complete mission before publication. Preview progress stays in memory, restarting affects only the preview, and **Return to draft review** takes you back to the same draft. Unapplied JSON edits must be validated before play-testing.
 
 Cyber puzzles require selecting the evidence supporting an answer. A final transfer question asks learners to apply the lesson in another situation. Learning plans and puzzle objectives give authors a visible teaching structure.
 
