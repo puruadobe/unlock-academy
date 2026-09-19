@@ -14,6 +14,7 @@ const assets = {
   "/rooms.js": ["rooms.js", "text/javascript"],
   "/engine.js": ["engine.js", "text/javascript"],
   "/draft.js": ["draft.js", "text/javascript"],
+  "/scene.js": ["scene.js", "text/javascript"],
   "/studio-ai.js": ["studio-ai.js", "text/javascript"],
   "/multiplayer.js": ["multiplayer.js", "text/javascript"],
   "/app.js": ["app.js", "text/javascript"],
