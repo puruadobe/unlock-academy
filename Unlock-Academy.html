@@ -1405,6 +1405,37 @@ body.game-expanded { overflow:hidden; }
   #evidenceDialog { padding:20px; }
   #evidenceBody { padding:15px; font-size:13px; line-height:1.8; }
 }
+
+/* Completion stays in the game's dark palette, including nested review cards. */
+.in-game .debrief {
+  --ink:#e5f1ee;
+  --muted:#b8cbd2;
+  --purple:#95e5cc;
+  --line:#3c5864;
+  color:var(--ink);
+  background:#12232d;
+  border-color:var(--line);
+}
+.in-game .debrief h2,
+.in-game .debrief h3 { color:#edf6f3; }
+.in-game .debrief .eyebrow,
+.in-game .debrief-stats strong { color:#95e5cc; }
+.in-game .debrief-top p,
+.in-game .debrief-stats span,
+.in-game .debrief .small,
+.in-game .debrief .lesson p { color:#b8cbd2; }
+.in-game .debrief .lesson { background:#1b303c; border:1px solid #3c5864; }
+.in-game .debrief .source-list a { color:#a2ead4; text-decoration:underline; text-underline-offset:3px; }
+.in-game .debrief .source-list a:hover { color:#e1fff5; }
+.in-game .debrief .transfer-panel { background:#192f39; border-color:#47626d; color:#e5f1ee; }
+.in-game .debrief .primary { color:#102b24; background:#95e5cc; border-color:#95e5cc; }
+.in-game .debrief .primary:hover { color:#0b241b; background:#b3f2dd; border-color:#b3f2dd; }
+.in-game .debrief .secondary { color:#d6eee6; background:#1f3a3b; border-color:#6f9990; }
+.in-game .debrief .secondary:hover { color:#f0fff8; background:#2c4e49; border-color:#96cabb; }
+.in-game .debrief button:focus-visible,
+.in-game .debrief a:focus-visible { outline:3px solid #b1f5dd; outline-offset:4px; }
+.in-game .debrief .feedback-box { color:#ffe3b7; background:#3c3021; border:1px solid #8d7148; }
+.in-game .debrief .feedback-box.correct { color:#c4f5df; background:#183e31; border-color:#62967c; }
 </style>
   </head>
   <body>
