@@ -14,7 +14,7 @@
       <nav aria-label="Main navigation">
         <button id="libraryNav" class="nav-button active">Explore rooms</button
         ><button id="studioNav" class="nav-button">Create a room</button
-        ><button id="coachNav" class="coach-button">✦ Learning coach</button>
+        ><button id="teamNav" class="nav-button">Play together</button><button id="coachNav" class="coach-button">✦ Learning coach</button>
       </nav>
     </header>
     <main id="library">
@@ -74,6 +74,17 @@
           <p>Leave with a debrief and ideas you can use.</p>
         </div>
       </section>
+    </main>
+    <main id="team" hidden>
+      <section class="team-heading"><span class="eyebrow">OPTIONAL / TEAM ADVENTURE</span><h1>Different minds.<br>One way out.</h1><p>Share clues. Vote independently. Talk through the differences and unlock the room together.</p></section>
+      <details class="team-panel"><summary>What do we need to play together?</summary><p><strong>For a local demo:</strong> one running Node.js 22+ app server and two independent browser tabs. No database or AI key is needed to play an existing room.</p><p><strong>For separate devices:</strong> everyone must reach the same host address. Use the same Wi-Fi with a configured shared address, or a single HTTPS-hosted Node server for remote players. A static website alone is not enough.</p><p><strong>For persistent games:</strong> this prototype keeps sessions in server memory, so restarting loses them. Shared storage and recovery are prerequisites for durable sessions or multiple servers.</p><p class="small">See MULTIPLAYER.md in the source repository for setup commands, network requirements, and public-hosting limitations.</p></details>
+      <p id="teamStatus" class="small" role="status"></p>
+      <div id="teamEntrance" class="team-columns">
+        <form id="teamHostForm" class="team-panel"><h2>Host a mission</h2><label>Your display name<input id="teamHostName" maxlength="30" required autocomplete="nickname"></label><label>Learning room<select id="teamRoom"></select></label><button class="primary">Create team ↗</button><p class="small">2–8 players. Share the join code, then start when everyone is ready. You can host a room from your local collection.</p></form>
+        <form id="teamJoinForm" class="team-panel"><h2>Join your team</h2><label>Your display name<input id="teamJoinName" maxlength="30" required autocomplete="nickname"></label><label>Join code<input id="teamCode" maxlength="8" minlength="8" required pattern="[A-Fa-f0-9]{8}" placeholder="8-character code" autocomplete="off"></label><button class="secondary">Join mission ↗</button><p class="small">Open this app on the host’s shared address. For a same-computer demo, use another tab. Online hosting is not required.</p></form>
+      </div>
+      <div id="teamSession" hidden></div>
+      <p class="small">Sessions last up to four hours, expire after one hour without a team action, and end if the server restarts. Keep your host tab open. Solo progress stays separate.</p>
     </main>
     <main id="play" hidden>
       <aside id="previewBanner" class="transfer-panel" hidden><strong>Draft play-test</strong><p>Try the evidence, answers, and hints. This run does not publish the room or change saved learning progress.</p><button id="returnToDraft" class="secondary">← Return to draft review</button></aside>
@@ -320,5 +331,6 @@
     <script src="draft.js"></script>
     <script src="app.js"></script>
     <script src="studio-ai.js"></script>
+    <script src="multiplayer.js"></script>
   </body>
 </html>

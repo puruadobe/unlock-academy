@@ -1082,3 +1082,23 @@ pre {
   margin-top: 25px;
 }
 .ai-studio{background:#eae3f7;border:1px solid #d7cbe9;border-radius:14px;padding:28px;margin:0 0 25px}.ai-studio input,.ai-studio textarea,.ai-studio select{background:#fffdfb}.draft-review{border:1px solid var(--line);border-radius:14px;padding:28px;background:#fff;margin:25px 0}.draft-events{font-size:12px;line-height:1.9;color:var(--muted);padding-left:20px}.draft-events:empty{display:none}.review-summary{background:#f6f2fc;border-radius:10px;padding:20px;margin:15px 0}.review-summary p,.review-lock p{font-size:13px;line-height:1.8}.review-lock{border:1px solid var(--line);border-radius:9px;padding:20px;margin:15px 0}.review-lock h3{margin-bottom:8px}.review-lock details{font-size:13px;line-height:1.8;margin:12px 0}.review-lock pre{font-family:inherit}.review-check{font-size:12px;line-height:1.8;margin:5px 0}.review-check.pass{color:var(--green)}.review-check.fail{color:#a53c2f}.review-warning{font-size:12px;color:#79562d;line-height:1.8}.approval-box{margin-top:24px;padding:22px;border:1px solid #c5dbcd;border-radius:10px;background:#f0f8f1}.approval-box label,.reasoning-option{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:13px 0}.approval-box input,.reasoning-option input{margin:4px 0 0;flex:none;width:17px;height:17px;accent-color:var(--purple)}.manual-divider{margin:40px 0 20px}.draft-review>details{margin:20px 0}.draft-review summary{cursor:pointer;font-size:13px;color:var(--purple);margin-bottom:15px}#draftJson{font:12px/1.7 ui-monospace,monospace}.reasoning-choices:empty{display:none}.reasoning-choices{margin:18px 0 22px;border-top:1px solid var(--line);padding-top:18px}.reasoning-choices h3{font-size:13px}.transfer-panel{background:#f0eafa;border:1px solid #d6c9ea;border-radius:10px;margin-top:30px;padding:24px}.transfer-panel h3{font-size:20px;margin:13px 0}.transfer-option{display:block;text-align:left;width:100%;margin:10px 0;background:white}.run-error{color:#a53c2f;font-size:13px;line-height:1.8}.run-success{color:var(--green);font-size:13px;line-height:1.8}@media(max-width:600px){.ai-studio,.draft-review{padding:20px}.approval-box{padding:17px}}
+
+/* Optional cooperative play */
+.team-heading {max-width:780px;margin:40px 0 30px}
+.team-heading h1 {font-size:clamp(36px,6vw,68px);line-height:1.05;letter-spacing:-2px}
+.team-columns {display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:24px;align-items:start;margin:24px 0}
+#teamEntrance {grid-template-columns:1fr 1fr}
+.team-panel {background:var(--paper,#fff);border:1px solid #ded9e8;border-radius:22px;padding:26px;min-width:0}
+.team-panel label {display:block;margin:15px 0}
+.team-panel input:not([type=radio]):not([type=checkbox]),.team-panel select {display:block;width:100%;padding:12px;border:1px solid #c9c3d3;border-radius:10px;margin-top:8px;background:white;color:#201c2c}
+.team-panel button {margin:5px 8px 5px 0}
+.team-session-heading {display:flex;gap:36px;align-items:center;flex-wrap:wrap;padding:24px;border-radius:22px;background:#eae2ff}
+.team-code {display:block;font-size:clamp(28px,5vw,44px);letter-spacing:5px;font-family:monospace;user-select:all}
+.team-roster {list-style:none;padding:0}.team-roster li {display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 0;border-bottom:1px solid #eee}
+.team-roster span {display:block;font-size:12px;margin-top:5px;color:#686273}
+.team-activity {padding-left:20px;font-size:13px;color:#686273;line-height:1.6}
+.team-evidence article {margin:12px 0;border-bottom:1px solid #eee;padding-bottom:12px}
+.team-evidence pre {white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.6 inherit;background:#f5f2fa;padding:16px;border-radius:12px}
+.team-vote {border:1px solid #ded9e8;padding:16px;border-radius:12px;margin:18px 0}.team-vote legend {font-weight:600;padding:0 8px}.team-vote label {display:flex;gap:10px;align-items:baseline;line-height:1.5}
+.team-votes {background:#f5f2fa;border-radius:12px;padding:16px}
+@media(max-width:760px){.team-columns,#teamEntrance{grid-template-columns:1fr}.team-panel{padding:20px}header nav{flex-wrap:wrap}}

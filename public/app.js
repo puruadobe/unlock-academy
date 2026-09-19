@@ -58,7 +58,7 @@ function navigate(to) {
   $("previewBanner").hidden = !previewRoom;
   $("saveStatus").hidden = !!previewRoom;
   screen = to;
-  for (const id of ["library", "play", "studio"]) $(id).hidden = id !== to;
+  for (const id of ["library", "play", "studio", "team"]) $(id).hidden = id !== to;
   $("libraryNav").classList.toggle("active", to === "library");
   $("studioNav").classList.toggle("active", to === "studio");
   if (to === "library") renderLibrary();

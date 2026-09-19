@@ -11,7 +11,7 @@ npm ci
 npm start
 ```
 
-Open http://127.0.0.1:8788. The app is loopback-only. Open `Unlock-Academy.html` directly for the standalone version: rooms, hints, the room creator, JSON import/export, and learning-note downloads work without a server. The optional TrueForge coach requires the local server.
+Open http://127.0.0.1:8788. The app is loopback-only by default; optional team access is described in MULTIPLAYER.md. Open `Unlock-Academy.html` directly for the standalone version: rooms, hints, the room creator, JSON import/export, and learning-note downloads work without a server. The optional TrueForge coach requires the local server.
 
 ## Included rooms
 
@@ -27,6 +27,12 @@ Choose **Create a room**, enter the topic, mission, learning objective, and 1–
 Export rooms as JSON and import them into another browser. Imported rooms are validated for required fields, answer bounds, unique identifiers, evidence references, size, and HTTPS source URLs. User text is rendered as escaped text, not executed as markup. Source lists can be included in imported JSON.
 
 Custom collections are limited to 20 rooms per browser. Progress and custom rooms use localStorage and can be lost if browser data is cleared. Export valuable rooms. Answers are shipped client-side: this is a learning activity, not a tamper-resistant examination. Completion records learning progress, not independently verified mastery.
+
+## Optional multiplayer
+
+Choose **Play together** for a 2–8 player cooperative mission. A host shares a join code, everyone marks ready, and the team inspects shared clues and votes independently. Votes reveal when everyone has submitted; the host checks the team decision and advances each lock. Solo play remains separate.
+
+All players need the same running server. The demo uses in-memory sessions, so it needs no database but loses sessions on restart. See [Multiplayer prerequisites and hosting](MULTIPLAYER.md) for two-tab demos, same-Wi-Fi access, public deployment requirements, and the shared-storage work needed for production.
 
 ## AI room creation and learning depth
 
@@ -79,7 +85,7 @@ npm test
 npm run build
 ```
 
-Twenty-two automated tests cover schema validation, all starter-room solutions, evidence gates, wrong-answer behavior, progress restoration, unsafe imports, answer-key separation, MCP transport, local-origin restrictions, and invalid coach requests. Additional tests cover evidence reasoning, transfer-state persistence, draft review, and generation/repair using mocked model responses. These are not live inference tests. Browser testing covered the cyber mission from beginning to debrief, hint and retry behavior, creating a mathematics room through the UI, and persistence after reload.
+Thirty-two automated tests cover schema validation, all starter-room solutions, evidence gates, wrong-answer behavior, progress restoration, unsafe imports, answer-key separation, MCP transport, local-origin restrictions, and invalid coach requests. Additional tests cover evidence reasoning, transfer-state persistence, draft review, and generation/repair using mocked model responses. These mocked tests are separate from the successful live provider smoke test. Multiplayer tests cover complete team progression, independent votes, host authorization, stale and duplicate actions, token invalidation, expiry, custom rooms, and HTTP boundaries. Two independent browser tabs completed the cyber team mission, including a mid-game reload. Browser testing also covered the cyber mission from beginning to debrief, hint and retry behavior, creating a mathematics room through the UI, and persistence after reload.
 
 ## Demo outline
 

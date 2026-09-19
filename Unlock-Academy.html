@@ -1088,6 +1088,26 @@ pre {
   margin-top: 25px;
 }
 .ai-studio{background:#eae3f7;border:1px solid #d7cbe9;border-radius:14px;padding:28px;margin:0 0 25px}.ai-studio input,.ai-studio textarea,.ai-studio select{background:#fffdfb}.draft-review{border:1px solid var(--line);border-radius:14px;padding:28px;background:#fff;margin:25px 0}.draft-events{font-size:12px;line-height:1.9;color:var(--muted);padding-left:20px}.draft-events:empty{display:none}.review-summary{background:#f6f2fc;border-radius:10px;padding:20px;margin:15px 0}.review-summary p,.review-lock p{font-size:13px;line-height:1.8}.review-lock{border:1px solid var(--line);border-radius:9px;padding:20px;margin:15px 0}.review-lock h3{margin-bottom:8px}.review-lock details{font-size:13px;line-height:1.8;margin:12px 0}.review-lock pre{font-family:inherit}.review-check{font-size:12px;line-height:1.8;margin:5px 0}.review-check.pass{color:var(--green)}.review-check.fail{color:#a53c2f}.review-warning{font-size:12px;color:#79562d;line-height:1.8}.approval-box{margin-top:24px;padding:22px;border:1px solid #c5dbcd;border-radius:10px;background:#f0f8f1}.approval-box label,.reasoning-option{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:13px 0}.approval-box input,.reasoning-option input{margin:4px 0 0;flex:none;width:17px;height:17px;accent-color:var(--purple)}.manual-divider{margin:40px 0 20px}.draft-review>details{margin:20px 0}.draft-review summary{cursor:pointer;font-size:13px;color:var(--purple);margin-bottom:15px}#draftJson{font:12px/1.7 ui-monospace,monospace}.reasoning-choices:empty{display:none}.reasoning-choices{margin:18px 0 22px;border-top:1px solid var(--line);padding-top:18px}.reasoning-choices h3{font-size:13px}.transfer-panel{background:#f0eafa;border:1px solid #d6c9ea;border-radius:10px;margin-top:30px;padding:24px}.transfer-panel h3{font-size:20px;margin:13px 0}.transfer-option{display:block;text-align:left;width:100%;margin:10px 0;background:white}.run-error{color:#a53c2f;font-size:13px;line-height:1.8}.run-success{color:var(--green);font-size:13px;line-height:1.8}@media(max-width:600px){.ai-studio,.draft-review{padding:20px}.approval-box{padding:17px}}
+
+/* Optional cooperative play */
+.team-heading {max-width:780px;margin:40px 0 30px}
+.team-heading h1 {font-size:clamp(36px,6vw,68px);line-height:1.05;letter-spacing:-2px}
+.team-columns {display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,2fr);gap:24px;align-items:start;margin:24px 0}
+#teamEntrance {grid-template-columns:1fr 1fr}
+.team-panel {background:var(--paper,#fff);border:1px solid #ded9e8;border-radius:22px;padding:26px;min-width:0}
+.team-panel label {display:block;margin:15px 0}
+.team-panel input:not([type=radio]):not([type=checkbox]),.team-panel select {display:block;width:100%;padding:12px;border:1px solid #c9c3d3;border-radius:10px;margin-top:8px;background:white;color:#201c2c}
+.team-panel button {margin:5px 8px 5px 0}
+.team-session-heading {display:flex;gap:36px;align-items:center;flex-wrap:wrap;padding:24px;border-radius:22px;background:#eae2ff}
+.team-code {display:block;font-size:clamp(28px,5vw,44px);letter-spacing:5px;font-family:monospace;user-select:all}
+.team-roster {list-style:none;padding:0}.team-roster li {display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 0;border-bottom:1px solid #eee}
+.team-roster span {display:block;font-size:12px;margin-top:5px;color:#686273}
+.team-activity {padding-left:20px;font-size:13px;color:#686273;line-height:1.6}
+.team-evidence article {margin:12px 0;border-bottom:1px solid #eee;padding-bottom:12px}
+.team-evidence pre {white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.6 inherit;background:#f5f2fa;padding:16px;border-radius:12px}
+.team-vote {border:1px solid #ded9e8;padding:16px;border-radius:12px;margin:18px 0}.team-vote legend {font-weight:600;padding:0 8px}.team-vote label {display:flex;gap:10px;align-items:baseline;line-height:1.5}
+.team-votes {background:#f5f2fa;border-radius:12px;padding:16px}
+@media(max-width:760px){.team-columns,#teamEntrance{grid-template-columns:1fr}.team-panel{padding:20px}header nav{flex-wrap:wrap}}
 </style>
   </head>
   <body>
@@ -1098,7 +1118,7 @@ pre {
       <nav aria-label="Main navigation">
         <button id="libraryNav" class="nav-button active">Explore rooms</button
         ><button id="studioNav" class="nav-button">Create a room</button
-        ><button id="coachNav" class="coach-button">✦ Learning coach</button>
+        ><button id="teamNav" class="nav-button">Play together</button><button id="coachNav" class="coach-button">✦ Learning coach</button>
       </nav>
     </header>
     <main id="library">
@@ -1158,6 +1178,17 @@ pre {
           <p>Leave with a debrief and ideas you can use.</p>
         </div>
       </section>
+    </main>
+    <main id="team" hidden>
+      <section class="team-heading"><span class="eyebrow">OPTIONAL / TEAM ADVENTURE</span><h1>Different minds.<br>One way out.</h1><p>Share clues. Vote independently. Talk through the differences and unlock the room together.</p></section>
+      <details class="team-panel"><summary>What do we need to play together?</summary><p><strong>For a local demo:</strong> one running Node.js 22+ app server and two independent browser tabs. No database or AI key is needed to play an existing room.</p><p><strong>For separate devices:</strong> everyone must reach the same host address. Use the same Wi-Fi with a configured shared address, or a single HTTPS-hosted Node server for remote players. A static website alone is not enough.</p><p><strong>For persistent games:</strong> this prototype keeps sessions in server memory, so restarting loses them. Shared storage and recovery are prerequisites for durable sessions or multiple servers.</p><p class="small">See MULTIPLAYER.md in the source repository for setup commands, network requirements, and public-hosting limitations.</p></details>
+      <p id="teamStatus" class="small" role="status"></p>
+      <div id="teamEntrance" class="team-columns">
+        <form id="teamHostForm" class="team-panel"><h2>Host a mission</h2><label>Your display name<input id="teamHostName" maxlength="30" required autocomplete="nickname"></label><label>Learning room<select id="teamRoom"></select></label><button class="primary">Create team ↗</button><p class="small">2–8 players. Share the join code, then start when everyone is ready. You can host a room from your local collection.</p></form>
+        <form id="teamJoinForm" class="team-panel"><h2>Join your team</h2><label>Your display name<input id="teamJoinName" maxlength="30" required autocomplete="nickname"></label><label>Join code<input id="teamCode" maxlength="8" minlength="8" required pattern="[A-Fa-f0-9]{8}" placeholder="8-character code" autocomplete="off"></label><button class="secondary">Join mission ↗</button><p class="small">Open this app on the host’s shared address. For a same-computer demo, use another tab. Online hosting is not required.</p></form>
+      </div>
+      <div id="teamSession" hidden></div>
+      <p class="small">Sessions last up to four hours, expire after one hour without a team action, and end if the server restarts. Keep your host tab open. Solo progress stays separate.</p>
     </main>
     <main id="play" hidden>
       <aside id="previewBanner" class="transfer-panel" hidden><strong>Draft play-test</strong><p>Try the evidence, answers, and hints. This run does not publish the room or change saved learning progress.</p><button id="returnToDraft" class="secondary">← Return to draft review</button></aside>
@@ -2054,7 +2085,7 @@ function navigate(to) {
   $("previewBanner").hidden = !previewRoom;
   $("saveStatus").hidden = !!previewRoom;
   screen = to;
-  for (const id of ["library", "play", "studio"]) $(id).hidden = id !== to;
+  for (const id of ["library", "play", "studio", "team"]) $(id).hidden = id !== to;
   $("libraryNav").classList.toggle("active", to === "library");
   $("studioNav").classList.toggle("active", to === "studio");
   if (to === "library") renderLibrary();
@@ -2691,6 +2722,371 @@ renderLibrary();
   $('exportDraft').onclick=()=>{if(draft)download('draft-'+draft.id+'.json',JSON.stringify(draft,null,2));};
   $('publishDraft').onclick=()=>{if(running||!draft||!approvals.every(id=>$(id).checked))return;const audit=DraftReview.audit(draft);if(audit.errors.length||$('draftJson').value!==JSON.stringify(draft,null,2)){resetApproval();return;}if(custom.length>=20){$('publishStatus').textContent='Local collection limit reached. Export the draft to keep a copy.';return;}const published=JSON.parse(JSON.stringify(draft));published.id='custom-'+crypto.randomUUID();published.level=draft.level||'Reviewed room';published.review={origin,version:revision,reviewedAt:new Date().toISOString(),scope:'Human acknowledged factual, answer-key and audience review; not independently verified.'};custom.push(published);const saved=save();$('publishStatus').textContent=saved?'Published to this browser’s collection.':'Published for this visit only. Export the room to keep a copy.';approvals.forEach(id=>$(id).checked=false);updateApproval();navigate('library');};
   try{const saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved?.draft&&!RoomEngine.validate(saved.draft).length){draft=saved.draft;origin=typeof saved.origin==='string'?saved.origin:'Saved draft';revision=Number.isInteger(saved.revision)?saved.revision:1;const b=saved.brief||{};for(const [id,k] of [['aiTopic','topic'],['aiAudience','audience'],['aiGoal','goal']])if(typeof b[k]==='string')$(id).value=b[k];if(['Beginner','Intermediate','Advanced'].includes(b.difficulty))$('aiDifficulty').value=b.difficulty;if([3,4,5].includes(b.locks))$('aiLocks').value=b.locks;render();}}catch{/* Invalid or unavailable storage must not break the room creator. */}
+})();
+
+</script>
+    <script>
+(() => {
+  const SEAT_KEY = "unlock-team-seat-v1";
+  let seat = null,
+    snapshot = null,
+    polling = false,
+    busy = false,
+    renderKey = "",
+    voteDraft = null;
+  try {
+    seat = JSON.parse(sessionStorage.getItem(SEAT_KEY) || "null");
+  } catch {}
+  const status = (text) => {
+    $("teamStatus").textContent = text;
+  };
+  function remember() {
+    try {
+      if (seat) sessionStorage.setItem(SEAT_KEY, JSON.stringify(seat));
+      else sessionStorage.removeItem(SEAT_KEY);
+    } catch {
+      status("This tab cannot remember its seat after reload. Keep it open.");
+    }
+  }
+  async function request(path, body, authenticated = true) {
+    const response = await fetch("/api/teams" + path, {
+      method: body ? "POST" : "GET",
+      headers: {
+        ...(body ? { "Content-Type": "application/json" } : {}),
+        ...(authenticated && seat
+          ? { Authorization: "Bearer " + seat.token }
+          : {}),
+      },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+      signal: AbortSignal.timeout(8000),
+    });
+    const result = await response.json();
+    if (!response.ok) {
+      const error = Error(result.error || "Team request failed.");
+      error.status = response.status;
+      throw error;
+    }
+    return result;
+  }
+  function forget() {
+    seat = null;
+    snapshot = null;
+    renderKey = "";
+    voteDraft = null;
+    remember();
+    $("teamEntrance").hidden = false;
+    $("teamSession").hidden = true;
+  }
+  async function poll() {
+    if (!seat || polling || busy) return;
+    polling = true;
+    try {
+      const next = await request("/" + seat.code);
+      if (
+        !seat ||
+        next.code !== seat.code ||
+        next.version < (snapshot?.version ?? -1)
+      )
+        return;
+      snapshot = next;
+      render();
+      status("Connected · team updates every second");
+    } catch (e) {
+      status("Connection interrupted: " + e.message);
+      if ([401, 404].includes(e.status)) forget();
+    } finally {
+      polling = false;
+    }
+  }
+  async function act(type, extra = {}) {
+    if (busy || !snapshot) return;
+    busy = true;
+    const buttons = $("teamSession").querySelectorAll("button");
+    buttons.forEach((b) => (b.disabled = true));
+    try {
+      snapshot = await request("/" + seat.code + "/action", {
+        type,
+        ...extra,
+        version: snapshot.version,
+        puzzleId: snapshot.puzzle?.id,
+        requestId: crypto.randomUUID(),
+      });
+      renderKey = "";
+      if (type === "leave") {
+        forget();
+        status("You left the team.");
+      } else {
+        render();
+        status("Team updated.");
+      }
+    } catch (e) {
+      status(e.message);
+      renderKey = "";
+      render();
+    } finally {
+      busy = false;
+    }
+  }
+  function captureVote() {
+    const p = snapshot?.puzzle;
+    if (!p) return;
+    const selected = $("teamSession").querySelector(
+      'input[name="teamAnswer"]:checked',
+    );
+    voteDraft = {
+      puzzleId: p.id,
+      choice: selected ? Number(selected.value) : null,
+      evidence: [
+        ...$("teamSession").querySelectorAll(
+          'input[name="teamEvidence"]:checked',
+        ),
+      ].map((e) => e.value),
+    };
+  }
+  function render() {
+    if (!snapshot) return;
+    const s = snapshot,
+      host = s.me === s.host,
+      p = s.puzzle;
+    const key = s.version + ":" + s.players.map((x) => x.online).join(",");
+    if (key === renderKey) return;
+    if (renderKey && p && $("teamSession").dataset.puzzle === p.id)
+      captureVote();
+    renderKey = key;
+    $("teamEntrance").hidden = true;
+    $("teamSession").hidden = false;
+    $("teamSession").dataset.puzzle = p?.id || "";
+    if (voteDraft?.puzzleId !== p?.id)
+      voteDraft = p
+        ? {
+            puzzleId: p.id,
+            choice: s.myVote?.choice ?? null,
+            evidence: s.myVote?.evidence || [],
+          }
+        : null;
+    const button = (type, label, disabled = false) =>
+      `<button class="secondary" data-team-act="${type}" ${disabled ? "disabled" : ""}>${label}</button>`;
+    let html = `<div class="team-session-heading"><div><span class="eyebrow">JOIN CODE</span><strong class="team-code">${esc(s.code)}</strong></div><div><h2>${esc(s.title)}</h2><p>${s.solved} / ${s.total} locks opened · ${s.players.length} players · ${host ? "You are hosting" : "Team member"}</p></div></div>`;
+    html +=
+      '<div class="team-columns"><aside class="team-panel"><h3>Your team</h3><ul class="team-roster">' +
+      s.players
+        .map(
+          (x) =>
+            `<li><div><strong>${esc(x.name)}${x.id === s.me ? " (you)" : ""}</strong><span>${x.id === s.host ? "Host · " : ""}${x.online ? "Connected" : "Away"} · ${s.phase === "lobby" ? (x.ready ? "Ready" : "Getting ready") : x.voted ? "Voted" : "Thinking"}</span></div>${host && x.id !== s.host && s.phase !== "closed" ? `<button class="text-button" data-remove="${x.id}" aria-label="Remove ${esc(x.name)}">Remove</button>` : ""}</li>`,
+        )
+        .join("") +
+      "</ul>";
+    if (host && s.phase !== "closed") html += button("close", "End session");
+    if (!host && s.phase !== "closed") html += button("leave", "Leave team");
+    html +=
+      '<h3>Team activity</h3><ol class="team-activity">' +
+      s.activity
+        .slice(-6)
+        .map((e) => "<li>" + esc(e.text) + "</li>")
+        .join("") +
+      '</ol></aside><section class="team-panel team-challenge">';
+    if (s.phase === "lobby") {
+      const me = s.players.find((x) => x.id === s.me);
+      html +=
+        '<span class="eyebrow">THE LOBBY</span><h2>Gather your team.</h2><p>Share the code above. Everyone explores the same mission, with independent votes before the group reveal.</p>' +
+        button("ready", me.ready ? "Not ready yet" : "I’m ready");
+      if (host)
+        html += button(
+          "start",
+          "Start team mission ↗",
+          s.players.length < 2 || !s.players.every((x) => x.ready),
+        );
+      html +=
+        '<p class="small">All players must be ready. Late joins are closed once the mission starts. The host can remove a disconnected seat so the team can continue.</p>';
+    }
+    if (p) {
+      html +=
+        `<span class="eyebrow">LOCK ${s.solved + 1} / ${s.total}</span><h2>${esc(p.title)}</h2><p>${esc(p.story)}</p>${p.objective ? '<p class="small">Practice: ' + esc(p.objective) + "</p>" : ""}<h3>Shared evidence board</h3><div class="team-evidence">` +
+        p.evidence
+          .map(
+            (e) =>
+              `<article><button class="secondary" data-clue="${esc(e.id)}" ${p.seen.includes(e.id) ? "disabled" : ""}>${esc(e.title)} ${p.seen.includes(e.id) ? "✓" : p.required.includes(e.id) ? "· Required" : "· Optional"}</button>${p.seen.includes(e.id) ? "<pre>" + esc(e.body) + "</pre>" : ""}</article>`,
+          )
+          .join("") +
+        "</div>";
+      html +=
+        `<h3>${esc(p.question)}</h3><fieldset class="team-vote"><legend>Your independent answer</legend>` +
+        p.options
+          .map(
+            (o, i) =>
+              `<label><input type="radio" name="teamAnswer" value="${i}" ${voteDraft?.choice === i ? "checked" : ""}>${esc(o)}</label>`,
+          )
+          .join("") +
+        "</fieldset>";
+      if (p.reasoningPrompt)
+        html +=
+          `<fieldset class="team-vote"><legend>${esc(p.reasoningPrompt)}</legend>` +
+          p.evidence
+            .map(
+              (e) =>
+                `<label><input type="checkbox" name="teamEvidence" value="${esc(e.id)}" ${voteDraft?.evidence.includes(e.id) ? "checked" : ""} ${p.seen.includes(e.id) ? "" : "disabled"}>${esc(e.title)}</label>`,
+            )
+            .join("") +
+          "</fieldset>";
+      html +=
+        button(
+          "vote",
+          s.myVote ? "Update my vote" : "Cast my vote",
+          p.required.some((id) => !p.seen.includes(id)),
+        ) +
+        '<p class="small">Votes stay private until everyone has voted. Discuss your choices together; no chat is recorded.</p>';
+      if (s.votes.length)
+        html +=
+          '<div class="team-votes"><h3>Compare your votes</h3>' +
+          s.votes
+            .map(
+              (v) =>
+                "<p><strong>" +
+                esc(v.name) +
+                "</strong>: " +
+                esc(p.options[v.choice]) +
+                "</p>",
+            )
+            .join("") +
+          "</div>";
+      if (host)
+        html +=
+          button(
+            "resolve",
+            "Check team decision",
+            !s.players.every((x) => x.voted),
+          ) + button("hint", "Reveal a team hint", p.hints.length >= 3);
+      if (p.hints.length)
+        html +=
+          "<h3>Team hints</h3>" +
+          p.hints
+            .map((h) => '<p class="review-warning">' + esc(h) + "</p>")
+            .join("");
+    }
+    if (s.feedback)
+      html += `<div class="feedback-box ${s.feedback.kind === "correct" ? "correct" : ""}" role="status"><h3>${s.feedback.kind === "correct" ? "Lock opened ✓" : "Discuss and try again"}</h3><p>${esc(s.feedback.message)}</p>${s.feedback.lesson ? "<p>" + esc(s.feedback.lesson) + "</p>" : ""}${s.feedback.unlock ? "<p>" + esc(s.feedback.unlock) + "</p>" : ""}</div>`;
+    if (s.phase === "reveal")
+      html += host
+        ? button(
+            "next",
+            s.solved === s.total ? "See team debrief ↗" : "Next lock →",
+          )
+        : "<p>Waiting for the host to continue.</p>";
+    if (s.debrief)
+      html +=
+        '<span class="eyebrow">MISSION COMPLETE</span><h2>You found the way together.</h2><p>' +
+        s.debrief.attempts +
+        " team answer attempts. Take turns explaining one lesson in your own words.</p>" +
+        s.debrief.lessons
+          .map(
+            (l) =>
+              '<article class="lesson"><h3>' +
+              esc(l.title) +
+              "</h3><p>" +
+              esc(l.explanation) +
+              "</p></article>",
+          )
+          .join("") +
+        "<h3>What you practiced</h3><ul>" +
+        s.debrief.objectives.map((o) => "<li>" + esc(o) + "</li>").join("") +
+        "</ul>";
+    if (s.phase === "closed")
+      html +=
+        '<h2>This session has ended.</h2><p>The host closed the mission. Create or join another team when you’re ready.</p><button class="primary" id="teamNew">Back to team setup</button>';
+    html += "</section></div>";
+    $("teamSession").innerHTML = html;
+    $("teamSession")
+      .querySelectorAll("[data-team-act]")
+      .forEach(
+        (b) =>
+          (b.onclick = () => {
+            const type = b.dataset.teamAct;
+            if (type === "close" && !confirm("End this session for everyone?"))
+              return;
+            if (type === "ready")
+              act(type, { ready: !s.players.find((x) => x.id === s.me).ready });
+            else if (type === "vote") {
+              captureVote();
+              if (voteDraft.choice === null) {
+                status("Choose an answer before voting.");
+                return;
+              }
+              act(type, {
+                choice: voteDraft.choice,
+                evidence: voteDraft.evidence,
+              });
+            } else act(type);
+          }),
+      );
+    $("teamSession")
+      .querySelectorAll("[data-clue]")
+      .forEach(
+        (b) =>
+          (b.onclick = () => act("inspect", { evidenceId: b.dataset.clue })),
+      );
+    $("teamSession")
+      .querySelectorAll("[data-remove]")
+      .forEach(
+        (b) =>
+          (b.onclick = () => {
+            if (confirm("Remove this seat from the team?"))
+              act("remove", { playerId: b.dataset.remove });
+          }),
+      );
+    $("teamSession")
+      .querySelectorAll("input")
+      .forEach((input) => (input.onchange = captureVote));
+    if ($("teamNew")) $("teamNew").onclick = forget;
+  }
+  async function enter(event, host) {
+    event.preventDefault();
+    if (busy) return;
+    if (!/^https?:$/.test(location.protocol)) {
+      status(
+        "Play together needs the app server. Run npm start and open the local address.",
+      );
+      return;
+    }
+    busy = true;
+    try {
+      const input = host
+        ? {
+            name: $("teamHostName").value,
+            room: rooms().find((r) => r.id === $("teamRoom").value),
+          }
+        : { name: $("teamJoinName").value };
+      const result = await request(
+        host ? "" : "/" + $("teamCode").value.trim().toUpperCase() + "/join",
+        input,
+        false,
+      );
+      seat = { code: result.code, token: result.token };
+      snapshot = result.snapshot;
+      renderKey = "";
+      voteDraft = null;
+      remember();
+      render();
+      status("You’re connected. Share the code with your team.");
+    } catch (e) {
+      status(e.message);
+    } finally {
+      busy = false;
+    }
+  }
+  $("teamHostForm").onsubmit = (e) => enter(e, true);
+  $("teamJoinForm").onsubmit = (e) => enter(e, false);
+  $("teamNav").onclick = () => {
+    navigate("team");
+    $("teamRoom").innerHTML = rooms()
+      .map(
+        (r) =>
+          '<option value="' + esc(r.id) + '">' + esc(r.title) + "</option>",
+      )
+      .join("");
+    if (seat) poll();
+  };
+  setInterval(poll, 1000);
+  if (seat) poll();
 })();
 
 </script>

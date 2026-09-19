@@ -3,7 +3,8 @@ import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { rooms, rpc } from "./core.mjs";
-import {generateDraft,validateBrief} from "./generation.mjs";
+import { generateDraft, validateBrief } from "./generation.mjs";
+import { TeamGames } from "./multiplayer.mjs";
 const PORT = Number(process.env.PORT || 8788),
   baseUrl = process.env.TRUEFORGE_BASE_URL || "http://localhost:8790";
 const assets = {
@@ -14,6 +15,7 @@ const assets = {
   "/engine.js": ["engine.js", "text/javascript"],
   "/draft.js": ["draft.js", "text/javascript"],
   "/studio-ai.js": ["studio-ai.js", "text/javascript"],
+  "/multiplayer.js": ["multiplayer.js", "text/javascript"],
   "/app.js": ["app.js", "text/javascript"],
 };
 const sessions = new Map();
@@ -22,7 +24,7 @@ function json(res, status, data) {
   res.writeHead(status, { "Content-Type": "application/json; charset=utf-8" });
   res.end(JSON.stringify(data));
 }
-async function body(req,limit=12000) {
+async function body(req, limit = 12000) {
   let text = "";
   for await (const chunk of req) {
     text += chunk;
@@ -41,6 +43,8 @@ async function client() {
   });
 }
 export function createServer() {
+  const teams = new TeamGames();
+  const entranceRates = new Map();
   return http.createServer(async (req, res) => {
     res.setHeader("X-Content-Type-Options", "nosniff");
     res.setHeader("Referrer-Policy", "no-referrer");
@@ -49,23 +53,89 @@ export function createServer() {
       "Content-Security-Policy",
       "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
     );
-    const allowedHosts = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`]);
+    const requestPort = req.socket.localPort;
+    const allowedHosts = new Set([
+      `127.0.0.1:${requestPort}`,
+      `localhost:${requestPort}`,
+    ]);
+    const allowedOrigins = new Set([
+      `http://127.0.0.1:${requestPort}`,
+      `http://localhost:${requestPort}`,
+    ]);
+    if (process.env.TEAM_ORIGIN) {
+      const teamOrigin = new URL(process.env.TEAM_ORIGIN);
+      allowedHosts.add(teamOrigin.host);
+      allowedOrigins.add(teamOrigin.origin);
+    }
     if (!allowedHosts.has(req.headers.host)) {
       json(res, 403, { error: "Localhost access only" });
       return;
     }
     const origin = req.headers.origin;
-    if (
-      origin &&
-      !new Set([`http://127.0.0.1:${PORT}`, `http://localhost:${PORT}`]).has(
-        origin,
-      )
-    ) {
+    if (origin && !allowedOrigins.has(origin)) {
       json(res, 403, { error: "Origin not allowed" });
       return;
     }
     const path = new URL(req.url, "http://localhost").pathname;
     try {
+      const local = ["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(
+        req.socket.remoteAddress,
+      );
+      if (!local && !assets[path] && !path.startsWith("/api/teams")) {
+        json(res, 403, {
+          error:
+            "Authoring and AI services are available on the host computer only.",
+        });
+        return;
+      }
+      if (path === "/api/teams" || path.startsWith("/api/teams/")) {
+        const parts = path.split("/").filter(Boolean);
+        const token = req.headers.authorization?.replace(/^Bearer /, "");
+        if (req.method === "GET" && parts.length === 3) {
+          json(res, 200, teams.read(parts[2], token));
+          return;
+        }
+        if (req.method !== "POST") {
+          json(res, 405, { error: "Use POST for team actions." });
+          return;
+        }
+        if (!req.headers["content-type"]?.startsWith("application/json")) {
+          json(res, 415, { error: "JSON required" });
+          return;
+        }
+        const input = await body(req, 120000);
+        if (!input || typeof input !== "object" || Array.isArray(input)) {
+          json(res, 400, { error: "JSON object required" });
+          return;
+        }
+        if (parts.length === 2 || parts[3] === "join") {
+          const now = Date.now();
+          for (const [ip, r] of entranceRates)
+            if (now - r.at > 60000) entranceRates.delete(ip);
+          const ip = req.socket.remoteAddress,
+            r = entranceRates.get(ip) || { at: now, count: 0 };
+          if (r.count >= 30 || entranceRates.size > 10000) {
+            json(res, 429, { error: "Too many join requests. Wait a minute." });
+            return;
+          }
+          r.count++;
+          entranceRates.set(ip, r);
+        }
+        if (parts.length === 2) {
+          json(res, 201, teams.create(input));
+          return;
+        }
+        if (parts.length === 4 && parts[3] === "join") {
+          json(res, 200, teams.join(parts[2], input));
+          return;
+        }
+        if (parts.length === 4 && parts[3] === "action") {
+          json(res, 200, teams.action(parts[2], token, input));
+          return;
+        }
+        json(res, 404, { error: "Team endpoint not found" });
+        return;
+      }
       if (req.method === "GET" && assets[path]) {
         const [file, type] = assets[path];
         res.writeHead(200, { "Content-Type": type + "; charset=utf-8" });
@@ -113,23 +183,56 @@ export function createServer() {
           json(res, 415, { error: "JSON required" });
           return;
         }
-        const result = rpc(await body(req,120000));
+        const result = rpc(await body(req, 120000));
         if (result === null) {
           res.writeHead(202);
           res.end();
         } else json(res, 200, result);
         return;
       }
-      if(path === '/api/draft' && req.method === 'POST') {
-        if(!req.headers['content-type']?.startsWith('application/json')) {json(res,415,{error:'JSON required'});return;}
-        const request=validateBrief(await body(req,120000));
-        if(active>=2){json(res,429,{error:'Two agent runs are already active. Try again shortly.'});return;}
+      if (path === "/api/draft" && req.method === "POST") {
+        if (!req.headers["content-type"]?.startsWith("application/json")) {
+          json(res, 415, { error: "JSON required" });
+          return;
+        }
+        const request = validateBrief(await body(req, 120000));
+        if (active >= 2) {
+          json(res, 429, {
+            error: "Two agent runs are already active. Try again shortly.",
+          });
+          return;
+        }
         active++;
-        res.writeHead(200,{'Content-Type':'application/x-ndjson; charset=utf-8'});
-        const emit=event=>{if(!res.destroyed)res.write(JSON.stringify(event)+'\n');};
-        try {await generateDraft(await client(),request,emit,process.env.TRUEFORGE_MODEL);emit({type:'done'});}
-        catch(e){emit({type:'error',message:e.statusCode?'TrueForge rejected the run (HTTP '+e.statusCode+'). Check its configuration.':e.message?.includes('fetch')?'TrueForge is unavailable. Start it at the configured address.':e.message||'Room generation failed.'});}
-        finally{active--;res.end();}return;
+        res.writeHead(200, {
+          "Content-Type": "application/x-ndjson; charset=utf-8",
+        });
+        const emit = (event) => {
+          if (!res.destroyed) res.write(JSON.stringify(event) + "\n");
+        };
+        try {
+          await generateDraft(
+            await client(),
+            request,
+            emit,
+            process.env.TRUEFORGE_MODEL,
+          );
+          emit({ type: "done" });
+        } catch (e) {
+          emit({
+            type: "error",
+            message: e.statusCode
+              ? "TrueForge rejected the run (HTTP " +
+                e.statusCode +
+                "). Check its configuration."
+              : e.message?.includes("fetch")
+                ? "TrueForge is unavailable. Start it at the configured address."
+                : e.message || "Room generation failed.",
+          });
+        } finally {
+          active--;
+          res.end();
+        }
+        return;
       }
       if (path === "/api/coach" && req.method === "POST") {
         if (!req.headers["content-type"]?.startsWith("application/json")) {
@@ -264,9 +367,10 @@ export function createServer() {
       json(res, 404, { error: "Not found" });
     } catch (e) {
       if (!res.headersSent)
-        json(res, 400, {
-          error:
-            e.message === "Request too large"
+        json(res, e.status || 400, {
+          error: e.status
+            ? e.message
+            : e.message === "Request too large"
               ? "Request too large"
               : "Invalid request",
         });
@@ -275,9 +379,12 @@ export function createServer() {
   });
 }
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  createServer().listen(PORT, "127.0.0.1", () =>
-    console.log(
-      `Unlock Academy: http://127.0.0.1:${PORT}\nMCP connector: http://127.0.0.1:${PORT}/mcp`,
-    ),
+  createServer().listen(
+    PORT,
+    process.env.TEAM_ORIGIN ? "0.0.0.0" : "127.0.0.1",
+    () =>
+      console.log(
+        `Unlock Academy: http://127.0.0.1:${PORT}\nMCP connector: http://127.0.0.1:${PORT}/mcp`,
+      ),
   );
 }
