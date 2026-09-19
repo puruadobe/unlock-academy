@@ -54,6 +54,8 @@ function save() {
   }
 }
 function navigate(to) {
+  document.body.classList.toggle("in-game", to === "play");
+  if (to !== "play") { RoomScenes.dispose(); $("decisionDialog").close(); }
   if (to !== "play") { previewRoom = null; previewState = null; }
   $("previewBanner").hidden = !previewRoom;
   $("saveStatus").hidden = !!previewRoom;
@@ -74,7 +76,7 @@ function download(name, data, type = "application/json") {
 }
 function renderLibrary() {
   $("roomCount").textContent =
-    rooms().length + " rooms · endless possibilities";
+    rooms().length + " interactive 3D rooms · endless possibilities";
   $("roomGrid").replaceChildren();
   for (const r of rooms()) {
     const s = RoomEngine.restore(r, states[r.id]),
@@ -101,7 +103,7 @@ function renderLibrary() {
       "</span><span>" +
       esc(r.level || "Custom room") +
       '</span></div><button class="primary">' +
-      (done ? "View debrief" : s.started ? "Continue mission" : "Enter room") +
+      (done ? "View debrief" : s.started ? "Continue in 3D" : "Enter 3D room") +
       ' ↗</button><div class="room-card-actions"><button class="text-button export">Export room ↓</button><span class="small">' +
       (done
         ? "Completed"
@@ -152,7 +154,7 @@ function renderMission() {
   const r = room(),
     s = state();
   $("missionTopic").textContent = r.topic;
-  $("missionLabel").textContent = "YOUR LEARNING MISSION";
+  $("missionLabel").textContent = "IMMERSIVE MISSION / 3D EXPLORATION";
   $("missionTitle").textContent = r.title;
   $("lockCount").textContent = s.solved.length + " / " + r.puzzles.length;
   $("fiction").textContent =
@@ -171,6 +173,8 @@ function renderMission() {
   $("puzzleArea").hidden = complete;
   $("debrief").hidden = !complete;
   if (complete) {
+    RoomScenes.dispose();
+    $("decisionDialog").close();
     renderDebrief();
     return;
   }
@@ -210,14 +214,31 @@ function renderMission() {
 function renderInteractiveScene(p) {
   const seen = state().seen[p.id] || [];
   $("sceneExplorer").replaceChildren(
-    RoomScenes.create(room(), p, seen, (e) => openEvidence(p, e)),
+    RoomScenes.create(room(), p, seen, (e) => openEvidence(p, e), {
+      solved: !!pending,
+      onTerminal: () => $("decisionDialog").showModal(),
+      onExit: advancePuzzle,
+    }),
   );
 }
+function advancePuzzle() {
+  if (!pending) return;
+  $("decisionDialog").close();
+  pending = null;
+  choice = null;
+  renderMission();
+  $("missionTitle").scrollIntoView({ behavior: "smooth" });
+}
+$("closeDecision").onclick = () => $("decisionDialog").close();
 function openEvidence(p, e) {
   RoomEngine.inspect(state(), p, e.id);
   save();
   $("evidenceType").textContent = e.type || "EVIDENCE";
   $("evidenceTitle").textContent = e.title;
+  const visual = EvidenceVisuals.create(room(), p, e);
+  $("evidenceImage").src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(visual.svg);
+  $("evidenceImage").alt = visual.alt;
+  $("evidenceCaption").textContent = visual.caption;
   $("evidenceBody").textContent = e.body;
   $("evidenceClue").textContent = e.clue;
   $("evidenceDialog").showModal();
@@ -251,11 +272,18 @@ function renderEvidence(p) {
 }
 function renderHints(p) {
   const n = state().hints[p.id] || 0;
-  $("hintCount").textContent = n + " / 3 hints used";
-  $("hintButton").disabled = n >= 3 || !!pending;
+  const total = p.hints.length;
+  $("hintCount").textContent = n + " / " + total + " hints used";
+  $("hintButton").disabled = n >= total || !!pending;
   $("hintButton").textContent =
-    n >= 3 ? "All hints revealed" : "✦ Give me a nudge";
+    n >= total ? "All hints revealed" : n ? "✦ Reveal next hint" : "✦ Give me a nudge";
   $("hints").replaceChildren();
+  if (!n) {
+    const prompt = document.createElement("p");
+    prompt.className = "hint-empty";
+    prompt.textContent = "Need a starting point? Reveal a hint to get a gentle nudge. Each hint adds a little more help.";
+    $("hints").append(prompt);
+  }
   p.hints.slice(0, n).forEach((h, i) => {
     const el = document.createElement("p");
     el.textContent = "Hint " + (i + 1) + ": " + h;
@@ -280,12 +308,7 @@ function showFeedback(result, p) {
       state().solved.length === room().puzzles.length
         ? "See what you learned →"
         : "Continue to the next lock →";
-    next.onclick = () => {
-      pending = null;
-      choice = null;
-      renderMission();
-      $("missionTitle").scrollIntoView({ behavior: "smooth" });
-    };
+    next.onclick = advancePuzzle;
     box.append(title, msg, lesson, next);
   } else box.textContent = result.message;
   $("feedback").append(box);
@@ -305,9 +328,10 @@ $("submitAnswer").onclick = () => {
 };
 $("hintButton").onclick = () => {
   const p = room().puzzles[state().solved.length];
-  state().hints[p.id] = Math.min(3, (state().hints[p.id] || 0) + 1);
+  state().hints[p.id] = Math.min(p.hints.length, (state().hints[p.id] || 0) + 1);
   save();
   renderHints(p);
+  $("hints").lastElementChild?.scrollIntoView({ block: "nearest", behavior: "instant" });
 };
 function renderDebrief() {
   const r = room(),

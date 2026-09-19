@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 const base = "http://127.0.0.1:8788";
 test("serves app assets and blocks private files", async () => {
-  for (const p of ["/", "/app.js", "/engine.js", "/rooms.js", "/style.css"])
+  for (const p of ["/", "/app.js", "/evidence-visuals.js", "/engine.js", "/rooms.js", "/style.css"])
     assert.equal((await fetch(base + p)).status, 200);
   for (const p of ["/server.mjs", "/.env", "/package.json"])
     assert.equal((await fetch(base + p)).status, 404);

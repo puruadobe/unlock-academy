@@ -120,3 +120,27 @@ TrueForge API and SDK behavior were checked against the official documentation a
 - https://trueforge.dev/mcp-servers
 
 Built with an AI coding assistant. Human authors should review lesson accuracy before teaching or sharing. No Qodo review or hackathon submission was performed. Check your event's coding-window and review requirements before submitting.
+
+## Interactive 3D rooms
+
+Solo missions and draft play-tests now use locally bundled Three.js rooms. The
+cybersecurity lab, orbital flight deck, and generic research room are built from
+3D geometry, with lighting, shadows, evidence workstations, and a sliding exit.
+No external asset service or AI connection is required for the 3D experience.
+
+- Focus the room and use **WASD / arrow keys** to move. Drag to look around.
+- Click a workstation or its marker, or aim at an object and press **E**, to inspect evidence.
+- Touch controls and keyboard-accessible field-note buttons provide alternatives.
+- Open the **Decision terminal**, choose an answer and supporting evidence, and submit.
+- Correct solutions open the hatch. Click it, walk toward it, or use the continue button.
+- **Room overview**, **Reset view**, and **Expand** control the view. Escape leaves the expanded view.
+
+The existing grading, hints, browser saves, custom-room validation, and draft
+preview isolation remain in use. Cooperative multiplayer retains its shared
+team board; it does not synchronize 3D player movement. If WebGL is unavailable,
+evidence buttons and the decision terminal remain usable.
+
+Edit `src/scene3d.js` for the renderer and `src/movement.mjs` for movement/collision.
+Run `npm run build` after changes; it bundles the renderer into `public/scene.js`
+and regenerates the self-contained `Unlock-Academy.html`. The generated bundle is
+checked in so `npm start` also works without a separate build step.

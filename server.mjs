@@ -17,6 +17,7 @@ const assets = {
   "/scene.js": ["scene.js", "text/javascript"],
   "/studio-ai.js": ["studio-ai.js", "text/javascript"],
   "/multiplayer.js": ["multiplayer.js", "text/javascript"],
+  "/evidence-visuals.js": ["evidence-visuals.js", "text/javascript"],
   "/app.js": ["app.js", "text/javascript"],
 };
 const sessions = new Map();

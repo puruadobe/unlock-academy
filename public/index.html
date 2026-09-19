@@ -104,6 +104,7 @@
       </div>
       <div id="lockRail" class="lock-rail" aria-label="Mission progress"></div>
       <section id="puzzleArea">
+        <div id="sceneExplorer" class="scene-explorer"></div>
         <div class="mission-layout">
           <div>
             <div class="story-panel">
@@ -112,18 +113,19 @@
               <p id="puzzleStory"></p>
               <p id="puzzleObjective" class="small"></p>
             </div>
-            <div id="sceneExplorer" class="scene-explorer"></div>
             <div class="section-heading evidence-heading">
-              <h3>Your evidence board</h3>
+              <h3>Your field notes</h3>
               <span class="muted" id="evidenceCount"></span>
             </div>
             <div id="evidenceGrid" class="evidence-grid"></div>
             <p class="small">
-              Tap the glowing objects in the scene or open the cards marked
+              Explore the 3D room to inspect its workstations, or open the cards marked
               “Required” before making a decision. Every clue is part of this
               fictional exercise.
             </p>
           </div>
+          <dialog id="decisionDialog" class="game-decision-dialog">
+          <button id="closeDecision" class="game-close" type="button" aria-label="Close decision terminal">✕</button>
           <aside class="decision-panel">
             <span class="eyebrow">YOUR MOVE</span>
             <h2 id="puzzleQuestion"></h2>
@@ -141,9 +143,10 @@
               <button id="hintButton" class="text-button">
                 ✦ Give me a nudge</button
               ><span id="hintCount" class="small"></span>
-              <div id="hints"></div>
+              <div id="hints" role="status" aria-live="polite" aria-atomic="true"></div>
             </div>
           </aside>
+          </dialog>
         </div>
       </section>
       <section id="debrief" class="debrief" hidden></section>
@@ -278,7 +281,7 @@
       <span>unlock academy · Built for curious minds.</span
       ><span>Learning by doing. Without the real-world consequences.</span>
     </footer>
-    <dialog id="evidenceDialog">
+    <dialog id="evidenceDialog" aria-labelledby="evidenceTitle">
       <div class="section-heading">
         <span id="evidenceType" class="eyebrow"></span
         ><button
@@ -290,6 +293,8 @@
         </button>
       </div>
       <h2 id="evidenceTitle"></h2>
+      <figure class="evidence-visual"><img id="evidenceImage" width="600" height="306" alt=""><figcaption id="evidenceCaption"></figcaption></figure>
+      <h3 class="evidence-source-heading">Source record</h3>
       <pre id="evidenceBody"></pre>
       <div class="clue">
         <span class="eyebrow">SOMETHING TO NOTICE</span>
@@ -332,6 +337,7 @@
     <script src="engine.js"></script>
     <script src="draft.js"></script>
     <script src="scene.js"></script>
+    <script src="evidence-visuals.js"></script>
     <script src="app.js"></script>
     <script src="studio-ai.js"></script>
     <script src="multiplayer.js"></script>

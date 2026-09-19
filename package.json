@@ -10,9 +10,13 @@
     "agent:setup": "node setup-agent.mjs"
   },
   "dependencies": {
-    "@truefoundry/trueforge-sdk": "0.2.0"
+    "@truefoundry/trueforge-sdk": "0.2.0",
+    "three": "^0.180.0"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }
