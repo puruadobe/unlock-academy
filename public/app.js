@@ -181,6 +181,7 @@ function renderMission() {
   $("puzzleStory").textContent = p.story;
   $("puzzleQuestion").textContent = p.question;
   $("puzzleObjective").textContent=p.objective?'You are practicing: '+p.objective:'';
+  renderInteractiveScene(p);
   renderEvidence(p);
   renderReasoning(p);
   $("answerChoices").replaceChildren();
@@ -206,6 +207,24 @@ function renderMission() {
   if (pending) showFeedback(pending.result, p);
   renderHints(p);
 }
+function renderInteractiveScene(p) {
+  const seen = state().seen[p.id] || [];
+  $("sceneExplorer").replaceChildren(
+    RoomScenes.create(room(), p, seen, (e) => openEvidence(p, e)),
+  );
+}
+function openEvidence(p, e) {
+  RoomEngine.inspect(state(), p, e.id);
+  save();
+  $("evidenceType").textContent = e.type || "EVIDENCE";
+  $("evidenceTitle").textContent = e.title;
+  $("evidenceBody").textContent = e.body;
+  $("evidenceClue").textContent = e.clue;
+  $("evidenceDialog").showModal();
+  renderEvidence(p);
+  renderInteractiveScene(p);
+  renderReasoning(p);
+}
 function renderEvidence(p) {
   const seen = state().seen[p.id] || [];
   $("evidenceCount").textContent =
@@ -226,17 +245,7 @@ function renderEvidence(p) {
           ? "Required · Open ↗"
           : "Optional · Open ↗") +
       "</small>";
-    b.onclick = () => {
-      RoomEngine.inspect(state(), p, e.id);
-      save();
-      $("evidenceType").textContent = e.type || "EVIDENCE";
-      $("evidenceTitle").textContent = e.title;
-      $("evidenceBody").textContent = e.body;
-      $("evidenceClue").textContent = e.clue;
-      $("evidenceDialog").showModal();
-      renderEvidence(p);
-      renderReasoning(p);
-    };
+    b.onclick = () => openEvidence(p, e);
     $("evidenceGrid").append(b);
   }
 }

@@ -535,6 +535,137 @@ footer {
   color: #c7c4d4;
   margin-bottom: 0;
 }
+.scene-explorer {
+  margin-top: 22px;
+}
+.interactive-scene {
+  background: #fffdf9;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 19px;
+  overflow: hidden;
+}
+.scene-heading {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 13px;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+.scene-heading .eyebrow {
+  grid-row: span 2;
+  align-self: start;
+  padding-top: 4px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 8px;
+}
+.scene-heading h3 {
+  font-size: 18px;
+}
+.scene-heading p {
+  grid-column: 2;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.scene-stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 10px;
+  min-height: 210px;
+  background: #26243d;
+}
+.scene-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 35%, #fff2 46%, transparent 57%);
+  transform: translateX(-100%);
+  animation: scene-glow 5s ease-in-out infinite;
+}
+.scene-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 210px;
+  object-fit: cover;
+}
+.scene-hotspot {
+  position: absolute;
+  z-index: 2;
+  left: var(--pin-x);
+  top: var(--pin-y);
+  transform: translate(-50%, -50%);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  filter: drop-shadow(0 4px 8px #1712208c);
+}
+.scene-hotspot-icon {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--purple);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 0 0 7px #a799ed45;
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+.scene-hotspot.required .scene-hotspot-icon {
+  background: #7655d0;
+  box-shadow: 0 0 0 7px #c8b6ff5e, 0 0 22px #d9caffcc;
+}
+.scene-hotspot.inspected .scene-hotspot-icon {
+  background: var(--green);
+  box-shadow: 0 0 0 7px #b6e0c76e;
+}
+.scene-hotspot-label {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  background: #1f1c2ddd;
+  border: 1px solid #fff5;
+  border-radius: 5px;
+  padding: 0;
+  font-size: 11px;
+  font-weight: 650;
+  transition: max-width 180ms ease, opacity 180ms ease, padding 180ms ease;
+}
+.scene-hotspot:hover .scene-hotspot-icon,
+.scene-hotspot:focus-visible .scene-hotspot-icon {
+  transform: scale(1.14);
+  box-shadow: 0 0 0 10px #d9caff80, 0 0 27px #fff;
+}
+.scene-hotspot:hover .scene-hotspot-label,
+.scene-hotspot:focus-visible .scene-hotspot-label {
+  max-width: 185px;
+  opacity: 1;
+  padding: 7px 9px;
+}
+.scene-instruction {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+@keyframes scene-glow {
+  0%, 55% { transform: translateX(-100%); }
+  75%, 100% { transform: translateX(105%); }
+}
 .evidence-heading {
   margin-top: 28px;
   margin-bottom: 16px;
@@ -1063,6 +1194,24 @@ pre {
   .decision-panel {
     padding: 21px;
   }
+  .interactive-scene {
+    padding: 14px;
+  }
+  .scene-stage,
+  .scene-art {
+    min-height: 175px;
+  }
+  .scene-hotspot-icon {
+    width: 31px;
+    height: 31px;
+    font-size: 17px;
+  }
+  .scene-heading {
+    column-gap: 10px;
+  }
+  .scene-heading h3 {
+    font-size: 16px;
+  }
   .form-row,
   .studio-aside {
     grid-template-columns: 1fr;
@@ -1216,14 +1365,16 @@ pre {
               <p id="puzzleStory"></p>
               <p id="puzzleObjective" class="small"></p>
             </div>
+            <div id="sceneExplorer" class="scene-explorer"></div>
             <div class="section-heading evidence-heading">
               <h3>Your evidence board</h3>
               <span class="muted" id="evidenceCount"></span>
             </div>
             <div id="evidenceGrid" class="evidence-grid"></div>
             <p class="small">
-              Open the cards marked “Required” before making a decision. Every
-              clue is part of this fictional exercise.
+              Tap the glowing objects in the scene or open the cards marked
+              “Required” before making a decision. Every clue is part of this
+              fictional exercise.
             </p>
           </div>
           <aside class="decision-panel">
@@ -2026,6 +2177,153 @@ if(typeof module!=='undefined') module.exports=DraftReview;
 </script>
     <script>
 "use strict";
+
+// The artwork is local SVG so rooms work offline. Buttons are overlaid on the
+// scene instead of embedded in the SVG, keeping every clue keyboard accessible.
+const RoomScenes = (() => {
+  const sceneMap = {
+    "last-transfer": {
+      kind: "cyber",
+      puzzles: {
+        verify: {
+          title: "Supplier desk",
+          intro: "Follow the contact trail. Which objects provide an independent check?",
+          targets: {
+            mail: [23, 62, "Payment email"],
+            directory: [68, 51, "Verified supplier record"],
+            branding: [44, 18, "Email appearance"],
+          },
+        },
+        session: {
+          title: "Access console",
+          intro: "Trace what happened before and after the password change.",
+          targets: {
+            password: [24, 60, "Account events"],
+            sessions: [67, 47, "Session activity"],
+            terms: [45, 18, "Identity field guide"],
+          },
+        },
+        contain: {
+          title: "Incident response desk",
+          intro: "Identify what is at risk, then find the authorized response.",
+          targets: {
+            status: [23, 61, "Current situation"],
+            playbook: [68, 51, "Incident response card"],
+            shortcut: [45, 18, "Colleague chat"],
+          },
+        },
+      },
+    },
+    "orbital-rescue": {
+      kind: "space",
+      puzzles: {
+        motion: {
+          title: "Flight deck view",
+          intro: "Read the instruments before deciding what the ship will do.",
+          targets: {
+            sensor: [22, 61, "Sensor reading"],
+            law: [68, 48, "Flight handbook"],
+          },
+        },
+        force: {
+          title: "Thruster bay",
+          intro: "Pair the ship’s mass with the force readout to predict its motion.",
+          targets: {
+            mass: [24, 61, "Mass display"],
+            force: [68, 48, "Thruster readout"],
+          },
+        },
+        energy: {
+          title: "Docking camera",
+          intro: "Compare the objects before and after the brake makes contact.",
+          targets: {
+            before: [22, 61, "Before docking"],
+            after: [68, 48, "After braking"],
+          },
+        },
+      },
+    },
+  };
+
+  function cyberArt() {
+    return `<svg class="scene-art" viewBox="0 0 760 380" role="img" aria-label="Illustrated cybersecurity investigation desk"><defs><linearGradient id="cyber-bg" x1="0" x2="1"><stop stop-color="#26243d"/><stop offset="1" stop-color="#4c3a69"/></linearGradient><linearGradient id="screen" x1="0" x2="1"><stop stop-color="#bda9ed"/><stop offset="1" stop-color="#8ee1cf"/></linearGradient></defs><rect width="760" height="380" rx="20" fill="url(#cyber-bg)"/><circle cx="640" cy="52" r="92" fill="#b49ce8" opacity=".12"/><circle cx="92" cy="337" r="125" fill="#79dac3" opacity=".08"/><path d="M0 292 760 243v137H0z" fill="#1e1d30"/><rect x="62" y="87" width="277" height="178" rx="12" fill="#171827" stroke="#8177a7" stroke-width="5"/><rect x="78" y="104" width="245" height="135" rx="6" fill="url(#screen)" opacity=".9"/><rect x="93" y="121" width="91" height="10" rx="5" fill="#fff" opacity=".8"/><rect x="93" y="148" width="179" height="8" rx="4" fill="#4f4078" opacity=".7"/><rect x="93" y="167" width="152" height="8" rx="4" fill="#4f4078" opacity=".6"/><path d="M170 265h68l23 30H147z" fill="#666077"/><rect x="459" y="104" width="179" height="127" rx="10" fill="#faf5ec" transform="rotate(7 459 104)"/><path d="M483 136h122M483 158h94M483 180h110M483 202h74" stroke="#766b93" stroke-width="8" stroke-linecap="round" opacity=".7"/><circle cx="647" cy="255" r="47" fill="#7ae0c6" opacity=".7"/><circle cx="647" cy="255" r="24" fill="#2f5160"/><path d="M593 276c40 22 87 20 131-6" fill="none" stroke="#c5b4ef" stroke-width="5" stroke-linecap="round"/></svg>`;
+  }
+
+  function spaceArt() {
+    return `<svg class="scene-art" viewBox="0 0 760 380" role="img" aria-label="Illustrated spacecraft scene"><defs><radialGradient id="planet" cx="30%" cy="30%"><stop stop-color="#ffd7a5"/><stop offset="1" stop-color="#c67267"/></radialGradient><linearGradient id="ship" x1="0" x2="1"><stop stop-color="#e9e4ff"/><stop offset="1" stop-color="#9d8fd8"/></linearGradient></defs><rect width="760" height="380" rx="20" fill="#151b37"/><g fill="#e5dcff"><circle cx="82" cy="57" r="3"/><circle cx="165" cy="120" r="2"/><circle cx="250" cy="48" r="4"/><circle cx="604" cy="60" r="3"/><circle cx="692" cy="154" r="2"/><circle cx="539" cy="108" r="2"/><circle cx="352" cy="87" r="2"/></g><circle cx="639" cy="100" r="106" fill="url(#planet)"/><path d="M510 139c55-36 143-38 228-4" fill="none" stroke="#f6bd93" stroke-width="15" opacity=".45"/><path d="M142 246c43-99 142-155 247-124 55 17 99 58 118 111-94 61-223 70-365 13z" fill="url(#ship)"/><path d="m155 252-59 50 91-17M392 137l-15-72 64 55" fill="#a59ad3"/><circle cx="337" cy="194" r="38" fill="#263257" stroke="#e5dcff" stroke-width="7"/><circle cx="337" cy="194" r="21" fill="#8ee5d0"/><path d="M442 226c44 4 83-5 117-26" fill="none" stroke="#ffca88" stroke-width="17" stroke-linecap="round"/><rect x="70" y="280" width="250" height="39" rx="19" fill="#252b52" stroke="#6870ae" stroke-width="2"/><path d="M99 299h88M207 299h76" stroke="#a5fae2" stroke-width="7" stroke-linecap="round"/></svg>`;
+  }
+
+  function archiveArt() {
+    return `<svg class="scene-art" viewBox="0 0 760 380" role="img" aria-label="Illustrated research room"><defs><linearGradient id="archive" x1="0" x2="1"><stop stop-color="#355e5d"/><stop offset="1" stop-color="#8ba873"/></linearGradient></defs><rect width="760" height="380" rx="20" fill="url(#archive)"/><circle cx="105" cy="79" r="74" fill="#d9dfa9" opacity=".16"/><path d="M0 295h760v85H0z" fill="#284543"/><rect x="70" y="83" width="234" height="177" rx="10" fill="#f7f2e7"/><path d="M100 119h174M100 149h139M100 179h161M100 209h117" stroke="#80968a" stroke-width="10" stroke-linecap="round"/><rect x="440" y="83" width="185" height="163" rx="12" fill="#213b41" stroke="#a5c58c" stroke-width="5"/><circle cx="532" cy="165" r="46" fill="none" stroke="#e5e4ba" stroke-width="10"/><path d="m564 197 42 42" stroke="#e5e4ba" stroke-width="13" stroke-linecap="round"/><path d="M99 296h528" stroke="#e1dcbd" stroke-width="12" stroke-linecap="round" opacity=".7"/></svg>`;
+  }
+
+  function makeFallback(puzzle) {
+    const slots = [[22, 61], [68, 48], [45, 18], [46, 76], [83, 76], [82, 18]];
+    return {
+      kind: "archive",
+      title: "Research table",
+      intro: "Open the objects on the table to gather the information you need.",
+      targets: Object.fromEntries(
+        puzzle.evidence.map((e, index) => [
+          e.id,
+          [...slots[index], e.title],
+        ]),
+      ),
+    };
+  }
+
+  function create(room, puzzle, seen, onInspect) {
+    const mapped = sceneMap[room.id]?.puzzles?.[puzzle.id];
+    const scene = mapped
+      ? { ...mapped, kind: sceneMap[room.id].kind }
+      : makeFallback(puzzle);
+    const section = document.createElement("section");
+    section.className = `interactive-scene ${scene.kind}`;
+    const header = document.createElement("div");
+    header.className = "scene-heading";
+    const eyebrow = document.createElement("span");
+    eyebrow.className = "eyebrow";
+    eyebrow.textContent = "EXPLORE THE ROOM";
+    const title = document.createElement("h3");
+    title.textContent = scene.title;
+    const prompt = document.createElement("p");
+    prompt.textContent = scene.intro;
+    header.append(eyebrow, title, prompt);
+    const stage = document.createElement("div");
+    stage.className = "scene-stage";
+    stage.innerHTML = scene.kind === "cyber" ? cyberArt() : scene.kind === "space" ? spaceArt() : archiveArt();
+    puzzle.evidence.forEach((e, index) => {
+      const target = scene.targets[e.id] || [18 + ((index * 25) % 68), index % 2 ? 48 : 72, e.title];
+      const button = document.createElement("button");
+      const inspected = seen.includes(e.id);
+      button.type = "button";
+      button.className = "scene-hotspot" + (inspected ? " inspected" : "") + (puzzle.required.includes(e.id) ? " required" : "");
+      button.style.setProperty("--pin-x", `${target[0]}%`);
+      button.style.setProperty("--pin-y", `${target[1]}%`);
+      button.setAttribute("aria-label", `Open ${target[2]}${inspected ? ", inspected" : ""}`);
+      const icon = document.createElement("span");
+      icon.className = "scene-hotspot-icon";
+      icon.textContent = inspected ? "✓" : "+";
+      const label = document.createElement("span");
+      label.className = "scene-hotspot-label";
+      label.textContent = target[2];
+      button.append(icon, label);
+      button.onclick = () => onInspect(e);
+      stage.append(button);
+    });
+    const note = document.createElement("p");
+    note.className = "scene-instruction";
+    note.textContent = "Glowing markers hold the evidence. Required evidence has a purple ring.";
+    section.append(header, stage, note);
+    return section;
+  }
+
+  return { create };
+})();
+
+</script>
+    <script>
+"use strict";
 const $ = (id) => document.getElementById(id),
   esc = (s) =>
     String(s ?? "").replace(
@@ -2208,6 +2506,7 @@ function renderMission() {
   $("puzzleStory").textContent = p.story;
   $("puzzleQuestion").textContent = p.question;
   $("puzzleObjective").textContent=p.objective?'You are practicing: '+p.objective:'';
+  renderInteractiveScene(p);
   renderEvidence(p);
   renderReasoning(p);
   $("answerChoices").replaceChildren();
@@ -2233,6 +2532,24 @@ function renderMission() {
   if (pending) showFeedback(pending.result, p);
   renderHints(p);
 }
+function renderInteractiveScene(p) {
+  const seen = state().seen[p.id] || [];
+  $("sceneExplorer").replaceChildren(
+    RoomScenes.create(room(), p, seen, (e) => openEvidence(p, e)),
+  );
+}
+function openEvidence(p, e) {
+  RoomEngine.inspect(state(), p, e.id);
+  save();
+  $("evidenceType").textContent = e.type || "EVIDENCE";
+  $("evidenceTitle").textContent = e.title;
+  $("evidenceBody").textContent = e.body;
+  $("evidenceClue").textContent = e.clue;
+  $("evidenceDialog").showModal();
+  renderEvidence(p);
+  renderInteractiveScene(p);
+  renderReasoning(p);
+}
 function renderEvidence(p) {
   const seen = state().seen[p.id] || [];
   $("evidenceCount").textContent =
@@ -2253,17 +2570,7 @@ function renderEvidence(p) {
           ? "Required · Open ↗"
           : "Optional · Open ↗") +
       "</small>";
-    b.onclick = () => {
-      RoomEngine.inspect(state(), p, e.id);
-      save();
-      $("evidenceType").textContent = e.type || "EVIDENCE";
-      $("evidenceTitle").textContent = e.title;
-      $("evidenceBody").textContent = e.body;
-      $("evidenceClue").textContent = e.clue;
-      $("evidenceDialog").showModal();
-      renderEvidence(p);
-      renderReasoning(p);
-    };
+    b.onclick = () => openEvidence(p, e);
     $("evidenceGrid").append(b);
   }
 }
