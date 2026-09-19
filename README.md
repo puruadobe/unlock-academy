@@ -62,11 +62,18 @@ The connector `unlock-academy` was registered in the local TrueForge instance an
 npm run agent:setup
 ```
 
-The setup script creates the MCP connector if missing, confirms its tools, and creates the named agent. If exactly one model is configured, it selects that model. If several are configured, specify the exact name:
+Room generation automatically selects a configured OpenAI model: it prefers `openai/gpt-5-4-mini` when available, otherwise the alphabetically first configured `openai/` name. No model environment variable is required. A single configured model from another provider remains supported. Generation registers the read-only `unlock-academy` MCP connector when it is missing, without overwriting existing connectors.
+
+The setup script uses the same selection rules and creates the optional named learning-coach agent. To override the selected model, specify an exact configured name:
 
 ```sh
-TRUEFORGE_MODEL='provider/model-name' npm run agent:setup
+TRUEFORGE_MODEL='openai/gpt-5-5' npm run agent:setup
+TRUEFORGE_MODEL='openai/gpt-5-5' npm start
 ```
+
+`TRUEFORGE_MODE` is accepted as an alias for the common misspelling; `TRUEFORGE_MODEL` takes precedence. Provider credentials stay in TrueForge, never in the browser. The existing `learnscape` agent is not changed; room generation creates its own temporary session with the room architect instructions.
+
+For TrueForge running in a container or on another machine, set `TRUEFORGE_MCP_URL` to this app’s reachable `/mcp` URL. The default is `http://127.0.0.1:<app-port>/mcp`. Existing connector URLs are preserved.
 
 If the agent already exists, edit it in TrueForge rather than overwriting it through this script. `TRUEFORGE_BASE_URL` and `TRUEFORGE_TOKEN` are optional server-side environment variables for other instances. Never put provider keys in browser code.
 
@@ -128,6 +135,15 @@ cybersecurity lab, orbital flight deck, and generic research room are built from
 3D geometry, with lighting, shadows, evidence workstations, and a sliding exit.
 No external asset service or AI connection is required for the 3D experience.
 
+Each lock now enters a distinct environment. The cyber mission moves from a
+verification office to an identity vault and a response center; physics moves
+from an observation deck to a propulsion bay and an energy workshop. Custom
+rooms use an observation garden, pattern archive, workshop, evidence chamber,
+lookout, and synthesis hall across up to six locks. Layouts, furniture, central
+landmarks, materials, lighting, and ceiling details change with the task.
+An arrival card identifies the new sector, and the unlocked exit names the next
+destination. Transitions and moving scenery respect reduced-motion preferences.
+
 - Focus the room and use **WASD / arrow keys** to move. Drag to look around.
 - Click a workstation or its marker, or aim at an object and press **E**, to inspect evidence.
 - Touch controls and keyboard-accessible field-note buttons provide alternatives.
@@ -141,6 +157,9 @@ team board; it does not synchronize 3D player movement. If WebGL is unavailable,
 evidence buttons and the decision terminal remain usable.
 
 Edit `src/scene3d.js` for the renderer and `src/movement.mjs` for movement/collision.
+Environment definitions live in `src/room-environments.mjs`; their local geometry
+lives in `src/environment-scenery.mjs`. Path tests cover access to every station
+and the exit even with the maximum six evidence items.
 Run `npm run build` after changes; it bundles the renderer into `public/scene.js`
 and regenerates the self-contained `Unlock-Academy.html`. The generated bundle is
 checked in so `npm start` also works without a separate build step.

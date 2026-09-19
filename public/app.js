@@ -224,10 +224,20 @@ function renderInteractiveScene(p) {
 function advancePuzzle() {
   if (!pending) return;
   $("decisionDialog").close();
-  pending = null;
-  choice = null;
-  renderMission();
-  $("missionTitle").scrollIntoView({ behavior: "smooth" });
+  RoomScenes.depart(() => {
+    pending = null;
+    choice = null;
+    renderMission();
+    $("puzzleArea").hidden
+      ? $("missionTitle").scrollIntoView({ behavior: "auto" })
+      : $("sceneExplorer").scrollIntoView({ behavior: "auto", block: "start" });
+    const destination = $("puzzleArea").hidden ? $("debrief")
+      : $("sceneExplorer").querySelector('canvas') || $("sceneExplorer").querySelector('button');
+    if (destination) {
+      if (destination === $("debrief")) destination.tabIndex = -1;
+      destination.focus({ preventScroll: true });
+    }
+  });
 }
 $("closeDecision").onclick = () => $("decisionDialog").close();
 function openEvidence(p, e) {

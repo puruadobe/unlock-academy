@@ -1,5 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {review} from './core.mjs';
+import {selectRoomModel,ensureRoomTools} from './trueforge-config.mjs';
 export function validateBrief(b){
  if(!b||typeof b!=='object'||Array.isArray(b))throw Error('A design brief is required.');
  for(const [key,max] of [['topic',150],['audience',200],['goal',1000]])if(typeof b[key]!=='string'||!b[key].trim()||b[key].length>max)throw Error('Provide a valid '+key+'.');
@@ -19,15 +20,13 @@ export function inspectGenerated(text,brief){
  audit.publishable=audit.errors.length===0;
  return {room,audit};
 }
-export async function generateDraft(tf,input,emit,modelOverride){
+export async function generateDraft(tf,input,emit,modelOverride,options={}){
  const brief=validateBrief(input);
  emit({type:'stage',message:'Checking the configured model and room-design tools.'});
  const models=(await tf.models.list()).data;
- const model=modelOverride||(models.length===1?models[0].name:null);
- if(!model)throw Error(models.length?'Several models are configured. Set TRUEFORGE_MODEL on the app server to choose one.':'No model configured. Add one in TrueForge Settings → Models.');
- if(!models.some(m=>m.name===model))throw Error('The selected model is not in TrueForge’s configured model list.');
- const exposed=(await tf.mcpServers.listTools('unlock-academy')).data;
- if(!['get_room_design_guide','review_room_draft'].every(name=>exposed.some(t=>t.name===name)))throw Error('Reconnect the unlock-academy connector so the architect can discover its review tool.');
+ const model=selectRoomModel(models,modelOverride);
+ emit({type:'stage',message:'Using '+model+' for room creation.'});
+ await ensureRoomTools(tf,options.mcpUrl);
  const instructions=await readFile(new URL('./architect-instructions.txt',import.meta.url),'utf8');
  const {data:session}=await tf.sessions.create({agent:{spec:{model:{name:model},instructions,mcpServers:[{name:'unlock-academy',enableTools:['get_room_design_guide','review_room_draft'],preload:true}],config:{sandbox:{enabled:false},generativeUi:{enabled:false},askUserQuestions:{enabled:false},dynamicSubAgents:{enabled:false},iterationLimit:12}}}});
  emit({type:'session',id:session.id});

@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { rooms, rpc } from "./core.mjs";
 import { generateDraft, validateBrief } from "./generation.mjs";
 import { TeamGames } from "./multiplayer.mjs";
+import { modelOverride } from "./trueforge-config.mjs";
 const PORT = Number(process.env.PORT || 8788),
   baseUrl = process.env.TRUEFORGE_BASE_URL || "http://localhost:8790";
 const assets = {
@@ -216,7 +217,8 @@ export function createServer() {
             await client(),
             request,
             emit,
-            process.env.TRUEFORGE_MODEL,
+            modelOverride(),
+            { mcpUrl: process.env.TRUEFORGE_MCP_URL || `http://127.0.0.1:${req.socket.localPort}/mcp` },
           );
           emit({ type: "done" });
         } catch (e) {
