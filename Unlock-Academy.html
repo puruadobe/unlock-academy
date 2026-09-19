@@ -1,0 +1,2672 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Unlock Academy — Learn your way out</title>
+    <style>:root {
+  --paper: #f6f4ee;
+  --ink: #27283a;
+  --muted: #71717f;
+  --purple: #6750bb;
+  --lavender: #e7e1fa;
+  --line: #dfdce5;
+  --green: #287057;
+  --orange: #efd7bc;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+textarea,
+select,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #9d8bd4;
+  outline-offset: 3px;
+}
+header {
+  max-width: 1440px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 5%;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.7px;
+}
+.brand > span:last-child {
+  font-weight: 400;
+  color: var(--muted);
+}
+.brandmark {
+  display: grid;
+  place-items: center;
+  background: var(--purple);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  margin-right: 5px;
+  font-weight: 500;
+  letter-spacing: -4px;
+  padding-right: 4px;
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 12px 0;
+}
+.nav-button.active {
+  color: var(--ink);
+  font-weight: 650;
+}
+.coach-button {
+  border: 1px solid #d0c7e6;
+  background: #ede8f7;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #594593;
+  font-size: 13px;
+}
+main {
+  max-width: 1270px;
+  padding: 0 38px;
+  margin: auto;
+}
+.hero {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 25px;
+  min-height: 420px;
+  align-items: center;
+  padding: 48px 0 50px;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  font-weight: 750;
+  color: var(--purple);
+  line-height: 1.8;
+}
+h1 {
+  font-size: clamp(34px, 4.4vw, 56px);
+  line-height: 1.12;
+  letter-spacing: -2.2px;
+  font-weight: 650;
+  margin: 20px 0;
+}
+h1 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: var(--purple);
+}
+.hero p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-bottom: 26px;
+}
+.primary,
+.secondary {
+  border: 1px solid var(--purple);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 44px;
+}
+.primary {
+  background: var(--purple);
+  color: white;
+  font-weight: 550;
+}
+.primary:hover {
+  background: #55429d;
+}
+.secondary {
+  background: transparent;
+  color: var(--purple);
+  border-color: #d7cee9;
+}
+.secondary:hover {
+  background: #eee8f9;
+}
+.large {
+  padding: 14px 21px;
+  font-size: 14px;
+}
+.large span {
+  margin-left: 25px;
+}
+.hero-meta {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.hero-meta span:before {
+  content: "·";
+  color: var(--purple);
+  margin-right: 7px;
+}
+.hero-art {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.orbital {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border: 1px solid #ded6ed;
+  border-radius: 50%;
+}
+.orbit-two {
+  width: 210px;
+  height: 210px;
+}
+.keyhole {
+  width: 160px;
+  height: 205px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(150deg, #d5c9f2, #9981d1);
+  border: 8px solid #e9e1f8;
+  border-radius: 80px 80px 20px 20px;
+  box-shadow: 13px 18px 0 #e4deed;
+  transform: rotate(-9deg);
+  position: relative;
+}
+.keyhole > div {
+  position: absolute;
+  width: 55px;
+  height: 80px;
+  background: #6750a4;
+  border-radius: 30px 30px 7px 7px;
+}
+.keyhole > span {
+  position: relative;
+  color: #eee7ff;
+  font:
+    42px Georgia,
+    serif;
+}
+.floating-tag {
+  position: absolute;
+  z-index: 2;
+  transform: rotate(-5deg);
+  background: #fffdf8;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 9px;
+  letter-spacing: 1.1px;
+  font-weight: 650;
+  box-shadow: 0 6px 18px #55429d08;
+}
+.tag-top {
+  top: 35px;
+  right: 25px;
+}
+.tag-bottom {
+  bottom: 28px;
+  left: 8px;
+  transform: rotate(4deg);
+}
+.spark {
+  position: absolute;
+  color: var(--purple);
+  font-size: 42px;
+}
+.spark-one {
+  top: 24px;
+  left: 25px;
+}
+.spark-two {
+  right: 25px;
+  bottom: 50px;
+}
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+h2 {
+  font-size: 25px;
+  line-height: 1.3;
+  letter-spacing: -0.65px;
+  margin: 9px 0 0;
+}
+h3 {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+.muted {
+  font-size: 12px;
+  color: var(--muted);
+}
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.room-card {
+  border: 1px solid var(--line);
+  background: #fffdf9;
+  border-radius: 13px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.room-cover {
+  height: 128px;
+  position: relative;
+  background: #e3daf5;
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.room-cover.orange {
+  background: #efdcc3;
+}
+.room-cover.green {
+  background: #dce9dd;
+}
+.room-cover .symbol {
+  position: absolute;
+  right: 20px;
+  bottom: 3px;
+  font-size: 100px;
+  line-height: 1;
+  color: #775da84d;
+  font-weight: 200;
+}
+.room-cover .topic {
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 6px 8px;
+  border: 1px solid #9483b747;
+  border-radius: 4px;
+}
+.room-card-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.room-card h3 {
+  font-size: 23px;
+  letter-spacing: -0.6px;
+}
+.room-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+  min-height: 44px;
+  margin: 12px 0;
+}
+.room-details {
+  display: flex;
+  gap: 13px;
+  flex-wrap: wrap;
+  font-size: 10px;
+  color: var(--muted);
+  padding: 12px 0 20px;
+}
+.room-card .primary {
+  margin-top: auto;
+  width: 100%;
+}
+.room-card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--purple);
+  font-size: 12px;
+  padding: 10px 0;
+  min-height: 40px;
+}
+.create-card {
+  border: 1px dashed #c2b7d7;
+  background: #eeebf34d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  border-radius: 13px;
+  padding: 30px;
+  min-height: 345px;
+}
+.create-card .plus {
+  font-size: 35px;
+  color: #927dbb;
+  border: 1px dashed #c2b7d7;
+  border-radius: 50%;
+  width: 57px;
+  height: 57px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+}
+.create-card h3 {
+  font-size: 21px;
+}
+.create-card p {
+  max-width: 220px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.how {
+  display: grid;
+  grid-template-columns: 1.15fr repeat(3, 1fr);
+  gap: 30px;
+  margin: 45px 0;
+  padding: 30px 0;
+  border-top: 1px solid var(--line);
+}
+.how p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.how h3 {
+  font-size: 14px;
+}
+footer {
+  border-top: 1px solid var(--line);
+  padding: 25px 5%;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 35px;
+}
+.mission-top {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 22px 0;
+}
+.mission-top > button:last-child {
+  margin-left: auto;
+}
+.pill {
+  background: var(--lavender);
+  padding: 6px 10px;
+  font-size: 10px;
+  border-radius: 20px;
+  color: var(--purple);
+}
+.mission-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+.mission-heading h1 {
+  font-size: 39px;
+  margin: 10px 0 20px;
+}
+.mission-counter {
+  text-align: right;
+  color: var(--muted);
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mission-counter strong {
+  font-size: 30px;
+  color: var(--purple);
+  font-weight: 550;
+}
+.lock-rail {
+  display: flex;
+  gap: 10px;
+  margin: 5px 0 30px;
+}
+.lock-stop {
+  flex: 1;
+  border-top: 3px solid #ddd8e5;
+  padding: 12px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.lock-stop.active {
+  border-color: var(--purple);
+  color: var(--purple);
+}
+.lock-stop.done {
+  border-color: var(--green);
+  color: var(--green);
+}
+.mission-layout {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+.story-panel {
+  background: #292838;
+  color: #f3f0fb;
+  border-radius: 12px;
+  padding: 28px;
+}
+.story-panel .eyebrow {
+  color: #c6b3ff;
+}
+.story-panel h2 {
+  font-size: 28px;
+  margin: 12px 0;
+}
+.story-panel p {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #c7c4d4;
+  margin-bottom: 0;
+}
+.evidence-heading {
+  margin-top: 28px;
+  margin-bottom: 16px;
+}
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.evidence-card {
+  border: 1px solid var(--line);
+  background: #fffdf9;
+  color: var(--ink);
+  border-radius: 9px;
+  padding: 18px;
+  text-align: left;
+  min-height: 122px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.evidence-card:hover {
+  border-color: var(--purple);
+}
+.evidence-card.seen {
+  border-color: #b3cfc1;
+  background: #f6faf5;
+}
+.evidence-card strong {
+  font-size: 14px;
+}
+.evidence-card .eyebrow {
+  font-size: 8px;
+  color: var(--muted);
+}
+.evidence-card small {
+  font-size: 10px;
+  color: var(--purple);
+}
+.small {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.decision-panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 26px;
+}
+.decision-panel h2 {
+  font-size: 21px;
+  line-height: 1.5;
+  margin: 12px 0 21px;
+}
+.answer {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 11px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.answer:has(input:checked) {
+  border-color: var(--purple);
+  background: #f2edfc;
+}
+.answer input {
+  accent-color: var(--purple);
+  margin-top: 5px;
+  flex: none;
+}
+.full {
+  width: 100%;
+}
+.hint-section {
+  border-top: 1px solid var(--line);
+  margin-top: 23px;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+#hints {
+  width: 100%;
+}
+#hints p {
+  background: #f5f0ff;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.feedback-box {
+  padding: 17px;
+  border-radius: 8px;
+  background: #fff6e9;
+  color: #76541e;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 15px;
+}
+.feedback-box.correct {
+  background: #eaf5ed;
+  color: #285b42;
+}
+.feedback-box h3 {
+  margin-bottom: 8px;
+}
+.feedback-box .primary {
+  margin-top: 13px;
+  background: #30765a;
+  border-color: #30765a;
+}
+.mission-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 25px;
+}
+.mission-foot p {
+  max-width: 650px;
+}
+.debrief {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 38px;
+}
+.debrief-top {
+  max-width: 730px;
+}
+.debrief h2 {
+  font-size: 38px;
+  margin: 15px 0;
+}
+.debrief-top p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.debrief-stats {
+  display: flex;
+  gap: 30px;
+  margin: 27px 0;
+}
+.debrief-stats strong {
+  font-size: 25px;
+  color: var(--purple);
+  display: block;
+}
+.debrief-stats span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.lessons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 25px 0;
+}
+.lesson {
+  padding: 20px;
+  background: #f6f3fc;
+  border-radius: 9px;
+}
+.lesson p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.source-list a {
+  font-size: 12px;
+  color: var(--purple);
+  display: block;
+  margin: 10px 0;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.studio-heading {
+  padding: 40px 0 25px;
+}
+.studio-heading h1 {
+  font-size: 43px;
+}
+.studio-heading p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.studio-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+}
+.studio-form {
+  background: white;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.studio-form h2 {
+  font-size: 22px;
+  margin-bottom: 23px;
+}
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 550;
+  line-height: 1.7;
+}
+input,
+textarea,
+select {
+  width: 100%;
+  min-width: 0;
+  display: block;
+  padding: 11px 12px;
+  border: 1px solid #d6d2de;
+  border-radius: 7px;
+  margin: 6px 0 19px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+}
+input[type="radio"],
+input[type="checkbox"] {
+  width: auto;
+  margin-bottom: 0;
+}
+textarea {
+  resize: vertical;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.puzzle-form {
+  border-top: 1px solid var(--line);
+  padding-top: 23px;
+  margin-top: 20px;
+}
+.puzzle-form h3 {
+  font-size: 18px;
+}
+.puzzle-form .section-heading {
+  margin-bottom: 12px;
+}
+.note-card {
+  background: #eeebf5;
+  border: 1px solid #dfd7ec;
+  padding: 23px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+.note-card h3 {
+  margin: 10px 0;
+}
+.note-card p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.file-label {
+  display: inline-block;
+  cursor: pointer;
+}
+#studioErrors {
+  color: #9a3228;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+dialog {
+  width: min(620px, calc(100% - 28px));
+  max-height: 90vh;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fffdf9;
+  color: var(--ink);
+  padding: 27px;
+  box-shadow: 0 20px 80px #17122030;
+}
+dialog::backdrop {
+  background: #211e346b;
+  backdrop-filter: blur(4px);
+}
+dialog h2 {
+  margin: 0 0 20px;
+}
+.icon-button {
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  color: var(--ink);
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font:
+    13px/1.9 ui-monospace,
+    SFMono-Regular,
+    monospace;
+  background: #f0edf5;
+  padding: 20px;
+  border-radius: 8px;
+}
+.clue {
+  padding: 15px 0;
+}
+.clue p {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.coach-status {
+  background: #efe9fb;
+  padding: 13px;
+  border-radius: 7px;
+  font-size: 12px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.chat-entry {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.9;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+}
+.chat-entry.user {
+  color: var(--purple);
+}
+#coachForm {
+  margin-top: 18px;
+}
+[hidden] {
+  display: none !important;
+}
+@media (min-width: 1300px) {
+  .hero {
+    min-height: 465px;
+  }
+}
+@media (max-width: 950px) {
+  nav {
+    gap: 15px;
+  }
+  main {
+    padding: 0 24px;
+  }
+  .hero {
+    grid-template-columns: 1.6fr 1fr;
+  }
+  .hero-art {
+    height: 290px;
+  }
+  .floating-tag {
+    font-size: 8px;
+  }
+  .tag-bottom {
+    left: 0;
+    font-size: 7px;
+  }
+  .room-grid {
+    gap: 14px;
+  }
+  .room-card-body {
+    padding: 18px;
+  }
+  .room-card h3 {
+    font-size: 20px;
+  }
+  .mission-layout {
+    gap: 20px;
+  }
+  .studio-layout {
+    grid-template-columns: 1fr 240px;
+  }
+  .how {
+    gap: 20px;
+  }
+  .hero-meta {
+    gap: 10px;
+  }
+}
+@media (max-width: 760px) {
+  header {
+    flex-wrap: wrap;
+    padding: 18px 24px;
+  }
+  nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 32px;
+    min-height: 0;
+  }
+  .hero-art {
+    display: none;
+  }
+  .hero h1 {
+    font-size: 42px;
+  }
+  .room-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .create-card {
+    min-height: 220px;
+  }
+  .how {
+    grid-template-columns: 1fr 1fr;
+  }
+  .mission-layout,
+  .studio-layout {
+    grid-template-columns: 1fr;
+  }
+  .studio-aside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .studio-aside .note-card {
+    margin: 0;
+  }
+  .lessons {
+    grid-template-columns: 1fr;
+  }
+  .mission-heading h1 {
+    font-size: 34px;
+  }
+  .lock-stop {
+    font-size: 10px;
+  }
+  .debrief {
+    padding: 25px;
+  }
+  .debrief h2 {
+    font-size: 31px;
+  }
+  .mission-foot {
+    flex-direction: column;
+    gap: 0;
+  }
+  .studio-heading h1 {
+    font-size: 34px;
+  }
+}
+@media (max-width: 480px) {
+  main {
+    padding: 0 18px;
+  }
+  header {
+    padding: 18px;
+  }
+  .brand {
+    font-size: 19px;
+  }
+  nav {
+    gap: 8px;
+  }
+  .nav-button {
+    font-size: 11px;
+  }
+  .coach-button {
+    font-size: 10px;
+    padding: 10px;
+  }
+  .hero h1 {
+    font-size: 35px;
+    letter-spacing: -1.4px;
+  }
+  .hero p {
+    font-size: 13px;
+  }
+  .hero-meta {
+    font-size: 9px;
+    gap: 8px;
+  }
+  .room-grid {
+    grid-template-columns: 1fr;
+  }
+  .room-cover {
+    height: 110px;
+  }
+  .room-card p {
+    min-height: 0;
+  }
+  .how {
+    grid-template-columns: 1fr;
+  }
+  .mission-top {
+    gap: 10px;
+  }
+  .mission-top button {
+    font-size: 10px;
+  }
+  .mission-heading h1 {
+    font-size: 29px;
+  }
+  .mission-counter strong {
+    font-size: 24px;
+  }
+  .evidence-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .evidence-card {
+    padding: 13px;
+  }
+  .evidence-card strong {
+    font-size: 12px;
+  }
+  .story-panel,
+  .decision-panel {
+    padding: 21px;
+  }
+  .form-row,
+  .studio-aside {
+    grid-template-columns: 1fr;
+  }
+  .studio-form {
+    padding: 20px;
+  }
+  .debrief-stats {
+    gap: 18px;
+  }
+  .debrief-stats strong {
+    font-size: 21px;
+  }
+  dialog {
+    padding: 22px;
+  }
+  .lock-stop {
+    font-size: 9px;
+  }
+}
+
+.debrief-actions {
+  margin-top: 25px;
+}
+.ai-studio{background:#eae3f7;border:1px solid #d7cbe9;border-radius:14px;padding:28px;margin:0 0 25px}.ai-studio input,.ai-studio textarea,.ai-studio select{background:#fffdfb}.draft-review{border:1px solid var(--line);border-radius:14px;padding:28px;background:#fff;margin:25px 0}.draft-events{font-size:12px;line-height:1.9;color:var(--muted);padding-left:20px}.draft-events:empty{display:none}.review-summary{background:#f6f2fc;border-radius:10px;padding:20px;margin:15px 0}.review-summary p,.review-lock p{font-size:13px;line-height:1.8}.review-lock{border:1px solid var(--line);border-radius:9px;padding:20px;margin:15px 0}.review-lock h3{margin-bottom:8px}.review-lock details{font-size:13px;line-height:1.8;margin:12px 0}.review-lock pre{font-family:inherit}.review-check{font-size:12px;line-height:1.8;margin:5px 0}.review-check.pass{color:var(--green)}.review-check.fail{color:#a53c2f}.review-warning{font-size:12px;color:#79562d;line-height:1.8}.approval-box{margin-top:24px;padding:22px;border:1px solid #c5dbcd;border-radius:10px;background:#f0f8f1}.approval-box label,.reasoning-option{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.8;margin:13px 0}.approval-box input,.reasoning-option input{margin:4px 0 0;flex:none;width:17px;height:17px;accent-color:var(--purple)}.manual-divider{margin:40px 0 20px}.draft-review>details{margin:20px 0}.draft-review summary{cursor:pointer;font-size:13px;color:var(--purple);margin-bottom:15px}#draftJson{font:12px/1.7 ui-monospace,monospace}.reasoning-choices:empty{display:none}.reasoning-choices{margin:18px 0 22px;border-top:1px solid var(--line);padding-top:18px}.reasoning-choices h3{font-size:13px}.transfer-panel{background:#f0eafa;border:1px solid #d6c9ea;border-radius:10px;margin-top:30px;padding:24px}.transfer-panel h3{font-size:20px;margin:13px 0}.transfer-option{display:block;text-align:left;width:100%;margin:10px 0;background:white}.run-error{color:#a53c2f;font-size:13px;line-height:1.8}.run-success{color:var(--green);font-size:13px;line-height:1.8}@media(max-width:600px){.ai-studio,.draft-review{padding:20px}.approval-box{padding:17px}}
+</style>
+  </head>
+  <body>
+    <header>
+      <a href="#" id="home" class="brand"
+        ><span class="brandmark">u↗</span>unlock<span>academy</span></a
+      >
+      <nav aria-label="Main navigation">
+        <button id="libraryNav" class="nav-button active">Explore rooms</button
+        ><button id="studioNav" class="nav-button">Create a room</button
+        ><button id="coachNav" class="coach-button">✦ Learning coach</button>
+      </nav>
+    </header>
+    <main id="library">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">CURIOSITY IS THE KEY</span>
+          <h1>Don’t just learn it.<br /><em>Find your way through it.</em></h1>
+          <p>
+            Enter a story. Connect the clues. Unlock a new understanding.<br />Learning
+            escape rooms for any subject, one discovery at a time.
+          </p>
+          <button class="primary large" id="startFeatured">
+            Enter the cyber mission <span>↗</span>
+          </button>
+          <div class="hero-meta">
+            <span>3 locks to solve</span><span>No deadline</span
+            ><span>Hints when you need them</span>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbital orbit-one"></div>
+          <div class="orbital orbit-two"></div>
+          <div class="floating-tag tag-top">01 / INSPECT</div>
+          <div class="keyhole">
+            <div></div>
+            <span>?</span>
+          </div>
+          <div class="floating-tag tag-bottom">
+            THE ANSWER IS IN THE EVIDENCE
+          </div>
+          <div class="spark spark-one">✳</div>
+          <div class="spark spark-two">✧</div>
+        </div>
+      </section>
+      <section class="room-section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">PICK YOUR NEXT DISCOVERY</span>
+            <h2>The room collection</h2>
+          </div>
+          <span class="muted" id="roomCount"></span>
+        </div>
+        <div class="room-grid" id="roomGrid"></div>
+      </section>
+      <section class="how">
+        <span class="eyebrow">A LITTLE MYSTERY. A LASTING LESSON.</span>
+        <div>
+          <h3>01 · Explore</h3>
+          <p>Read the evidence and notice what matters.</p>
+        </div>
+        <div>
+          <h3>02 · Connect</h3>
+          <p>Explain your choice. Mistakes become clues.</p>
+        </div>
+        <div>
+          <h3>03 · Take it with you</h3>
+          <p>Leave with a debrief and ideas you can use.</p>
+        </div>
+      </section>
+    </main>
+    <main id="play" hidden>
+      <div class="mission-top">
+        <button id="backLibrary" class="text-button">← Room collection</button
+        ><span id="missionTopic" class="pill"></span
+        ><button id="restartRoom" class="text-button">Restart room</button>
+      </div>
+      <div class="mission-heading">
+        <div>
+          <span class="eyebrow" id="missionLabel"></span>
+          <h1 id="missionTitle"></h1>
+        </div>
+        <div class="mission-counter">
+          <strong id="lockCount"></strong><span>locks opened</span>
+        </div>
+      </div>
+      <div id="lockRail" class="lock-rail" aria-label="Mission progress"></div>
+      <section id="puzzleArea">
+        <div class="mission-layout">
+          <div>
+            <div class="story-panel">
+              <span id="puzzleEyebrow" class="eyebrow"></span>
+              <h2 id="puzzleTitle"></h2>
+              <p id="puzzleStory"></p>
+              <p id="puzzleObjective" class="small"></p>
+            </div>
+            <div class="section-heading evidence-heading">
+              <h3>Your evidence board</h3>
+              <span class="muted" id="evidenceCount"></span>
+            </div>
+            <div id="evidenceGrid" class="evidence-grid"></div>
+            <p class="small">
+              Open the cards marked “Required” before making a decision. Every
+              clue is part of this fictional exercise.
+            </p>
+          </div>
+          <aside class="decision-panel">
+            <span class="eyebrow">YOUR MOVE</span>
+            <h2 id="puzzleQuestion"></h2>
+            <div
+              id="answerChoices"
+              role="radiogroup"
+              aria-label="Answer choices"
+            ></div>
+            <div id="reasoningChoices" class="reasoning-choices"></div>
+            <button id="submitAnswer" class="primary full">
+              Test my reasoning →
+            </button>
+            <div id="feedback" role="status" aria-live="polite"></div>
+            <div class="hint-section">
+              <button id="hintButton" class="text-button">
+                ✦ Give me a nudge</button
+              ><span id="hintCount" class="small"></span>
+              <div id="hints"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+      <section id="debrief" class="debrief" hidden></section>
+      <div class="mission-foot">
+        <p id="fiction" class="small"></p>
+        <span id="saveStatus" class="small"
+          >Progress saves in this browser.</span
+        >
+      </div>
+    </main>
+    <main id="studio" hidden>
+      <div class="studio-heading">
+        <span class="eyebrow">EVERY TOPIC HAS A STORY</span>
+        <h1>Make a room of your own.</h1>
+        <p>
+          Turn a lesson into a discovery. Write a challenge, add evidence, and
+          explain the answer.
+        </p>
+      </div>
+      <section class="ai-studio panel">
+        <div class="section-heading"><div><span class="eyebrow">TRUEFORGE ROOM ARCHITECT</span><h2>From a topic to a learning adventure.</h2></div><span class="pill">Draft → Check → Review → Publish</span></div>
+        <p class="small">Choose what the learner should understand. TrueForge drafts a connected mission; you review its claims and answer keys before publishing. Your brief is sent to your configured model provider.</p>
+        <form id="aiBriefForm"><div class="form-row"><label>Topic to explore<input id="aiTopic" required maxlength="150" placeholder="Photosynthesis, probability, cyber awareness…"></label><label>Who is learning?<input id="aiAudience" required maxlength="200" value="Curious beginners"></label></div>
+        <label>What should they be able to explain or do?<textarea id="aiGoal" required maxlength="1000" rows="2" placeholder="Explain how plants turn light into stored chemical energy."></textarea></label>
+        <div class="form-row"><label>Challenge depth<select id="aiDifficulty"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label><label>Number of connected locks<select id="aiLocks"><option>3</option><option>4</option><option>5</option></select></label></div>
+        <div class="section-heading"><button id="generateRoom" class="primary" type="submit">Design with TrueForge ✦</button><button id="exampleDraft" class="secondary" type="button">Explore an authored example</button></div></form>
+        <div id="draftRun" role="status" aria-live="polite"></div><ol id="draftEvents" class="draft-events"></ol>
+      </section>
+      <section id="draftReview" class="draft-review" hidden>
+        <div class="section-heading"><div><span class="eyebrow" id="draftOrigin"></span><h2>Review before anyone plays.</h2></div><button id="exportDraft" class="secondary">Export draft ↓</button></div>
+        <p class="small">Structure checks are automatic. Factual accuracy and instructional quality still need your review. No external sources are fetched or verified by this workflow.</p>
+        <div id="draftAudit"></div><div id="draftPreview"></div>
+        <details><summary>Edit the room JSON</summary><label>Draft JSON<textarea id="draftJson" rows="12" spellcheck="false"></textarea></label><button id="applyDraftEdits" class="secondary">Validate and apply edits</button><p id="draftEditStatus" class="small" role="status"></p></details>
+        <label>Revision request<textarea id="revisionRequest" maxlength="1500" rows="2" placeholder="Make the second lock require comparing two sources; make the hints less revealing."></textarea></label><button id="reviseRoom" class="secondary">Ask TrueForge to revise ↗</button>
+        <div class="approval-box"><h3>Human review</h3><label><input type="checkbox" id="reviewFacts">I checked the factual claims and any supplied sources.</label><label><input type="checkbox" id="reviewAnswers">I checked that evidence supports the answers and explanations.</label><label><input type="checkbox" id="reviewAudience">The language, difficulty, and hints fit the intended learners.</label><button id="publishDraft" class="primary" disabled>Approve & publish to my collection ↗</button><p id="publishStatus" class="small" role="status"></p></div>
+      </section>
+      <div class="manual-divider"><span class="eyebrow">PREFER TO WRITE IT YOURSELF?</span><h2>Manual room creator</h2></div>
+      <div class="studio-layout">
+        <form id="roomForm" class="studio-form">
+          <h2>The world</h2>
+          <div class="form-row">
+            <label
+              >Topic<input
+                id="draftTopic"
+                required
+                maxlength="80"
+                placeholder="e.g. History, biology, personal finance" /></label
+            ><label
+              >Room title<input
+                id="draftTitle"
+                required
+                maxlength="100"
+                placeholder="e.g. The Missing Civilization"
+            /></label>
+          </div>
+          <label
+            >Mission briefing<textarea
+              id="draftStory"
+              required
+              maxlength="1600"
+              rows="3"
+              placeholder="Who is the learner, and what must they figure out?"
+            ></textarea></label
+          ><label
+            >Learning objective<input
+              id="draftObjective"
+              required
+              maxlength="300"
+              placeholder="What should someone understand after escaping?"
+          /></label>
+          <div class="section-heading">
+            <h2>The locks</h2>
+            <button type="button" id="addPuzzle" class="secondary">
+              + Add a lock
+            </button>
+          </div>
+          <div id="puzzleForms"></div>
+          <div id="studioErrors" role="alert"></div>
+          <button class="primary large" type="submit">
+            Publish to my room collection ↗
+          </button>
+          <p class="small">
+            Publishing saves locally to this browser. Export a room to share it
+            or keep a backup.
+          </p>
+        </form>
+        <aside class="studio-aside">
+          <div class="note-card">
+            <span class="eyebrow">A GOOD LEARNING LOCK</span>
+            <h3>Make the evidence do the teaching.</h3>
+            <p>
+              Give the learner two useful clues, three plausible choices, and an
+              explanation that connects the clues to the answer.
+            </p>
+            <p>
+              Keep the answer grounded in what you provide. A learner should
+              never have to guess what the author intended.
+            </p>
+          </div>
+          <div class="note-card">
+            <h3>Bring a room with you</h3>
+            <p>
+              Import an exported room to play or reuse it. Files are checked
+              before they enter your collection.
+            </p>
+            <label class="secondary file-label"
+              >Import room JSON<input
+                type="file"
+                id="importRoom"
+                accept="application/json,.json"
+                hidden
+            /></label>
+            <p id="importStatus" class="small" role="status"></p>
+            <button id="downloadTemplate" class="text-button">
+              Download example room ↓
+            </button>
+          </div>
+          <div class="note-card">
+            <h3>Want help shaping a topic?</h3>
+            <p>
+              The optional TrueForge coach can help you turn a subject into a
+              story and learning objectives.
+            </p>
+            <button id="studioCoach" class="secondary">
+              Open learning coach ↗
+            </button>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <footer>
+      <span>unlock academy · Built for curious minds.</span
+      ><span>Learning by doing. Without the real-world consequences.</span>
+    </footer>
+    <dialog id="evidenceDialog">
+      <div class="section-heading">
+        <span id="evidenceType" class="eyebrow"></span
+        ><button
+          id="closeEvidence"
+          aria-label="Close evidence"
+          class="icon-button"
+        >
+          ✕
+        </button>
+      </div>
+      <h2 id="evidenceTitle"></h2>
+      <pre id="evidenceBody"></pre>
+      <div class="clue">
+        <span class="eyebrow">SOMETHING TO NOTICE</span>
+        <p id="evidenceClue"></p>
+      </div>
+      <button id="finishEvidence" class="primary full">
+        Back to the evidence board →
+      </button>
+    </dialog>
+    <dialog id="coachDialog">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">YOUR THINKING PARTNER</span>
+          <h2>Learning coach</h2>
+        </div>
+        <button id="closeCoach" aria-label="Close coach" class="icon-button">
+          ✕
+        </button>
+      </div>
+      <p class="small">
+        TrueForge can guide you with questions and hints. Messages go to your
+        configured model provider. Don’t include personal data or secrets.
+      </p>
+      <div id="coachStatus" class="coach-status">Checking TrueForge…</div>
+      <div id="chat" aria-live="polite"></div>
+      <form id="coachForm">
+        <label
+          >Your question<textarea
+            id="coachQuestion"
+            required
+            maxlength="2000"
+            rows="3"
+            placeholder="Help me think about this clue without revealing the answer."
+          ></textarea></label
+        ><button id="askCoach" class="primary">Ask coach ✦</button>
+      </form>
+      <p id="trace" class="small"></p>
+    </dialog>
+    <script>
+const STARTER_ROOMS = [
+  {
+    id: "last-transfer",
+    topic: "Cybersecurity",
+    title: "The Last Transfer",
+    subtitle: "A convincing request. A hidden compromise. One decision left.",
+    description:
+      "You are the new investigator at Northstar Studio. A supplier payment is waiting for release. Find the misleading request, follow the account evidence, and choose a safe response.",
+    duration: "10–15 min",
+    level: "Beginner",
+    color: "purple",
+    icon: "↗",
+    objectives: [
+      "Verify a sensitive request independently",
+      "Distinguish a password from an active session",
+      "Choose containment before irreversible action",
+    ],
+    fiction:
+      "All messages, organizations, logs, and amounts in this room are fictional. No payment or account action is performed.",
+    sources: [
+      {
+        title:
+          "Microsoft: support impersonation and remote-access misuse (2024)",
+        url: "https://www.microsoft.com/en-us/security/blog/2024/05/15/threat-actors-misusing-quick-assist-in-social-engineering-attacks-leading-to-ransomware/",
+      },
+      {
+        title:
+          "Cloudflare: stolen integration credentials and support-case exposure (2025)",
+        url: "https://blog.cloudflare.com/response-to-salesloft-drift-incident/",
+      },
+    ],
+    puzzles: [
+      {
+        id: "verify",
+        title: "The request",
+        eyebrow: "LOCK 01 / TRUST",
+        story:
+          "Finance has received a request to change a supplier’s bank details. A colleague says the email “looks right.” You have access to the message and the supplier record.",
+        question:
+          "What is the strongest next step before changing the payment details?",
+        evidence: [
+          {
+            id: "mail",
+            title: "Payment-change email",
+            type: "MESSAGE",
+            body: "From: Supplier Accounts\nSubject: Updated payment details\n\nPlease use our new bank details for today’s invoice. We need this processed before the afternoon deadline. You can reach us at the new phone number in this message.",
+            clue: "Both the change request and its suggested verification channel come from the same message.",
+          },
+          {
+            id: "directory",
+            title: "Existing supplier record",
+            type: "DIRECTORY",
+            body: "Supplier: Cedar Works\nRelationship: Active for two years\nVerified contact: Stored in the finance directory\nLast confirmed bank change: None\n\nPolicy: Verify bank-detail changes using an independently maintained contact.",
+            clue: "You already have a contact route established before this request arrived.",
+          },
+          {
+            id: "branding",
+            title: "Visual inspection",
+            type: "OBSERVATION",
+            body: "The email contains the familiar logo, signature, and invoice number. The displayed sender name matches earlier messages.",
+            clue: "Appearance and familiarity provide context, but do not independently verify authorization.",
+          },
+        ],
+        required: ["mail", "directory"],
+        options: [
+          "Call the new number supplied in the email.",
+          "Contact the supplier using the existing verified directory entry.",
+          "Accept the change because the invoice number is correct.",
+        ],
+        answer: 1,
+        feedback: [
+          "That number came from the same unverified request. Find an independent route.",
+          "Correct. A previously verified contact provides an independent check on the requested change.",
+          "A familiar invoice number is not proof that a payment change is authorized.",
+        ],
+        explanation:
+          "Verify a sensitive request through a channel established independently of the request. Urgency, logos, and accurate details should not replace authorization checks.",
+        hints: [
+          "Compare where each possible contact route came from.",
+          "One route was established before the suspicious message existed.",
+          "Use the existing supplier directory, not the contact details in the new email.",
+        ],
+        unlock:
+          "You paused the payment change. The supplier confirms it did not request new bank details.",
+      },
+      {
+        id: "session",
+        title: "The access that remained",
+        eyebrow: "LOCK 02 / IDENTITY",
+        story:
+          "The supplier confirms the request was false. The employee whose mailbox sent it recently changed their password. Examine the local training logs to find what still needs attention.",
+        question:
+          "Which finding most directly shows that a password change alone did not end the suspicious access?",
+        evidence: [
+          {
+            id: "password",
+            title: "Account events",
+            type: "AUDIT LOG",
+            body: "09:10 — Password changed by account owner\n09:12 — Interactive sign-in from employee’s known device\n09:20 — No additional password-change events",
+            clue: "The log confirms a password change, but says nothing about revoking sessions.",
+          },
+          {
+            id: "sessions",
+            title: "Session activity",
+            type: "AUDIT LOG",
+            body: "08:50 — Session S-042 created from an unfamiliar device\n09:18 — Session S-042 reads supplier thread\n09:23 — Session S-042 sends payment-change message\nStatus — Session not yet revoked\n\nIn this fictional system, password changes do not automatically revoke existing sessions.",
+            clue: "The same session acts before and after the password change.",
+          },
+          {
+            id: "terms",
+            title: "Identity field guide",
+            type: "REFERENCE",
+            body: "Password: a credential used to authenticate.\nSession: ongoing access established after authentication.\nRevocation: ending previously granted access.\n\nReal systems differ in how password changes affect sessions and connected applications.",
+            clue: "An existing access path can require its own containment step.",
+          },
+        ],
+        required: ["password", "sessions"],
+        options: [
+          "The employee’s normal device signed in.",
+          "There were no more password-change events.",
+          "The unfamiliar session sent the message after the password changed.",
+        ],
+        answer: 2,
+        feedback: [
+          "A normal sign-in is not the suspicious activity described here. Compare timestamps.",
+          "The absence of more password changes does not establish that access ended.",
+          "Correct. The explicitly unrevoked session continued acting after the password changed.",
+        ],
+        explanation:
+          "Password changes, session revocation, and connected-app review address different access paths. Verify the actual behavior of your system instead of assuming one action ends every session.",
+        hints: [
+          "Put the password event and message event in time order.",
+          "S-042 appears on both sides of the password-change timestamp.",
+          "Compare 09:10 with the 09:23 message from the unfamiliar session.",
+        ],
+        unlock:
+          "You identified the active session that needs investigation and containment.",
+      },
+      {
+        id: "contain",
+        title: "The containment decision",
+        eyebrow: "LOCK 03 / RESPONSE",
+        story:
+          "The payment is still on hold. You have identified suspicious session activity. Select the response package that protects the company while preserving evidence.",
+        question:
+          "Which response package should the authorized security and finance teams carry out?",
+        evidence: [
+          {
+            id: "status",
+            title: "Current situation",
+            type: "STATUS",
+            body: "Payment: Not released\nBank-detail change: Not approved\nSuspicious session: Still active\nEvidence: Message and audit logs available\nSecurity team: Reachable through the verified directory",
+            clue: "There is still time to contain access and stop the pending payment.",
+          },
+          {
+            id: "playbook",
+            title: "Incident response card",
+            type: "PLAYBOOK",
+            body: "Keep sensitive changes on hold.\nPreserve relevant messages and logs.\nNotify the authorized security team through a known channel.\nRevoke suspicious access and review related sessions and integrations.\nVerify any payment instructions independently with finance.",
+            clue: "Containment and evidence preservation are complementary actions.",
+          },
+          {
+            id: "shortcut",
+            title: "A colleague’s suggestion",
+            type: "CHAT",
+            body: "“Can we just delete the message and pay the invoice? We don’t want this to hold up the afternoon.”",
+            clue: "Removing the visible message does not terminate the underlying access.",
+          },
+        ],
+        required: ["status", "playbook"],
+        options: [
+          "Hold the payment, preserve evidence, and have authorized teams revoke suspicious access and investigate.",
+          "Delete the message, clear the logs, and approve payment.",
+          "Reply to the suspicious message asking the sender to confirm it is legitimate.",
+        ],
+        answer: 0,
+        feedback: [
+          "Correct. This contains the immediate risk while retaining evidence for investigation.",
+          "This removes evidence and releases the sensitive action without resolving access.",
+          "A reply stays inside the channel already under suspicion. Use your verified reporting route.",
+        ],
+        explanation:
+          "A good response interrupts the risky action, ends suspicious access through authorized teams, and preserves enough evidence to understand what happened. Avoid improvised changes outside your authority.",
+        hints: [
+          "Which option addresses both the payment and the active session?",
+          "The team will need the message and logs to investigate.",
+          "Choose the package that holds payment, preserves evidence, and involves authorized responders.",
+        ],
+        unlock:
+          "Transfer stopped. Evidence preserved. The authorized team can now contain the incident.",
+      },
+    ],
+  },
+  {
+    id: "orbital-rescue",
+    topic: "Physics",
+    title: "Orbital Rescue",
+    subtitle: "Your spacecraft has lost its instruments. Bring the crew home.",
+    description:
+      "Use motion, forces, and energy to diagnose three problems aboard a fictional spacecraft. The mission runs on the same room engine as every other subject.",
+    duration: "5–8 min",
+    level: "Beginner",
+    color: "orange",
+    icon: "✦",
+    objectives: [
+      "Explain motion when net force is zero",
+      "Connect net force to acceleration",
+      "Track energy through a transformation",
+    ],
+    fiction:
+      "A simplified teaching simulation. Ignore air resistance and other effects unless a clue specifies them.",
+    sources: [],
+    puzzles: [
+      {
+        id: "motion",
+        title: "Engines offline",
+        eyebrow: "LOCK 01 / MOTION",
+        story:
+          "The engines shut down during a straight flight. The crew thinks the ship must stop immediately.",
+        question: "What happens under the conditions in the evidence?",
+        evidence: [
+          {
+            id: "sensor",
+            title: "Last sensor reading",
+            type: "TELEMETRY",
+            body: "Velocity: 100 m/s in a straight line\nNet external force: Zero\nFrame: Inertial reference frame",
+            clue: "The net force is the quantity that determines acceleration.",
+          },
+          {
+            id: "law",
+            title: "Flight handbook",
+            type: "REFERENCE",
+            body: "An object continues at constant velocity when the net force on it is zero.",
+            clue: "Maintaining motion is different from changing motion.",
+          },
+        ],
+        required: ["sensor", "law"],
+        options: [
+          "The ship instantly stops.",
+          "It continues at constant velocity.",
+          "It speeds up continuously.",
+        ],
+        answer: 1,
+        feedback: [
+          "Stopping is a change in velocity and would require a net force.",
+          "Correct. Zero net force means zero acceleration in this simplified model.",
+          "Speeding up would require acceleration, which needs a net force.",
+        ],
+        explanation:
+          "A force is needed to change velocity, not to maintain constant velocity. This is Newton’s first law.",
+        hints: [
+          "Does the evidence specify a net force?",
+          "Zero net force means no change in velocity.",
+          "The velocity remains 100 m/s in the same direction.",
+        ],
+        unlock: "The crew understands that coasting is expected.",
+      },
+      {
+        id: "force",
+        title: "One thruster returns",
+        eyebrow: "LOCK 02 / FORCES",
+        story:
+          "A thruster is available. Predict the acceleration before the crew uses it.",
+        question: "What is the acceleration magnitude?",
+        evidence: [
+          {
+            id: "mass",
+            title: "Ship mass",
+            type: "TELEMETRY",
+            body: "Total mass: 1,000 kg",
+            clue: "Use the total mass.",
+          },
+          {
+            id: "force",
+            title: "Thruster readout",
+            type: "TELEMETRY",
+            body: "Net force: 2,000 N\nUse F = m × a.",
+            clue: "Divide force by mass to find acceleration.",
+          },
+        ],
+        required: ["mass", "force"],
+        options: ["2 m/s²", "2,000 m/s²", "0.5 m/s²"],
+        answer: 0,
+        feedback: [
+          "Correct. 2,000 N divided by 1,000 kg is 2 m/s².",
+          "You used the force value without dividing by mass.",
+          "Check the order of the division: force divided by mass.",
+        ],
+        explanation:
+          "Newton’s second law relates net force, mass, and acceleration. Here a = F/m = 2 m/s².",
+        hints: [
+          "Rearrange F = m × a.",
+          "Acceleration equals force divided by mass.",
+          "Calculate 2,000 ÷ 1,000.",
+        ],
+        unlock: "The crew can predict the thruster’s effect.",
+      },
+      {
+        id: "energy",
+        title: "The warm brake",
+        eyebrow: "LOCK 03 / ENERGY",
+        story:
+          "A docking mechanism slows a moving component by friction. Its brake becomes warm.",
+        question:
+          "Where did the component’s kinetic energy primarily go in this model?",
+        evidence: [
+          {
+            id: "before",
+            title: "Before docking",
+            type: "OBSERVATION",
+            body: "A component is moving. The brake is cool.",
+            clue: "The moving component has kinetic energy.",
+          },
+          {
+            id: "after",
+            title: "After braking",
+            type: "OBSERVATION",
+            body: "The component slows down. The brake and contact surfaces warm up. Assume negligible sound and other transfers.",
+            clue: "Account for the increase in internal energy of the materials.",
+          },
+        ],
+        required: ["before", "after"],
+        options: [
+          "It was destroyed.",
+          "It became extra mass large enough to notice.",
+          "It was transferred primarily into thermal/internal energy.",
+        ],
+        answer: 2,
+        feedback: [
+          "Energy is conserved; look for the observed change in the surroundings.",
+          "The clear modeled effect is warming, not a noticeable mass change.",
+          "Correct. Friction converts organized motion into internal energy of the interacting materials.",
+        ],
+        explanation:
+          "Energy changes form and can move between objects. In this model, the decrease in kinetic energy corresponds primarily to increased internal energy.",
+        hints: [
+          "What changed besides the speed?",
+          "The contact surfaces became warmer.",
+          "Connect the lost kinetic energy with thermal/internal energy.",
+        ],
+        unlock:
+          "Docking complete. Your three explanations restored the crew’s confidence.",
+      },
+    ],
+  },
+];
+
+// Deeper learning metadata for the first-party missions.
+STARTER_ROOMS[0].learningPlan={audience:'Students and employees new to cyber-awareness',prerequisites:['Recognize an email, a password, and a login session'],bigQuestion:'How do you decide what to trust when a request looks familiar?'};
+STARTER_ROOMS[0].puzzles.forEach((p,i)=>{p.objective=STARTER_ROOMS[0].objectives[i];p.reasoning={prompt:'Select only the evidence that directly supports your decision.',evidenceIds:[['mail','directory'],['password','sessions'],['status','playbook']][i],explanation:['The email supplies its own verification channel; the earlier directory supplies an independent one. Branding alone does not settle authorization.','The account event and session activity together establish that access continued after the password change.','The current situation identifies the risks; the response card explains the authorized containment steps.'][i]}});
+STARTER_ROOMS[0].transfer={question:'A familiar colleague sends a chat asking you to change a payroll bank account and supplies a new number to call. What lesson transfers to this new situation?',options:['Use the new number because the colleague is familiar.','Verify through a previously established contact route before making the sensitive change.','Treat any chat message as proof of authorization.'],answer:1,explanation:'The channel changed from email to chat, but the principle did not: independently verify a sensitive request rather than relying on contact details supplied within it.'};
+STARTER_ROOMS[1].learningPlan={audience:'Beginning physics learners',prerequisites:['Divide whole numbers','Recognize mass, speed, and temperature'],bigQuestion:'How can a few physical laws explain what you observe?'};
+STARTER_ROOMS[1].puzzles.forEach((p,i)=>{p.objective=STARTER_ROOMS[1].objectives[i]});
+STARTER_ROOMS[1].transfer={question:'A cart moves at constant velocity along a straight track. In an inertial frame, what can you infer about the net force?',options:['The net force must point forward.','The net force is zero.','The net force must point backward.'],answer:1,explanation:'Constant velocity means zero acceleration. Newton’s second law then gives zero net force. Individual forces may still be present and balanced.'};
+
+</script>
+    <script>
+const RoomEngine = (() => {
+  const safeId = (v) =>
+    typeof v === "string" &&
+    /^[a-z0-9-]{1,80}$/.test(v) &&
+    !["constructor", "prototype", "__proto__"].includes(v);
+  const text = (v, max = 1000) =>
+    typeof v === "string" && v.trim().length > 0 && v.length <= max;
+  function validate(room) {
+    const errors = [];
+    if (!room || typeof room !== "object" || Array.isArray(room))
+      return ["Room must be an object."];
+    for (const k of ["id", "topic", "title", "description"])
+      if (!text(room[k], k === "description" ? 1600 : 100))
+        errors.push("Missing or too long: " + k);
+    if (!/^[a-z0-9-]{1,80}$/.test(room.id || ""))
+      errors.push("Room ID must use lowercase letters, numbers, and hyphens.");
+    if (
+      !Array.isArray(room.objectives) ||
+      room.objectives.length < 1 ||
+      room.objectives.length > 6 ||
+      room.objectives.some((x) => !text(x, 300))
+    )
+      errors.push("Provide 1–6 short learning objectives.");
+    if (
+      !Array.isArray(room.puzzles) ||
+      room.puzzles.length < 1 ||
+      room.puzzles.length > 6
+    )
+      return [...errors, "Provide 1–6 puzzles."];
+    if (room.learningPlan !== undefined) {
+      const lp=room.learningPlan;
+      if (!lp || !text(lp.audience,300) || !text(lp.bigQuestion,600) || !Array.isArray(lp.prerequisites) || lp.prerequisites.length>6 || lp.prerequisites.some(x=>!text(x,300))) errors.push("Invalid learning plan.");
+    }
+    if (room.transfer !== undefined) {
+      const t=room.transfer;
+      if (!t || !text(t.question,1600) || !Array.isArray(t.options) || t.options.length!==3 || t.options.some(x=>!text(x,500)) || !Number.isInteger(t.answer) || t.answer<0 || t.answer>2 || !text(t.explanation,1600)) errors.push("Invalid application question.");
+    }
+    const ids = new Set();
+    room.puzzles.forEach((p, i) => {
+      const at = "Puzzle " + (i + 1) + ": ";
+      if (!p || typeof p !== "object") {
+        errors.push(at + "invalid object");
+        return;
+      }
+      if (!safeId(p.id) || ids.has(p.id))
+        errors.push(at + "unique ID required");
+      ids.add(p.id);
+      for (const k of ["title", "story", "question", "explanation", "unlock"])
+        if (!text(p[k], 1600)) errors.push(at + "missing or too long " + k);
+      if (
+        !Array.isArray(p.options) ||
+        p.options.length !== 3 ||
+        p.options.some((x) => !text(x, 500))
+      )
+        errors.push(at + "exactly 3 answer choices required");
+      if (!Number.isInteger(p.answer) || p.answer < 0 || p.answer > 2)
+        errors.push(at + "answer must be 0, 1, or 2");
+      if (
+        !Array.isArray(p.feedback) ||
+        p.feedback.length !== 3 ||
+        p.feedback.some((x) => !text(x, 800))
+      )
+        errors.push(at + "3 feedback messages required");
+      if (
+        !Array.isArray(p.hints) ||
+        p.hints.length !== 3 ||
+        p.hints.some((x) => !text(x, 800))
+      )
+        errors.push(at + "3 hints required");
+      if (
+        !Array.isArray(p.evidence) ||
+        p.evidence.length < 2 ||
+        p.evidence.length > 6
+      ) {
+        errors.push(at + "2–6 evidence cards required");
+        return;
+      }
+      const eids = new Set();
+      p.evidence.forEach((e) => {
+        if (
+          !e ||
+          !safeId(e.id) ||
+          eids.has(e.id) ||
+          !text(e.title, 150) ||
+          !text(e.body, 2400) ||
+          !text(e.clue, 800)
+        )
+          errors.push(at + "invalid evidence card");
+        if (e) eids.add(e.id);
+      });
+      if (p.objective !== undefined && !text(p.objective,300)) errors.push(at+"invalid objective");
+      if (p.reasoning !== undefined) {
+        const r=p.reasoning;
+        if (!r || !text(r.prompt,800) || !Array.isArray(r.evidenceIds) || r.evidenceIds.length<1 || new Set(r.evidenceIds).size!==r.evidenceIds.length || r.evidenceIds.some(id=>!eids.has(id)) || !text(r.explanation,1600)) errors.push(at+"invalid evidence reasoning");
+      }
+      if (
+        !Array.isArray(p.required) ||
+        !p.required.length ||
+        p.required.some((id) => !eids.has(id))
+      )
+        errors.push(at + "required evidence IDs must match cards");
+    });
+    if (
+      room.sources !== undefined &&
+      (!Array.isArray(room.sources) ||
+        room.sources.length > 10 ||
+        room.sources.some((s) => {
+          try {
+            return (
+              !text(s.title, 200) ||
+              !text(s.url, 1500) ||
+              new URL(s.url).protocol !== "https:"
+            );
+          } catch {
+            return true;
+          }
+        }))
+    )
+      errors.push("Sources must have titles and valid HTTPS URLs.");
+    return errors;
+  }
+  function initial() {
+    return {
+      solved: [],
+      seen: {},
+      attempts: {},
+      hints: {},
+      started: null,
+      finished: null,
+      transferChoice: null,
+      transferAttempts: 0,
+    };
+  }
+  function restore(room, input) {
+    const state = initial();
+    if (!input || typeof input !== "object") return state;
+    for (const p of room.puzzles) {
+      if (
+        Array.isArray(input.solved) &&
+        input.solved.includes(p.id) &&
+        state.solved.length === room.puzzles.indexOf(p)
+      )
+        state.solved.push(p.id);
+      state.seen[p.id] = Array.isArray(input.seen?.[p.id])
+        ? input.seen[p.id].filter((id) => p.evidence.some((e) => e.id === id))
+        : [];
+      state.attempts[p.id] = Number.isInteger(input.attempts?.[p.id])
+        ? Math.max(0, Math.min(10000, input.attempts[p.id]))
+        : 0;
+      state.hints[p.id] = Number.isInteger(input.hints?.[p.id])
+        ? Math.max(0, Math.min(3, input.hints[p.id]))
+        : 0;
+    }
+    state.started =
+      Number.isFinite(input.started) && input.started > 0
+        ? input.started
+        : null;
+    state.finished =
+      state.solved.length === room.puzzles.length &&
+      Number.isFinite(input.finished)
+        ? input.finished
+        : null;
+    if (room.transfer && Number.isInteger(input.transferChoice) && input.transferChoice>=0 && input.transferChoice<3) state.transferChoice=input.transferChoice;
+    state.transferAttempts=Number.isInteger(input.transferAttempts)?Math.max(0,Math.min(10000,input.transferAttempts)):0;
+    return state;
+  }
+  function inspect(state, puzzle, id) {
+    if (!puzzle.evidence.some((e) => e.id === id))
+      throw Error("Unknown evidence");
+    state.seen[puzzle.id] = [
+      ...new Set([...(state.seen[puzzle.id] || []), id]),
+    ];
+  }
+  function evaluate(room, state, choice, selectedEvidence = []) {
+    const p = room.puzzles[state.solved.length];
+    if (!p) return { kind: "complete" };
+    if (!Number.isInteger(choice) || choice < 0 || choice > 2)
+      return { kind: "invalid", message: "Choose one answer first." };
+    const missing = p.required.filter((id) => !state.seen[p.id]?.includes(id));
+    if (missing.length)
+      return {
+        kind: "evidence",
+        message: "Inspect the required evidence before making your decision.",
+      };
+    state.attempts[p.id] = (state.attempts[p.id] || 0) + 1;
+    if (choice !== p.answer)
+      return { kind: "retry", message: p.feedback[choice] };
+    if (p.reasoning) {
+      const expected=p.reasoning.evidenceIds;
+      const selected=Array.isArray(selectedEvidence)?[...new Set(selectedEvidence)]:[];
+      if (selected.length!==expected.length || selected.some(id=>!expected.includes(id))) return {kind:"reasoning",message:"Your answer is on track. Now select only the evidence that directly supports it; a familiar detail may be irrelevant."};
+    }
+    state.solved.push(p.id);
+    if (state.solved.length === room.puzzles.length)
+      state.finished = Date.now();
+    return {
+      kind: "correct",
+      message: p.feedback[choice],
+      lesson: p.explanation,
+      unlock: p.unlock,
+    };
+  }
+  return { validate, initial, restore, inspect, evaluate };
+})();
+if (typeof module !== "undefined") module.exports = RoomEngine;
+
+</script>
+    <script>
+/* Shared review checks: structural checks, not a factual-verification service. */
+const DraftReview = (() => {
+  function audit(room) {
+    const errors = RoomEngine.validate(room);
+    const warnings = [];
+    if (errors.length) return {errors, warnings, checks:[], publishable:false};
+    if (!room.learningPlan) warnings.push('Add an audience, prerequisites, and a central question.');
+    if (!room.transfer) warnings.push('Add a final application question in a new situation.');
+    for (const [i,p] of room.puzzles.entries()) {
+      if (!room.objectives.includes(p.objective)) warnings.push('Lock '+(i+1)+': link it to one of the learning objectives.');
+      if (!p.reasoning) warnings.push('Lock '+(i+1)+': add an evidence-selection challenge.');
+      if (new Set(p.options.map(x=>x.trim().toLowerCase())).size!==3) errors.push('Lock '+(i+1)+': answer choices must be distinct.');
+      if (new Set(p.hints).size!==3) warnings.push('Lock '+(i+1)+': make all three hints different.');
+      if (p.reasoning && p.reasoning.evidenceIds.length===p.evidence.length) warnings.push('Lock '+(i+1)+': every clue is supporting evidence; consider a plausible irrelevant clue.');
+    }
+    if (!room.sources?.length) warnings.push('No source links supplied. A reviewer must check factual claims independently.');
+    return {errors,warnings,publishable:errors.length===0,checks:[{label:'Room structure and evidence references',passed:true},{label:'Distinct answer choices',passed:errors.length===0},{label:'Objectives mapped to every lock',passed:room.puzzles.every(p=>room.objectives.includes(p.objective))},{label:'Evidence-selection challenges',passed:room.puzzles.every(p=>!!p.reasoning)},{label:'Application question',passed:!!room.transfer}],notice:'These checks do not establish factual accuracy, pedagogical quality, or real-world competence.'};
+  }
+  function parse(text) {
+    if (typeof text!=='string'||text.length>120000) throw Error('Model output is empty or too large.');
+    const clean=text.trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'');
+    return JSON.parse(clean);
+  }
+  return {audit,parse};
+})();
+if(typeof module!=='undefined') module.exports=DraftReview;
+
+</script>
+    <script>
+"use strict";
+const $ = (id) => document.getElementById(id),
+  esc = (s) =>
+    String(s ?? "").replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+const KEY = "unlock-academy-v1";
+let custom = [],
+  states = {},
+  currentId = null,
+  choice = null,
+  screen = "library",
+  pending = null,
+  coachSession = null,
+  coachBusy = false;
+try {
+  const data = JSON.parse(localStorage.getItem(KEY) || "{}");
+  custom = Array.isArray(data.custom)
+    ? data.custom
+        .filter(
+          (r) =>
+            !RoomEngine.validate(r).length &&
+            !STARTER_ROOMS.some((x) => x.id === r.id),
+        )
+        .slice(0, 20)
+    : [];
+  states = data.states && typeof data.states === "object" ? data.states : {};
+} catch {
+  $("saveStatus").textContent =
+    "Browser storage unavailable. Progress will last for this visit only.";
+}
+const rooms = () => [...STARTER_ROOMS, ...custom],
+  room = () => rooms().find((r) => r.id === currentId),
+  state = () => states[currentId];
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify({ custom, states }));
+    return true;
+  } catch {
+    $("saveStatus").textContent =
+      "Could not save locally. Export your room or debrief before closing.";
+    return false;
+  }
+}
+function navigate(to) {
+  screen = to;
+  for (const id of ["library", "play", "studio"]) $(id).hidden = id !== to;
+  $("libraryNav").classList.toggle("active", to === "library");
+  $("studioNav").classList.toggle("active", to === "studio");
+  if (to === "library") renderLibrary();
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+function download(name, data, type = "application/json") {
+  const url = URL.createObjectURL(new Blob([data], { type }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function renderLibrary() {
+  $("roomCount").textContent =
+    rooms().length + " rooms · endless possibilities";
+  $("roomGrid").replaceChildren();
+  for (const r of rooms()) {
+    const s = RoomEngine.restore(r, states[r.id]),
+      done = s.solved.length === r.puzzles.length;
+    const card = document.createElement("article");
+    card.className = "room-card";
+    card.innerHTML =
+      '<div class="room-cover ' +
+      (r.color === "orange" ? "orange" : r.color === "green" ? "green" : "") +
+      '"><span class="topic">' +
+      esc(r.topic) +
+      '</span><span class="symbol" aria-hidden="true">' +
+      esc(r.icon || "✦") +
+      '</span></div><div class="room-card-body"><h3>' +
+      esc(r.title) +
+      "</h3><p>" +
+      esc(r.subtitle || r.description) +
+      '</p><div class="room-details"><span>' +
+      esc(r.duration || "Self-paced") +
+      "</span><span>" +
+      r.puzzles.length +
+      " " +
+      (r.puzzles.length === 1 ? "lock" : "locks") +
+      "</span><span>" +
+      esc(r.level || "Custom room") +
+      '</span></div><button class="primary">' +
+      (done ? "View debrief" : s.started ? "Continue mission" : "Enter room") +
+      ' ↗</button><div class="room-card-actions"><button class="text-button export">Export room ↓</button><span class="small">' +
+      (done
+        ? "Completed"
+        : s.solved.length
+          ? s.solved.length + " locks opened"
+          : "") +
+      "</span></div></div>";
+    card.querySelector(".primary").onclick = () => start(r.id);
+    card.querySelector(".export").onclick = () =>
+      download(r.id + ".json", JSON.stringify(r, null, 2));
+    $("roomGrid").append(card);
+  }
+  const add = document.createElement("div");
+  add.className = "create-card";
+  add.innerHTML =
+    '<span class="plus" aria-hidden="true">+</span><h3>A room for your curiosity</h3><p>History, biology, literature, or something entirely your own.</p><button class="secondary">Create a learning room ↗</button>';
+  add.querySelector("button").onclick = () => navigate("studio");
+  $("roomGrid").append(add);
+}
+function start(id) {
+  currentId = id;
+  states[id] = RoomEngine.restore(room(), states[id]);
+  if (!state().started) state().started = Date.now();
+  choice = null;
+  pending = null;
+  save();
+  navigate("play");
+  renderMission();
+}
+function renderMission() {
+  const r = room(),
+    s = state();
+  $("missionTopic").textContent = r.topic;
+  $("missionLabel").textContent = "YOUR LEARNING MISSION";
+  $("missionTitle").textContent = r.title;
+  $("lockCount").textContent = s.solved.length + " / " + r.puzzles.length;
+  $("fiction").textContent =
+    r.fiction || "An educational scenario created by a local author.";
+  $("lockRail").replaceChildren();
+  r.puzzles.forEach((p, i) => {
+    const d = document.createElement("div");
+    d.className =
+      "lock-stop " +
+      (i < s.solved.length ? "done" : i === s.solved.length ? "active" : "");
+    d.textContent =
+      (i < s.solved.length ? "✓ " : "0" + (i + 1) + " · ") + p.title;
+    $("lockRail").append(d);
+  });
+  const complete = s.solved.length === r.puzzles.length && !pending;
+  $("puzzleArea").hidden = complete;
+  $("debrief").hidden = !complete;
+  if (complete) {
+    renderDebrief();
+    return;
+  }
+  const p = pending?.puzzle || r.puzzles[s.solved.length];
+  $("puzzleEyebrow").textContent =
+    p.eyebrow || "EVIDENCE → REASONING → DISCOVERY";
+  $("puzzleTitle").textContent = p.title;
+  $("puzzleStory").textContent = p.story;
+  $("puzzleQuestion").textContent = p.question;
+  $("puzzleObjective").textContent=p.objective?'You are practicing: '+p.objective:'';
+  renderEvidence(p);
+  renderReasoning(p);
+  $("answerChoices").replaceChildren();
+  p.options.forEach((option, i) => {
+    const l = document.createElement("label");
+    l.className = "answer";
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "answer";
+    input.value = i;
+    input.checked = choice === i;
+    input.disabled = !!pending;
+    input.onchange = () => {
+      choice = i;
+    };
+    const span = document.createElement("span");
+    span.textContent = option;
+    l.append(input, span);
+    $("answerChoices").append(l);
+  });
+  $("submitAnswer").disabled = !!pending;
+  $("feedback").replaceChildren();
+  if (pending) showFeedback(pending.result, p);
+  renderHints(p);
+}
+function renderEvidence(p) {
+  const seen = state().seen[p.id] || [];
+  $("evidenceCount").textContent =
+    seen.length + " / " + p.evidence.length + " inspected";
+  $("evidenceGrid").replaceChildren();
+  for (const e of p.evidence) {
+    const b = document.createElement("button");
+    b.className = "evidence-card" + (seen.includes(e.id) ? " seen" : "");
+    b.innerHTML =
+      '<span class="eyebrow">' +
+      esc(e.type || "EVIDENCE") +
+      "</span><strong>" +
+      esc(e.title) +
+      "</strong><small>" +
+      (seen.includes(e.id)
+        ? "✓ Inspected"
+        : p.required.includes(e.id)
+          ? "Required · Open ↗"
+          : "Optional · Open ↗") +
+      "</small>";
+    b.onclick = () => {
+      RoomEngine.inspect(state(), p, e.id);
+      save();
+      $("evidenceType").textContent = e.type || "EVIDENCE";
+      $("evidenceTitle").textContent = e.title;
+      $("evidenceBody").textContent = e.body;
+      $("evidenceClue").textContent = e.clue;
+      $("evidenceDialog").showModal();
+      renderEvidence(p);
+      renderReasoning(p);
+    };
+    $("evidenceGrid").append(b);
+  }
+}
+function renderHints(p) {
+  const n = state().hints[p.id] || 0;
+  $("hintCount").textContent = n + " / 3 hints used";
+  $("hintButton").disabled = n >= 3 || !!pending;
+  $("hintButton").textContent =
+    n >= 3 ? "All hints revealed" : "✦ Give me a nudge";
+  $("hints").replaceChildren();
+  p.hints.slice(0, n).forEach((h, i) => {
+    const el = document.createElement("p");
+    el.textContent = "Hint " + (i + 1) + ": " + h;
+    $("hints").append(el);
+  });
+}
+function showFeedback(result, p) {
+  $("feedback").replaceChildren();
+  const box = document.createElement("div");
+  box.className =
+    "feedback-box" + (result.kind === "correct" ? " correct" : "");
+  if (result.kind === "correct") {
+    const title = document.createElement("h3");
+    title.textContent = "Lock opened ✓";
+    const msg = document.createElement("p");
+    msg.textContent = result.unlock;
+    const lesson = document.createElement("p");
+    lesson.textContent = result.lesson+(p.reasoning?' '+p.reasoning.explanation:'');
+    const next = document.createElement("button");
+    next.className = "primary full";
+    next.textContent =
+      state().solved.length === room().puzzles.length
+        ? "See what you learned →"
+        : "Continue to the next lock →";
+    next.onclick = () => {
+      pending = null;
+      choice = null;
+      renderMission();
+      $("missionTitle").scrollIntoView({ behavior: "smooth" });
+    };
+    box.append(title, msg, lesson, next);
+  } else box.textContent = result.message;
+  $("feedback").append(box);
+}
+$("submitAnswer").onclick = () => {
+  const p = room().puzzles[state().solved.length];
+  const selectedEvidence=[...document.querySelectorAll('#reasoningChoices input:checked')].map(x=>x.value);
+  const result = RoomEngine.evaluate(room(), state(), choice, selectedEvidence);
+  if (result.kind === "correct") {
+    pending = { puzzle: p, result };
+    save();
+    renderMission();
+  } else {
+    save();
+    showFeedback(result, p);
+  }
+};
+$("hintButton").onclick = () => {
+  const p = room().puzzles[state().solved.length];
+  state().hints[p.id] = Math.min(3, (state().hints[p.id] || 0) + 1);
+  save();
+  renderHints(p);
+};
+function renderDebrief() {
+  const r = room(),
+    s = state(),
+    attempts = Object.values(s.attempts).reduce((a, b) => a + b, 0),
+    hints = Object.values(s.hints).reduce((a, b) => a + b, 0);
+  $("debrief").innerHTML =
+    '<div class="debrief-top"><span class="eyebrow">MISSION COMPLETE / UNDERSTANDING UNLOCKED</span><h2>You found your way through.</h2><p>' +
+    esc(r.title) +
+    ' is complete. The real reward is being able to explain your decisions.</p></div><div class="debrief-stats"><div><strong>' +
+    r.puzzles.length +
+    "</strong><span>concepts practiced</span></div><div><strong>" +
+    attempts +
+    "</strong><span>answers explored</span></div><div><strong>" +
+    hints +
+    '</strong><span>hints used</span></div></div><div class="lessons">' +
+    r.puzzles
+      .map(
+        (p, i) =>
+          '<article class="lesson"><span class="eyebrow">LESSON 0' +
+          (i + 1) +
+          "</span><h3>" +
+          esc(p.title) +
+          "</h3><p>" +
+          esc(p.explanation) +
+          "</p></article>",
+      )
+      .join("") +
+    "</div><h3>Take these ideas with you</h3><ul>" +
+    r.objectives.map((o) => '<li class="small">' + esc(o) + "</li>").join("") +
+    '</ul><div class="source-list">' +
+    (r.sources?.length
+      ? '<p class="small">Background reading about real attack mechanisms. This fictional mission does not reconstruct those incidents.</p>' +
+        r.sources
+          .map(
+            (s) =>
+              '<a href="' +
+              esc(s.url) +
+              '" target="_blank" rel="noopener noreferrer">' +
+              esc(s.title) +
+              " ↗</a>",
+          )
+          .join("")
+      : '<p class="small">' +
+        (STARTER_ROOMS.some((x) => x.id === r.id)
+          ? "A simplified lesson in classical mechanics."
+          : "Author-created lesson. Check its claims and sources before using it for instruction.") +
+        "</p>") +
+    '</div><div class="section-heading debrief-actions"><button id="exportDebrief" class="primary">Keep my learning notes ↓</button><button id="anotherRoom" class="secondary">Explore another room ↗</button></div>';
+  $("exportDebrief").onclick = () =>
+    download(
+      r.id + "-learning-notes.txt",
+      [
+        r.title,
+        "Mission complete",
+        "",
+        ...r.puzzles.flatMap((p) => [p.title, p.explanation, ""]),
+        "Learning objectives:",
+        ...r.objectives,
+        "",
+        ...(r.sources || []).map((s) => s.title + "\n" + s.url),
+      ].join("\n"),
+      "text/plain;charset=utf-8",
+    );
+  $("anotherRoom").onclick = () => navigate("library");
+  renderTransfer(r,s);
+}
+$("restartRoom").onclick = () => {
+  if (confirm("Restart this room and clear its saved progress?")) {
+    states[currentId] = RoomEngine.initial();
+    start(currentId);
+  }
+};
+$("home").onclick = (e) => {
+  e.preventDefault();
+  navigate("library");
+};
+$("libraryNav").onclick = () => navigate("library");
+$("backLibrary").onclick = () => navigate("library");
+$("studioNav").onclick = () => navigate("studio");
+$("startFeatured").onclick = () => start("last-transfer");
+$("closeEvidence").onclick = () => $("evidenceDialog").close();
+$("finishEvidence").onclick = () => $("evidenceDialog").close();
+function puzzleForm() {
+  const count = $("puzzleForms").children.length;
+  if (count >= 6) return;
+  const div = document.createElement("section");
+  div.className = "puzzle-form";
+  div.innerHTML =
+    '<div class="section-heading"><h3>Lock <span class="lock-index"></span></h3><button type="button" class="text-button remove">Remove lock</button></div><label>Lock title<input data-field="title" required maxlength="100" placeholder="The first discovery"></label><label>Scene<textarea data-field="story" required maxlength="1600" rows="2" placeholder="What situation is the learner facing?"></textarea></label><label>Question<input data-field="question" required maxlength="500" placeholder="What should they decide or explain?"></label><div class="form-row"><label>Evidence 1<textarea data-field="evidence1" required maxlength="2400" rows="3" placeholder="A fact, observation, document, or calculation."></textarea></label><label>Evidence 2<textarea data-field="evidence2" required maxlength="2400" rows="3" placeholder="A second piece of information that helps solve the lock."></textarea></label></div><label>Choice A<input data-field="a" required maxlength="500"></label><label>Choice B<input data-field="b" required maxlength="500"></label><label>Choice C<input data-field="c" required maxlength="500"></label><label>Correct choice<select data-field="answer"><option value="0">A</option><option value="1">B</option><option value="2">C</option></select></label><label>Why is that the answer?<textarea data-field="explanation" required maxlength="1600" rows="3" placeholder="Connect the evidence to the answer; explain the concept."></textarea></label><label>A gentle hint<input data-field="hint" required maxlength="800" placeholder="Point toward a useful clue without giving away the answer."></label>';
+  div.querySelector(".remove").onclick = () => {
+    if ($("puzzleForms").children.length > 1) {
+      div.remove();
+      renumber();
+    }
+  };
+  $("puzzleForms").append(div);
+  renumber();
+}
+function renumber() {
+  [...$("puzzleForms").children].forEach((p, i) => {
+    p.querySelector(".lock-index").textContent = i + 1;
+    p.querySelector(".remove").disabled =
+      $("puzzleForms").children.length === 1;
+  });
+  $("addPuzzle").disabled = $("puzzleForms").children.length >= 6;
+}
+$("addPuzzle").onclick = puzzleForm;
+$("roomForm").onsubmit = (e) => {
+  e.preventDefault();
+  if (custom.length >= 20) {
+    $("studioErrors").textContent =
+      "Your local collection has reached 20 custom rooms. Export rooms before creating a new collection in another browser.";
+    return;
+  }
+  const r = {
+    id: "custom-" + Date.now().toString(36),
+    topic: $("draftTopic").value.trim(),
+    title: $("draftTitle").value.trim(),
+    description: $("draftStory").value.trim(),
+    subtitle: $("draftStory").value.trim().slice(0, 140),
+    objectives: [$("draftObjective").value.trim()],
+    duration: "Self-paced",
+    level: "Custom room",
+    color: "green",
+    icon: "✧",
+    sources: [],
+    fiction: "An educational scenario created by a local author.",
+    puzzles: [...$("puzzleForms").children].map((el, i) => {
+      const v = (k) =>
+          el.querySelector('[data-field="' + k + '"]').value.trim(),
+        answer = Number(v("answer")),
+        options = [v("a"), v("b"), v("c")];
+      return {
+        id: "lock-" + (i + 1),
+        title: v("title"),
+        story: v("story"),
+        question: v("question"),
+        evidence: [
+          {
+            id: "e1",
+            title: "Evidence 1",
+            type: "CLUE",
+            body: v("evidence1"),
+            clue: "How does this information connect to the question?",
+          },
+          {
+            id: "e2",
+            title: "Evidence 2",
+            type: "CLUE",
+            body: v("evidence2"),
+            clue: "Compare this with the other piece of evidence.",
+          },
+        ],
+        required: ["e1", "e2"],
+        options,
+        answer,
+        feedback: options.map((_, j) =>
+          j === answer
+            ? "Correct. Your reasoning matches the evidence."
+            : "Not quite. Compare both clues and try another explanation.",
+        ),
+        explanation: v("explanation"),
+        hints: [
+          v("hint"),
+          "Read both clues together and eliminate choices that contradict them.",
+          "The intended answer is: " + options[answer],
+        ],
+        unlock: "You connected the evidence and opened this lock.",
+      };
+    }),
+  };
+  const errors = RoomEngine.validate(r);
+  if (errors.length) {
+    $("studioErrors").textContent = errors.join(" ");
+    return;
+  }
+  custom.push(r);
+  const saved = save();
+  $("studioErrors").textContent = saved
+    ? ""
+    : "Room is available for this visit, but local storage failed. Export it to keep a copy.";
+  if (saved) {
+    $("roomForm").reset();
+    $("puzzleForms").replaceChildren();
+    puzzleForm();
+  }
+  navigate("library");
+};
+$("importRoom").onchange = async () => {
+  try {
+    const f = $("importRoom").files[0];
+    if (!f) return;
+    if (f.size > 150000) throw Error("Room file must be smaller than 150 KB.");
+    const r = JSON.parse(await f.text());
+    const errors = RoomEngine.validate(r);
+    if (errors.length) throw Error(errors.slice(0, 3).join(" "));
+    if (custom.length >= 20) throw Error("Local collection limit reached.");
+    r.id = "custom-" + Date.now().toString(36);
+    r.level = "Imported room";
+    r.color = "green";
+    custom.push(r);
+    const saved = save();
+    $("importStatus").textContent = saved
+      ? "Imported. Find it in your room collection."
+      : "Imported for this visit only. Browser storage is unavailable.";
+    renderLibrary();
+  } catch (e) {
+    $("importStatus").textContent = "Import failed: " + e.message;
+  } finally {
+    $("importRoom").value = "";
+  }
+};
+$("downloadTemplate").onclick = () =>
+  download(
+    "example-learning-room.json",
+    JSON.stringify(STARTER_ROOMS[1], null, 2),
+  );
+async function openCoach() {
+  $("coachDialog").showModal();
+  if (!/^https?:$/.test(location.protocol)) {
+    $("coachStatus").textContent =
+      "Offline mode. Start the local app server and configure TrueForge to use the coach.";
+    return;
+  }
+  try {
+    const r = await fetch("/api/status", { signal: AbortSignal.timeout(4000) });
+    const d = await r.json();
+    $("coachStatus").textContent = d.message;
+  } catch {
+    $("coachStatus").textContent =
+      "Coach server unavailable. All rooms and authored hints still work.";
+  }
+}
+$("coachNav").onclick = openCoach;
+$("studioCoach").onclick = openCoach;
+$("closeCoach").onclick = () => $("coachDialog").close();
+function chat(text, kind = "") {
+  const el = document.createElement("div");
+  el.className = "chat-entry " + kind;
+  el.textContent = text;
+  $("chat").append(el);
+  return el;
+}
+$("coachForm").onsubmit = async (e) => {
+  e.preventDefault();
+  if (coachBusy) return;
+  if (!/^https?:$/.test(location.protocol)) {
+    openCoach();
+    return;
+  }
+  const q = $("coachQuestion").value.trim();
+  if (!q) return;
+  coachBusy = true;
+  $("askCoach").disabled = true;
+  chat(q, "user");
+  const reply = chat("Connecting to your learning coach…");
+  let output = "";
+  try {
+    const r = room(),
+      s = state();
+    const response = await fetch("/api/coach", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: q,
+        roomId: r?.id || null,
+        puzzleId: r?.puzzles[s?.solved.length]?.id || null,
+        session: coachSession,
+        customContext:
+          r && !STARTER_ROOMS.some((x) => x.id === r.id)
+            ? {
+                topic: r.topic,
+                title: r.title,
+                question:
+                  r.puzzles[s?.solved.length]?.question || "Room complete",
+                evidence:
+                  r.puzzles[s?.solved.length]?.evidence.map((e) => ({
+                    title: e.title,
+                    body: e.body,
+                  })) || [],
+              }
+            : null,
+      }),
+      signal: AbortSignal.timeout(150000),
+    });
+    if (!response.ok) {
+      const err = await response.json();
+      throw Error(err.error || "Request failed");
+    }
+    const reader = response.body.getReader(),
+      decoder = new TextDecoder();
+    let buffer = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+      const lines = buffer.split("\n");
+      buffer = lines.pop();
+      for (const line of lines) {
+        if (!line) continue;
+        const d = JSON.parse(line);
+        if (d.type === "session") coachSession = d.id;
+        if (d.type === "text") {
+          output += d.text;
+          reply.textContent = output;
+        }
+        if (d.type === "event")
+          $("trace").textContent = "TrueForge · " + d.name;
+        if (d.type === "done")
+          $("trace").textContent = "TrueForge turn · " + d.status;
+        if (d.type === "error") throw Error(d.message);
+      }
+      if (done) break;
+    }
+    if (!output)
+      reply.textContent =
+        "No text response. Check the session in TrueForge for details.";
+    $("coachQuestion").value = "";
+  } catch (err) {
+    reply.textContent =
+      (output ? output + "\n\n" : "") + "Coach unavailable: " + err.message;
+  } finally {
+    coachBusy = false;
+    $("askCoach").disabled = false;
+  }
+};
+
+function renderReasoning(p) {
+  const box=$("reasoningChoices");
+  const selected=box.dataset.puzzle===currentId+':'+p.id?[...box.querySelectorAll('input:checked')].map(x=>x.value):[];
+  box.dataset.puzzle=currentId+':'+p.id;
+  box.replaceChildren();
+  if(!p.reasoning) return;
+  const title=document.createElement('h3');title.textContent=p.reasoning.prompt;box.append(title);
+  const note=document.createElement('p');note.className='small';note.textContent='Select only the supporting clues. Open a card to make it available here.';box.append(note);
+  p.evidence.forEach(e=>{const label=document.createElement('label');label.className='reasoning-option';const input=document.createElement('input');input.type='checkbox';input.value=e.id;input.checked=selected.includes(e.id);input.disabled=!!pending||!state().seen[p.id]?.includes(e.id);const text=document.createElement('span');text.textContent=e.title;label.append(input,text);box.append(label)});
+}
+function renderTransfer(r,s) {
+  if(!r.transfer)return;
+  const t=r.transfer,section=document.createElement('section');section.className='transfer-panel';
+  section.innerHTML='<span class="eyebrow">ONE MORE STEP / APPLY IT SOMEWHERE NEW</span><h3>'+esc(t.question)+'</h3><p class="small">The story has changed. Which principle still applies?</p>';
+  t.options.forEach((option,i)=>{const b=document.createElement('button');b.className='secondary transfer-option';b.textContent=option;b.onclick=()=>{s.transferChoice=i;s.transferAttempts=(s.transferAttempts||0)+1;save();renderDebrief()};section.append(b)});
+  if(s.transferChoice!==null&&s.transferChoice!==undefined){const result=document.createElement('p');result.className='feedback-box'+(s.transferChoice===t.answer?' correct':'');result.textContent=s.transferChoice===t.answer?'You applied the principle. '+t.explanation:'Not yet. Revisit the lesson and consider how it applies in this new situation.';section.append(result)}
+  $('debrief').append(section);
+}
+puzzleForm();
+renderLibrary();
+
+</script>
+    <script>
+(() => {
+  const DRAFT_KEY='unlock-academy-draft-v1';
+  let draft=null,origin='',revision=0,running=false,latestAudit=null;
+  const approvals=['reviewFacts','reviewAnswers','reviewAudience'];
+  function brief(){return {topic:$('aiTopic').value.trim(),audience:$('aiAudience').value.trim(),goal:$('aiGoal').value.trim(),difficulty:$('aiDifficulty').value,locks:Number($('aiLocks').value)}}
+  function persist(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify({draft,origin,revision,brief:brief()}));}catch{$('draftEditStatus').textContent='Draft is available for this visit only. Export it before closing.';}}
+  function resetApproval(){approvals.forEach(id=>$(id).checked=false);$('publishStatus').textContent='';updateApproval();}
+  function updateApproval(){$('publishDraft').disabled=running||!draft||!latestAudit?.publishable||!approvals.every(id=>$(id).checked);}
+  function render(){
+    $('draftReview').hidden=!draft;if(!draft)return;
+    latestAudit=DraftReview.audit(draft);$('draftOrigin').textContent=origin+' · VERSION '+revision;
+    $('draftJson').value=JSON.stringify(draft,null,2);
+    $('draftAudit').innerHTML=latestAudit.checks.map(c=>'<p class="review-check '+(c.passed?'pass':'fail')+'">'+(c.passed?'✓ ':'○ ')+esc(c.label)+'</p>').join('')+latestAudit.errors.map(e=>'<p class="review-check fail">'+esc(e)+'</p>').join('')+latestAudit.warnings.map(w=>'<p class="review-warning">Review note: '+esc(w)+'</p>').join('');
+    const lp=draft.learningPlan;
+    $('draftPreview').innerHTML='<div class="review-summary"><span class="eyebrow">'+esc(draft.topic)+'</span><h2>'+esc(draft.title)+'</h2><p>'+esc(draft.description)+'</p>'+(lp?'<p><strong>For:</strong> '+esc(lp.audience)+'</p><p><strong>Central question:</strong> '+esc(lp.bigQuestion)+'</p><p><strong>Prerequisites:</strong> '+lp.prerequisites.map(esc).join(' · ')+'</p>':'')+'<h3>Learning objectives</h3><ul>'+draft.objectives.map(x=>'<li class="small">'+esc(x)+'</li>').join('')+'</ul></div>'+draft.puzzles.map((p,i)=>'<article class="review-lock"><span class="eyebrow">LOCK '+(i+1)+'</span><h3>'+esc(p.title)+'</h3><p><strong>Objective:</strong> '+esc(p.objective||'Not mapped')+'</p><p>'+esc(p.story)+'</p><p><strong>Decision:</strong> '+esc(p.question)+'</p><details><summary>Inspect evidence and answer key</summary>'+p.evidence.map(e=>'<h4>'+esc(e.title)+'</h4><pre>'+esc(e.body)+'</pre>').join('')+'<p><strong>Answer:</strong> '+esc(p.options[p.answer])+'</p><p>'+esc(p.explanation)+'</p>'+(p.reasoning?'<p><strong>Supporting clues:</strong> '+p.reasoning.evidenceIds.map(id=>esc(p.evidence.find(e=>e.id===id)?.title||id)).join(', ')+'</p><p>'+esc(p.reasoning.explanation)+'</p>':'')+'<h4>Feedback for each choice</h4>'+p.options.map((o,j)=>'<p>'+esc(o)+' → '+esc(p.feedback[j])+'</p>').join('')+'<h4>Progressive hints</h4><ol>'+p.hints.map(h=>'<li>'+esc(h)+'</li>').join('')+'</ol></details></article>').join('')+(draft.transfer?'<div class="review-summary"><span class="eyebrow">APPLY THE LEARNING</span><h3>'+esc(draft.transfer.question)+'</h3><p><strong>Answer:</strong> '+esc(draft.transfer.options[draft.transfer.answer])+'</p><p>'+esc(draft.transfer.explanation)+'</p></div>':'');
+    resetApproval();
+  }
+  function adopt(room,label){const errors=RoomEngine.validate(room);if(errors.length)throw Error(errors.slice(0,4).join(' '));draft=room;origin=label;revision++;render();persist();}
+  function event(message){const li=document.createElement('li');li.textContent=message;$('draftEvents').append(li);}
+  function setBusy(value){running=value;for(const id of ['generateRoom','reviseRoom','exampleDraft','applyDraftEdits'])$(id).disabled=value;$('draftJson').disabled=value;updateApproval();}
+  async function generate(revise=false){
+    if(running)return;
+    if(!/^https?:$/.test(location.protocol)){$('draftRun').textContent='AI generation needs the local app server and a configured TrueForge model. The authored example is available offline.';$('draftRun').className='run-error';return;}
+    if(!$('aiBriefForm').reportValidity())return;
+    const input=brief();if(revise){if(!draft)return;const text=$('revisionRequest').value.trim();if(!text){$('draftRun').textContent='Describe what you want changed before requesting a revision.';return;}input.draft=draft;input.revision=text;}
+    setBusy(true);$('draftEvents').replaceChildren();$('draftRun').className='';$('draftRun').textContent=revise?'Requesting a revised draft…':'Starting the room architect…';
+    let received=false;
+    try{
+      const response=await fetch('/api/draft',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input),signal:AbortSignal.timeout(260000)});
+      if(!response.ok){const e=await response.json();throw Error(e.error||'The generation request was rejected.');}
+      const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='';
+      while(true){const {done,value}=await reader.read();buffer+=decoder.decode(value||new Uint8Array(),{stream:!done});const lines=buffer.split('\n');buffer=lines.pop();for(const line of lines){if(!line)continue;const e=JSON.parse(line);if(e.type==='stage')event(e.message);if(e.type==='session')event('TrueForge session created: '+e.id);if(e.type==='tool')event('Observed harness event: '+e.name);if(e.type==='error')throw Error(e.message);if(e.type==='draft'){adopt(e.room,'AI draft · needs human review');received=true;event('Draft received. Nothing has been published.');}}if(done)break;}
+      if(!received)throw Error('No complete draft was received. Your previous draft has been preserved.');
+      $('draftRun').className='run-success';$('draftRun').textContent='Draft ready. Inspect its evidence, answer keys, and explanations before approving.';$('draftReview').scrollIntoView({behavior:'smooth'});
+    }catch(e){$('draftRun').className='run-error';$('draftRun').textContent='Generation unavailable: '+e.message+' No AI draft was fabricated.';}finally{setBusy(false);}
+  }
+  $('aiBriefForm').onsubmit=e=>{e.preventDefault();generate()};$('reviseRoom').onclick=()=>generate(true);
+  $('exampleDraft').onclick=()=>{$('aiTopic').value='Cybersecurity';$('aiAudience').value='Students and employees new to cyber-awareness';$('aiGoal').value='Use independent verification and evidence to recognize and contain a suspicious payment request.';$('aiDifficulty').value='Beginner';$('aiLocks').value='3';adopt(JSON.parse(JSON.stringify(STARTER_ROOMS[0])),'Authored example · not AI-generated');$('draftRun').className='';$('draftRun').textContent='Loaded an authored example so you can explore the review workflow without a model.';$('draftEvents').replaceChildren();$('draftReview').scrollIntoView({behavior:'smooth'});};
+  $('applyDraftEdits').onclick=()=>{try{const parsed=DraftReview.parse($('draftJson').value);adopt(parsed,'Edited draft · needs human review');$('draftEditStatus').textContent='Edits validated. Recheck the review boxes for this version.';}catch(e){$('draftEditStatus').textContent='Edits not applied: '+e.message;approvals.forEach(id=>$(id).checked=false);$('publishDraft').disabled=true;}};
+  $('draftJson').addEventListener('input',()=>{approvals.forEach(id=>$(id).checked=false);$('publishDraft').disabled=true;$('draftEditStatus').textContent='Unapplied edits. Validate and apply them before publishing.';});
+  approvals.forEach(id=>$(id).onchange=()=>{if($('draftJson').value!==JSON.stringify(draft,null,2)){$('publishDraft').disabled=true;return;}updateApproval();});
+  $('exportDraft').onclick=()=>{if(draft)download('draft-'+draft.id+'.json',JSON.stringify(draft,null,2));};
+  $('publishDraft').onclick=()=>{if(running||!draft||!approvals.every(id=>$(id).checked))return;const audit=DraftReview.audit(draft);if(audit.errors.length||$('draftJson').value!==JSON.stringify(draft,null,2)){resetApproval();return;}if(custom.length>=20){$('publishStatus').textContent='Local collection limit reached. Export the draft to keep a copy.';return;}const published=JSON.parse(JSON.stringify(draft));published.id='custom-'+crypto.randomUUID();published.level=draft.level||'Reviewed room';published.review={origin,version:revision,reviewedAt:new Date().toISOString(),scope:'Human acknowledged factual, answer-key and audience review; not independently verified.'};custom.push(published);const saved=save();$('publishStatus').textContent=saved?'Published to this browser’s collection.':'Published for this visit only. Export the room to keep a copy.';approvals.forEach(id=>$(id).checked=false);updateApproval();navigate('library');};
+  try{const saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved?.draft&&!RoomEngine.validate(saved.draft).length){draft=saved.draft;origin=typeof saved.origin==='string'?saved.origin:'Saved draft';revision=Number.isInteger(saved.revision)?saved.revision:1;const b=saved.brief||{};for(const [id,k] of [['aiTopic','topic'],['aiAudience','audience'],['aiGoal','goal']])if(typeof b[k]==='string')$(id).value=b[k];if(['Beginner','Intermediate','Advanced'].includes(b.difficulty))$('aiDifficulty').value=b.difficulty;if([3,4,5].includes(b.locks))$('aiLocks').value=b.locks;render();}}catch{/* Invalid or unavailable storage must not break the room creator. */}
+})();
+
+</script>
+  </body>
+</html>
