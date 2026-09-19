@@ -46,7 +46,7 @@ Five real read-only MCP tools are served at `http://127.0.0.1:8788/mcp`:
 - `get_room_design_guide`
 - `review_room_draft` — structural and learning-design checks, not factual verification
 
-The connector `unlock-academy` was registered in the local TrueForge instance and tool discovery was verified. At the end of development, TrueForge returned an empty model list, so live model inference was not verified.
+The connector `unlock-academy` was registered in the local TrueForge instance and tool discovery was verified. A live test with `openai/gpt-5-4-mini` generated a three-lock probability draft that passed structural and learning-depth validation. This verifies the local integration, not the factual accuracy of every generated lesson. Each installation still needs its own provider configuration.
 
 1. Keep this app server running.
 2. Start TrueForge at http://localhost:8790 and add a model under Settings → Models.
