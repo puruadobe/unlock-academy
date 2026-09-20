@@ -385,7 +385,7 @@ export function createServer() {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   createServer().listen(
     PORT,
-    process.env.TEAM_ORIGIN ? "0.0.0.0" : "127.0.0.1",
+    "0.0.0.0",
     () =>
       console.log(
         `Unlock Academy: http://127.0.0.1:${PORT}\nMCP connector: http://127.0.0.1:${PORT}/mcp`,
