@@ -2521,6 +2521,141 @@ STARTER_ROOMS.push({
   }
 });
 
+// Learning-science mission: durable retention through retrieval, spacing, structure, and spatial cues.
+STARTER_ROOMS.push({
+  id: "memory-atlas",
+  topic: "Learning Science",
+  title: "The Memory Atlas",
+  subtitle: "Build a study route that lasts beyond tomorrow.",
+  description: "The Atlas Library is losing its routes to long-term memory. Recover five learning principles by choosing evidence-backed study moves instead of familiar-feeling shortcuts.",
+  duration: "20–30 min",
+  level: "Advanced",
+  color: "teal",
+  icon: "◈",
+  fiction: "A fictional library investigation using simplified learning-science scenarios. The records model general findings; learners should adapt strategies to their own subjects and goals.",
+  objectives: [
+    "Distinguish retrieval practice from passive review",
+    "Plan spaced retrieval rather than massed repetition",
+    "Use meaningful chunks to reduce working-memory demands",
+    "Explain how stable spatial cues can support recall",
+    "Choose interleaving when selecting among problem types matters"
+  ],
+  learningPlan: {
+    audience: "High-school and college learners who want durable, transferable study habits",
+    prerequisites: ["Recognize the difference between remembering and recognizing", "Read a simple study schedule", "Identify patterns in worked examples"],
+    bigQuestion: "How can a study session create knowledge you can retrieve later, in a new place and for a new problem?"
+  },
+  sources: [
+    { title: "Karpicke & Roediger (2008) — retrieval practice", url: "https://doi.org/10.1126/science.1152408" },
+    { title: "Cepeda et al. (2006) — distributed practice", url: "https://doi.org/10.1111/j.1467-9280.2006.01700.x" },
+    { title: "Cowan (2001) — working-memory capacity", url: "https://doi.org/10.1017/S0140525X01003922" },
+    { title: "Rohrer & Taylor (2007) — interleaving mathematics practice", url: "https://doi.org/10.1002/acp.1347" }
+  ],
+  puzzles: [
+    {
+      id: "retrieval-lock", title: "The blank-page ledger", eyebrow: "LOCK 01 / RETRIEVAL",
+      objective: "Distinguish retrieval practice from passive review",
+      story: "Two learners prepare for the same quiz. One rereads a highlighted page three times; the other closes the book, writes what she can recall, then checks and repairs gaps.",
+      question: "Which next step is most likely to strengthen later recall of the ideas?",
+      evidence: [
+        { id: "comparison", title: "Study comparison", type: "OBSERVATION", body: "Both learners spend ten minutes with the same notes. Only the second learner must produce ideas without seeing the page before checking accuracy.", clue: "Producing an answer creates a retrieval attempt; seeing it again does not require the same operation." },
+        { id: "delay", title: "Tomorrow's assessment", type: "REFERENCE", body: "The goal is to explain the ideas from memory tomorrow, not merely recognize highlighted sentences while the notes remain open.", clue: "Match the practice operation to the later demand." },
+        { id: "pen", title: "Ink inventory", type: "CONTEXT", body: "The library supplied blue pens to both learners.", clue: "Pen color does not determine how memory is practiced." }
+      ],
+      required: ["comparison", "delay"],
+      options: ["Close the notes, retrieve the explanation, then check and correct missing parts", "Reread the highlighted page until every sentence feels familiar", "Copy the page word for word while keeping the notes visible"],
+      answer: 0,
+      feedback: ["Correct. Retrieval followed by feedback practices the later task and exposes gaps that can be repaired.", "Familiarity can feel fluent without showing that the idea can be produced later.", "Copying may create a record, but the notes being visible removes the retrieval demand."],
+      explanation: "Retrieval practice asks the learner to reconstruct information before feedback. It is harder than rereading, but that desirable difficulty gives the learner diagnostic information and rehearses future recall.",
+      hints: ["What will the quiz require you to do without notes?", "Choose the move that requires producing an answer first.", "Retrieve first, then use feedback to repair."],
+      unlock: "The first atlas page appears: effortful recall is evidence about what you can actually retrieve.",
+      reasoning: { prompt: "Which two records justify the study move?", evidenceIds: ["comparison", "delay"], explanation: "The comparison identifies retrieval, and the delayed assessment shows why practice should require recall without notes." }
+    },
+    {
+      id: "spacing-lock", title: "The calendar vault", eyebrow: "LOCK 02 / SPACING",
+      objective: "Plan spaced retrieval rather than massed repetition",
+      story: "A history learner has four 20-minute study blocks before a Friday assessment. She can use all four on Thursday night or distribute them across the week.",
+      question: "Which schedule best uses the same total time for durable recall on Friday?",
+      evidence: [
+        { id: "schedule", title: "Available blocks", type: "REFERENCE", body: "Four equal blocks are available on Monday, Tuesday, Wednesday, and Thursday. Friday's assessment requires recall without notes.", clue: "The total study time is fixed; timing is the decision." },
+        { id: "forgetting", title: "Practice log", type: "OBSERVATION", body: "After a one-day gap, the learner cannot immediately state every cause of the event, but can recover the outline after attempting recall and checking notes.", clue: "A manageable gap makes practice less fluent and more diagnostic." },
+        { id: "calendar-color", title: "Calendar theme", type: "CONTEXT", body: "Monday's calendar square is green and Thursday's is orange.", clue: "Color does not change retention." }
+      ],
+      required: ["schedule", "forgetting"],
+      options: ["Retrieve for 20 minutes on each day, checking and repairing after each attempt", "Save all 80 minutes for Thursday night and reread continuously", "Study for 80 minutes on Monday, then avoid the topic until Friday"],
+      answer: 0,
+      feedback: ["Correct. Distributed retrieval gives repeated opportunities to reconstruct after short gaps and repair what was missed.", "Massed review may feel smooth that night but provides fewer separated retrieval opportunities.", "One early session leaves no later feedback cycle before the assessment."],
+      explanation: "Spacing does not mean never reviewing. It means returning after time has passed, attempting retrieval, and using feedback. The gaps should be challenging enough to require reconstruction but not so long that the learner has no useful foothold.",
+      hints: ["The learner has the same amount of time in every option.", "Which choice creates several retrieval attempts separated by time?", "Spread retrieval and feedback across the available days."],
+      unlock: "The calendar vault opens: forgetting a little can make the next retrieval useful.",
+      reasoning: { prompt: "Which records support the spaced plan?", evidenceIds: ["schedule", "forgetting"], explanation: "The schedule fixes equal time, while the log shows why a recoverable gap can make retrieval informative." }
+    },
+    {
+      id: "chunking-lock", title: "The signal shelf", eyebrow: "LOCK 03 / CHUNKS",
+      objective: "Use meaningful chunks to reduce working-memory demands",
+      story: "A learner must remember the sequence 1–7–7–6–1–9–4–5. One card presents eight isolated digits; another groups the sequence into meaningful dates, 1776 and 1945, with a note explaining the grouping.",
+      question: "Why can the grouped card be easier to hold and use during a history explanation?",
+      evidence: [
+        { id: "grouping", title: "Two study cards", type: "OBSERVATION", body: "Card A lists 1 7 7 6 1 9 4 5. Card B labels 1776 as U.S. Declaration of Independence and 1945 as end of World War II, then asks the learner to explain the two-event timeline.", clue: "The second card organizes symbols into meaningful units linked to prior knowledge." },
+        { id: "limit", title: "Working-memory note", type: "REFERENCE", body: "Working memory is limited. A chunk is not simply a shorter list: it is a meaningful, familiar unit treated as one element for the current task.", clue: "Meaningful organization changes what must be coordinated at once." },
+        { id: "font", title: "Typography note", type: "CONTEXT", body: "Both cards use the same 14-point font.", clue: "Font size does not create conceptual chunks." }
+      ],
+      required: ["grouping", "limit"],
+      options: ["It organizes digits into meaningful events, so the learner coordinates a few connected units instead of eight isolated items", "It proves that working memory has unlimited capacity when dates are used", "It works only because historical dates are always easier than any other material"],
+      answer: 0,
+      feedback: ["Correct. Chunking depends on meaningful structure and relevant prior knowledge, not on magically expanding capacity.", "Chunking helps manage limits; it does not remove them.", "A date becomes a useful chunk because it is connected to learned meaning, not because dates are inherently easy."],
+      explanation: "Chunking compresses several elements into a meaningful pattern that the learner can recognize and use. The benefit depends on knowledge: an expert may see a familiar pattern where a novice still sees separate pieces.",
+      hints: ["Compare isolated symbols with named historical events.", "A chunk has meaning beyond its individual pieces.", "The advantage is fewer meaningful units to coordinate."],
+      unlock: "The signal shelf aligns: structure reduces the load of handling disconnected pieces.",
+      reasoning: { prompt: "Which two records explain the chunking advantage?", evidenceIds: ["grouping", "limit"], explanation: "The cards show meaningful organization; the working-memory note explains why that organization matters." }
+    },
+    {
+      id: "spatial-lock", title: "The route of loci", eyebrow: "LOCK 04 / SPATIAL CUES",
+      objective: "Explain how stable spatial cues can support recall",
+      story: "A biology student assigns the stages of mitosis to five distinct, familiar locations along a route through her home. At each location she imagines one vivid stage-specific action, then walks the same route mentally while recalling the stages.",
+      question: "What feature makes this spatial strategy more than merely decorating the notes?",
+      evidence: [
+        { id: "route", title: "Route plan", type: "OBSERVATION", body: "The route has a stable order: front door, hallway, kitchen, stairs, desk. Each location receives one stage and a meaningful image tied to the stage's process.", clue: "The locations supply ordered retrieval cues, not random scenery." },
+        { id: "recall", title: "Recall trial", type: "REFERENCE", body: "During a later closed-book attempt, the student mentally visits each location in order and names the stage and its defining event before checking the diagram.", clue: "The route is used to retrieve, then feedback checks accuracy." },
+        { id: "wallpaper", title: "Wallpaper record", type: "CONTEXT", body: "The hallway wallpaper is striped.", clue: "A decorative detail that is not linked to the material is not the retrieval mechanism." }
+      ],
+      required: ["route", "recall"],
+      options: ["Stable locations provide an ordered set of cues that prompt retrieval of the linked stages", "Spatial imagery eliminates the need to know what each stage means", "Changing to a new route every trial makes the cues stronger because they stay surprising"],
+      answer: 0,
+      feedback: ["Correct. The route supplies a consistent cue structure, while the linked images and retrieval attempt connect each cue to meaning.", "The spatial cue helps access knowledge; it cannot replace accurate understanding.", "Constantly changing cues removes the stable route the learner is using to prompt recall."],
+      explanation: "A method-of-loci style strategy combines an ordered, familiar spatial scaffold with meaningful associations. It is most useful when the learner actively retrieves the content from the cues and checks it, rather than only enjoying vivid images.",
+      hints: ["What stays the same from one recall attempt to the next?", "The learner walks the route without looking at the diagram.", "A stable location can cue a specific, meaningful memory."],
+      unlock: "The route lights up: place can organize a sequence when each place cues a real idea.",
+      reasoning: { prompt: "Which two records establish the spatial-memory mechanism?", evidenceIds: ["route", "recall"], explanation: "The route supplies stable ordered cues; the recall trial shows those cues are used to retrieve before feedback." }
+    },
+    {
+      id: "interleaving-lock", title: "The sorting chamber", eyebrow: "LOCK 05 / INTERLEAVING",
+      objective: "Choose interleaving when selecting among problem types matters",
+      story: "A mathematics learner must decide whether a word problem requires a linear equation, a proportion, or a percent-change calculation. She can practice ten of one type in a row or mix types after first seeing worked examples of each.",
+      question: "Which practice choice best prepares her to select a method on an unfamiliar mixed quiz?",
+      evidence: [
+        { id: "quiz", title: "Quiz format", type: "REFERENCE", body: "The quiz mixes linear, proportional, and percent-change problems without labels. The learner must first identify the problem type, then carry out a method.", clue: "Choosing a method is part of the target performance." },
+        { id: "practice", title: "Practice records", type: "OBSERVATION", body: "A blocked set labels every problem as one type, so the next method is obvious. A mixed set removes labels and requires comparing features before selecting a method; feedback follows each answer.", clue: "Mixed practice rehearses discrimination as well as calculation." },
+        { id: "paper", title: "Paper stock", type: "CONTEXT", body: "Both sets are printed on recycled paper.", clue: "Paper stock does not determine method selection." }
+      ],
+      required: ["quiz", "practice"],
+      options: ["Use mixed, unlabeled problems with feedback after learning the basic methods", "Use only blocked problems because the quiz will automatically identify each method", "Avoid worked examples and feedback so every problem feels difficult"],
+      answer: 0,
+      feedback: ["Correct. Interleaving is useful here because the target includes deciding which method fits, followed by feedback.", "The quiz explicitly removes labels, so the method-selection demand must be practiced.", "Difficulty alone is not the goal; examples and feedback are needed to build and correct the methods."],
+      explanation: "Interleaving is not automatically superior for every task. Here it matches the assessment because learners must discriminate among similar-looking problem types. A productive sequence is to learn each method with examples, then mix types and use feedback to refine the selection rule.",
+      hints: ["What must happen before calculation on the quiz?", "The mixed set removes the method label.", "Practice choosing the method, then check the result."],
+      unlock: "The sorting chamber clears: durable learning includes recognizing when a strategy applies.",
+      reasoning: { prompt: "Which two records justify interleaving in this case?", evidenceIds: ["quiz", "practice"], explanation: "The quiz demands method selection, and the mixed practice specifically rehearses that discrimination with feedback." }
+    }
+  ],
+  transfer: {
+    question: "You have a language vocabulary test in two weeks and a final that requires using words in sentences a month later. Which plan best transfers the Atlas principles?",
+    options: ["Make a one-night rereading session before the vocabulary test", "Use short spaced sessions that retrieve words from meaning or cues, correct errors, and later mix sentence-use prompts with word recall", "Copy every definition repeatedly while keeping the word list visible"],
+    answer: 1,
+    explanation: "The plan combines spaced retrieval with feedback and practices the later transfer demand: selecting and using words in context. Chunks or spatial cues can support organization, but they should lead into retrieval rather than replace it."
+  }
+});
+
 // Advanced Grade 12 organic chemistry mission. Reactions and spectra are
 // fictional teaching data; sources provide background, not answer keys.
 STARTER_ROOMS.push({
