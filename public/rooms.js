@@ -352,3 +352,491 @@ STARTER_ROOMS[0].transfer={question:'A familiar colleague sends a chat asking yo
 STARTER_ROOMS[1].learningPlan={audience:'Beginning physics learners',prerequisites:['Divide whole numbers','Recognize mass, speed, and temperature'],bigQuestion:'How can a few physical laws explain what you observe?'};
 STARTER_ROOMS[1].puzzles.forEach((p,i)=>{p.objective=STARTER_ROOMS[1].objectives[i]});
 STARTER_ROOMS[1].transfer={question:'A cart moves at constant velocity along a straight track. In an inertial frame, what can you infer about the net force?',options:['The net force must point forward.','The net force is zero.','The net force must point backward.'],answer:1,explanation:'Constant velocity means zero acceleration. Newton’s second law then gives zero net force. Individual forces may still be present and balanced.'};
+
+// Advanced extension of the user-created greenhouse mission.
+STARTER_ROOMS.push({
+  "id": "mendel-heredity-advanced",
+  "topic": "Mendelian Genetics",
+  "title": "The Pea Vault of Inheritance",
+  "subtitle": "Five genetic locks. One missing inheritance ledger.",
+  "description": "A greenhouse archive has sealed its inheritance ledger. Reconstruct genotypes, calculate conditional probabilities, and uncover a linked gene pair to recover the missing pages. Each lock requires both a decision and supporting evidence.",
+  "duration": "20–30 min",
+  "level": "Advanced",
+  "color": "purple",
+  "icon": "✦",
+  "fiction": "A fictional greenhouse investigation using simplified genetic models and invented data. The linkage extension reflects genetics developed after Mendel.",
+  "objectives": [
+    "Infer genotype using a recessive test cross",
+    "Calculate genotype probability conditional on a dominant phenotype",
+    "Combine independent single-gene probabilities in a dihybrid cross",
+    "Infer linkage phase and recombination frequency from offspring counts",
+    "Distinguish allele segregation from independent assortment"
+  ],
+  "learningPlan": {
+    "audience": "Advanced secondary-school biology learners (grade 12)",
+    "prerequisites": [
+      "Alleles, genotype, phenotype, and meiosis",
+      "Punnett squares and complete dominance",
+      "Fractions, conditional probability, and the product rule"
+    ],
+    "bigQuestion": "Which inheritance predictions follow from segregation, and which require independent assortment?"
+  },
+  "sources": [
+    {
+      "title": "OpenStax Biology 2e — Laws of Inheritance",
+      "url": "https://openstax.org/books/biology-2e/pages/12-3-laws-of-inheritance"
+    },
+    {
+      "title": "OpenStax Biology 2e — Chromosomal Theory and Genetic Linkage",
+      "url": "https://openstax.org/books/biology-2e/pages/13-1-chromosomal-theory-and-genetic-linkage"
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "mendel-1",
+      "title": "The unknown parent",
+      "eyebrow": "LOCK 01 / GENETIC INFERENCE",
+      "objective": "Infer genotype using a recessive test cross",
+      "story": "A tall plant guards the first drawer. Its appearance alone cannot distinguish TT from Tt. A technician has crossed it with a known dwarf plant.",
+      "question": "Under the stated model, which genotype must the tall parent have?",
+      "evidence": [
+        {
+          "id": "e1",
+          "title": "Trait model",
+          "type": "REFERENCE",
+          "body": "T gives tall plants and is completely dominant to t. Dwarf plants are tt. Assume normal segregation, reliable parentage, no mutation, and full penetrance.",
+          "clue": "A dwarf offspring must receive t from both parents."
+        },
+        {
+          "id": "e2",
+          "title": "Test-cross results",
+          "type": "OBSERVATION",
+          "body": "Unknown tall parent × tt produced 48 tall and 52 dwarf offspring.",
+          "clue": "The near-equal counts fit two gamete types from the unknown parent."
+        },
+        {
+          "id": "e3",
+          "title": "Archive note",
+          "type": "OBSERVATION",
+          "body": "The seed boxes are labeled with shelf numbers and inspection dates. These labels contain no genotype information.",
+          "clue": "A storage label is not genetic evidence."
+        }
+      ],
+      "required": [
+        "e1",
+        "e2"
+      ],
+      "options": [
+        "TT, because tall is dominant",
+        "Tt, because the parent produced both T-bearing and t-bearing gametes",
+        "tt, because some offspring are dwarf"
+      ],
+      "answer": 1,
+      "feedback": [
+        "Dominant appearance alone cannot establish TT; TT × tt cannot produce tt under this model.",
+        "Correct. The dwarf offspring require t from the tall parent, whose tall phenotype also requires T.",
+        "A tt parent would be dwarf under complete dominance, contrary to the observed parent."
+      ],
+      "explanation": "The tall parent must be Tt under the stated assumptions. A tt tester always supplies t; the unknown parent supplies either T or t. A 1:1 expectation allows sampling variation, so 48:52 is compatible.",
+      "hints": [
+        "Start with the tester: which allele can tt supply?",
+        "Use a dwarf offspring to infer an allele from the unknown parent.",
+        "Combine the required t allele with the tall parent’s own phenotype."
+      ],
+      "unlock": "Ledger page 1 recovered. Infer genotype using a recessive test cross.",
+      "reasoning": {
+        "prompt": "Select the two records needed to justify your conclusion.",
+        "evidenceIds": [
+          "e1",
+          "e2"
+        ],
+        "explanation": "The model card defines the assumptions and the experiment record supplies the cross or observations. Both are needed; the archive note is irrelevant."
+      }
+    },
+    {
+      "id": "mendel-2",
+      "title": "The selected seedling",
+      "eyebrow": "LOCK 02 / GENETIC INFERENCE",
+      "objective": "Calculate genotype probability conditional on a dominant phenotype",
+      "story": "The second drawer only admits tall F2 seedlings. You must infer the genotype of one seedling chosen at random from that filtered group.",
+      "question": "Given that the selected F2 seedling is tall, what is the probability it is Tt?",
+      "evidence": [
+        {
+          "id": "e1",
+          "title": "Cross model",
+          "type": "REFERENCE",
+          "body": "Tt × Tt; each parent produces T and t gametes equally. Fertilization is random, T is completely dominant, and genotypes have equal survival.",
+          "clue": "Work out genotype proportions before filtering."
+        },
+        {
+          "id": "e2",
+          "title": "Selection protocol",
+          "type": "OBSERVATION",
+          "body": "Only tall F2 offspring are eligible. Select one randomly from those tall offspring, not from the entire F2 generation.",
+          "clue": "The condition changes the denominator."
+        },
+        {
+          "id": "e3",
+          "title": "Archive note",
+          "type": "OBSERVATION",
+          "body": "The seed boxes are labeled with shelf numbers and inspection dates. These labels contain no genotype information.",
+          "clue": "A storage label is not genetic evidence."
+        }
+      ],
+      "required": [
+        "e1",
+        "e2"
+      ],
+      "options": [
+        "1/2",
+        "3/4",
+        "2/3"
+      ],
+      "answer": 2,
+      "feedback": [
+        "1/2 is P(Tt) among all offspring, before conditioning on tall.",
+        "3/4 is P(tall), not P(Tt given tall).",
+        "Correct. Of the three tall genotype slots TT, Tt, and tT, two are heterozygous."
+      ],
+      "explanation": "The genotype probabilities are 1/4 TT, 1/2 Tt, and 1/4 tt. Tall offspring account for 3/4, so P(Tt | tall)=(1/2)/(3/4)=2/3.",
+      "hints": [
+        "List TT, Tt, tT, and tt.",
+        "Exclude the dwarf genotype because the seedling is known to be tall.",
+        "Two of the three remaining equally likely slots are heterozygous."
+      ],
+      "unlock": "Ledger page 2 recovered. Calculate genotype probability conditional on a dominant phenotype.",
+      "reasoning": {
+        "prompt": "Select the two records needed to justify your conclusion.",
+        "evidenceIds": [
+          "e1",
+          "e2"
+        ],
+        "explanation": "The model card defines the assumptions and the experiment record supplies the cross or observations. Both are needed; the archive note is irrelevant."
+      }
+    },
+    {
+      "id": "mendel-3",
+      "title": "The two-trait gate",
+      "eyebrow": "LOCK 03 / GENETIC INFERENCE",
+      "objective": "Combine independent single-gene probabilities in a dihybrid cross",
+      "story": "A gate reads both seed shape and color. The next ledger predicts how many offspring will pass both phenotype checks.",
+      "question": "For this cross, what is the probability of a round, yellow offspring?",
+      "evidence": [
+        {
+          "id": "e1",
+          "title": "Two-locus model",
+          "type": "REFERENCE",
+          "body": "R is completely dominant to r (round vs wrinkled); Y is completely dominant to y (yellow vs green). These loci assort independently. Assume random fertilization and equal survival.",
+          "clue": "Independence permits multiplying separate probabilities."
+        },
+        {
+          "id": "e2",
+          "title": "Parent record",
+          "type": "OBSERVATION",
+          "body": "RrYy × RrYy. At each locus, the single-gene cross is heterozygote × heterozygote.",
+          "clue": "Find the probability of each dominant phenotype separately."
+        },
+        {
+          "id": "e3",
+          "title": "Archive note",
+          "type": "OBSERVATION",
+          "body": "The seed boxes are labeled with shelf numbers and inspection dates. These labels contain no genotype information.",
+          "clue": "A storage label is not genetic evidence."
+        }
+      ],
+      "required": [
+        "e1",
+        "e2"
+      ],
+      "options": [
+        "9/16",
+        "1/4",
+        "3/4"
+      ],
+      "answer": 0,
+      "feedback": [
+        "Correct. P(round)=3/4 and P(yellow)=3/4; their product is 9/16.",
+        "1/4 is the frequency of one gamete type from a double heterozygote, not this offspring phenotype.",
+        "3/4 accounts for one dominant phenotype, not both together."
+      ],
+      "explanation": "Round means RR or Rr; yellow means YY or Yy. Each dominant phenotype has probability 3/4, and independent assortment gives (3/4)(3/4)=9/16. This is an expected probability, not an exact guarantee in a finite family.",
+      "hints": [
+        "Treat shape and color as two single-gene problems.",
+        "A heterozygote cross gives a 3/4 dominant-phenotype probability.",
+        "Multiply 3/4 by 3/4 only because the model explicitly supplies independence."
+      ],
+      "unlock": "Ledger page 3 recovered. Combine independent single-gene probabilities in a dihybrid cross.",
+      "reasoning": {
+        "prompt": "Select the two records needed to justify your conclusion.",
+        "evidenceIds": [
+          "e1",
+          "e2"
+        ],
+        "explanation": "The model card defines the assumptions and the experiment record supplies the cross or observations. Both are needed; the archive note is irrelevant."
+      }
+    },
+    {
+      "id": "mendel-4",
+      "title": "The linked ledger",
+      "eyebrow": "LOCK 04 / GENETIC INFERENCE",
+      "objective": "Infer linkage phase and recombination frequency from offspring counts",
+      "story": "A later researcher added a chromosome-mapping page. This extension goes beyond Mendel’s original model: two marker genes may travel together.",
+      "question": "Which phase and observed recombination frequency fit these test-cross data?",
+      "evidence": [
+        {
+          "id": "e1",
+          "title": "Mapping model",
+          "type": "REFERENCE",
+          "body": "AaBb is test-crossed with aabb. Each offspring genotype identifies the gamete contributed by AaBb. Assume equal viability, reliable scoring, and no segregation distortion. The more frequent classes represent parental combinations.",
+          "clue": "Identify the parental classes before counting recombinants."
+        },
+        {
+          "id": "e2",
+          "title": "Offspring counts",
+          "type": "OBSERVATION",
+          "body": "AaBb: 410; aabb: 410; Aabb: 90; aaBb: 90. Total: 1,000 offspring.",
+          "clue": "Both less frequent classes contribute to the recombinant total."
+        },
+        {
+          "id": "e3",
+          "title": "Archive note",
+          "type": "OBSERVATION",
+          "body": "The seed boxes are labeled with shelf numbers and inspection dates. These labels contain no genotype information.",
+          "clue": "A storage label is not genetic evidence."
+        }
+      ],
+      "required": [
+        "e1",
+        "e2"
+      ],
+      "options": [
+        "Ab/aB phase; 82% recombinants",
+        "AB/ab phase; 18% recombinants",
+        "AB/ab phase; 9% recombinants"
+      ],
+      "answer": 1,
+      "feedback": [
+        "The abundant AB and ab classes identify parental phase; 82% is the parental fraction.",
+        "Correct. AB and ab are parental; Ab and aB together account for 180/1,000=18%.",
+        "9% counts only one recombinant class. Both Ab and aB must be included."
+      ],
+      "explanation": "The tester supplies ab, so the abundant AaBb and aabb offspring reveal AB and ab gametes. The heterozygote is in coupling phase AB/ab. The observed recombinant fraction is (90+90)/1000=0.18; it is an estimate from this sample.",
+      "hints": [
+        "Translate each offspring genotype back to its non-tester gamete.",
+        "The two most common classes indicate which alleles were together on parental chromosomes.",
+        "Add both rare classes, then divide by all 1,000 offspring."
+      ],
+      "unlock": "Ledger page 4 recovered. Infer linkage phase and recombination frequency from offspring counts.",
+      "reasoning": {
+        "prompt": "Select the two records needed to justify your conclusion.",
+        "evidenceIds": [
+          "e1",
+          "e2"
+        ],
+        "explanation": "The model card defines the assumptions and the experiment record supplies the cross or observations. Both are needed; the archive note is irrelevant."
+      }
+    },
+    {
+      "id": "mendel-5",
+      "title": "The scope of the law",
+      "eyebrow": "LOCK 05 / GENETIC INFERENCE",
+      "objective": "Distinguish allele segregation from independent assortment",
+      "story": "The final lock challenges an archivist’s claim: “Linkage means Mendel’s segregation principle is false.” Compare the marginal allele counts with the joint gamete counts.",
+      "question": "Which conclusion best distinguishes segregation from independent assortment?",
+      "evidence": [
+        {
+          "id": "e1",
+          "title": "Gamete totals",
+          "type": "REFERENCE",
+          "body": "From the preceding test cross: AB=410, ab=410, Ab=90, aB=90. Thus A-bearing gametes=500, a-bearing=500, B-bearing=500, and b-bearing=500.",
+          "clue": "Equal single-locus totals can coexist with unequal joint combinations."
+        },
+        {
+          "id": "e2",
+          "title": "Definition card",
+          "type": "OBSERVATION",
+          "body": "Segregation separates the two alleles of a locus into gametes. Independent assortment predicts combinations of different loci independently; for an unlinked AaBb individual, AB, Ab, aB, and ab are each expected at 1/4 under this model.",
+          "clue": "These statements concern different aspects of inheritance."
+        },
+        {
+          "id": "e3",
+          "title": "Archive note",
+          "type": "OBSERVATION",
+          "body": "The seed boxes are labeled with shelf numbers and inspection dates. These labels contain no genotype information.",
+          "clue": "A storage label is not genetic evidence."
+        }
+      ],
+      "required": [
+        "e1",
+        "e2"
+      ],
+      "options": [
+        "Equal A and a totals prove that the two loci assort independently",
+        "Linkage requires gametes to carry both A and a at the same locus",
+        "The data fit equal segregation at each locus but not independent combinations of these two loci"
+      ],
+      "answer": 2,
+      "feedback": [
+        "Equal marginal totals do not imply independence; the four joint classes are strongly unequal.",
+        "A normal haploid gamete carries one allele per locus; linkage concerns alleles at different loci.",
+        "Correct. Each locus has equal allele totals, while the two-locus combinations show association."
+      ],
+      "explanation": "Each locus has 500:500 allele totals, consistent with equal segregation. The joint classes differ from the 250-per-class expectation for independence. Linkage can preserve parental combinations without invalidating separation of alleles at a single locus.",
+      "hints": [
+        "Compare the one-locus totals with the four two-locus classes.",
+        "Ask whether a 1:1 ratio at each locus forces a 1:1:1:1 ratio across loci.",
+        "Segregation describes one locus; independent assortment describes relationships between loci."
+      ],
+      "unlock": "Ledger page 5 recovered. Distinguish allele segregation from independent assortment.",
+      "reasoning": {
+        "prompt": "Select the two records needed to justify your conclusion.",
+        "evidenceIds": [
+          "e1",
+          "e2"
+        ],
+        "explanation": "The model card defines the assumptions and the experiment record supplies the cross or observations. Both are needed; the archive note is irrelevant."
+      }
+    }
+  ],
+  "transfer": {
+    "question": "In an unlinked AaBb × AaBb cross with complete dominance and equal viability, what is P(A_bb), meaning dominant A phenotype and recessive b phenotype?",
+    "options": [
+      "3/16",
+      "9/16",
+      "1/16"
+    ],
+    "answer": 0,
+    "explanation": "At the A locus P(A_)=3/4; at the B locus P(bb)=1/4. Independent assortment permits multiplication: 3/4 × 1/4 = 3/16. The linked pair from the previous lock must not be assumed independent."
+  }
+});
+
+// Advanced Grade 12 organic chemistry mission. Reactions and spectra are
+// fictional teaching data; sources provide background, not answer keys.
+STARTER_ROOMS.push({
+  id: "organic-chemistry-advanced",
+  topic: "Organic Chemistry",
+  title: "The Molecular Archive",
+  subtitle: "Read the mechanism. Decode the spectra. Rebuild the synthesis route.",
+  description: "An archive of reaction notebooks has been scrambled. Use experimental conditions, stereochemical constraints, and spectral evidence to reconstruct an advanced organic chemistry sequence.",
+  duration: "25–35 min",
+  level: "Advanced",
+  color: "purple",
+  icon: "⌬",
+  fiction: "A fictional Grade 12 laboratory investigation. Reaction conditions and spectra are simplified for learning; no laboratory procedure is supplied.",
+  objectives: [
+    "Use substrate, nucleophile, and solvent evidence to distinguish SN1 from SN2 reasoning",
+    "Apply anti-periplanar geometry to predict an E2 product",
+    "Use IR and proton NMR evidence together to identify a constitutional isomer",
+    "Predict directing effects and relative activation in electrophilic aromatic substitution",
+    "Explain why an enolate gives an aldol addition product under the stated conditions"
+  ],
+  learningPlan: {
+    audience: "Advanced Grade 12 chemistry learners",
+    prerequisites: ["Lewis structures and resonance", "acid-base strength", "stereochemistry", "IR and 1H NMR interpretation"],
+    bigQuestion: "How can structural evidence and reaction conditions constrain a mechanism more strongly than a memorized reaction name?"
+  },
+  sources: [
+    { title: "OpenStax Organic Chemistry — substitution and elimination reactivity", url: "https://openstax.org/books/organic-chemistry/pages/11-12-a-summary-of-reactivity-sn1-sn2-e1-e1cb-and-e2" },
+    { title: "OpenStax Organic Chemistry — reaction summary", url: "https://openstax.org/books/organic-chemistry/pages/11-summary-of-reactions" },
+    { title: "OpenStax Organic Chemistry — aromatic substitution", url: "https://openstax.org/books/organic-chemistry/pages/16-summary" }
+  ],
+  puzzles: [
+    {
+      id: "mechanism-lock", title: "The inversion record", eyebrow: "LOCK 01 / MECHANISM",
+      objective: "Use substrate, nucleophile, and solvent evidence to distinguish SN1 from SN2 reasoning",
+      story: "A sealed vial is labeled (S)-2-bromobutane. The product log records one major substitution product. Determine the mechanism that best accounts for all observations.",
+      question: "Which mechanism best explains the evidence?",
+      evidence: [
+        { id: "conditions", title: "Reaction conditions", type: "REFERENCE", body: "(S)-2-bromobutane was treated with sodium azide in dry DMSO at room temperature. DMSO is polar aprotic; azide is a strong nucleophile but weak base in this teaching model.", clue: "The medium keeps the nucleophile available for backside approach." },
+        { id: "outcome", title: "Product analysis", type: "OBSERVATION", body: "The major substitution product is predominantly (R)-2-azidobutane. No rearranged carbon skeleton was detected in this simplified data set.", clue: "Configuration changed at the reacting stereocenter." },
+        { id: "label", title: "Archive label", type: "CONTEXT", body: "The vial was stored on shelf B-14 beneath a blue lamp.", clue: "Storage metadata does not choose a mechanism." }
+      ],
+      required: ["conditions", "outcome"],
+      options: ["SN2, because a nucleophile attacks in one step from the side opposite the leaving group", "SN1, because a freely rotating carbocation gives the observed inversion", "E2, because azide removes a beta hydrogen to form the substitution product"],
+      answer: 0,
+      feedback: ["Correct. The polar aprotic conditions and inversion support a concerted backside substitution model.", "A planar carbocation would generally erase the starting configuration rather than specifically predict inversion.", "E2 gives an alkene, not the recorded azide substitution product."],
+      explanation: "The conclusion follows from the combined evidence: polar aprotic solvent plus a nucleophile favors direct attack, and the observed inversion is consistent with backside attack. Real systems can have competing pathways, but this question constrains the model explicitly.",
+      hints: ["Does the product preserve, invert, or lose configuration?", "Ask whether a planar intermediate is needed.", "A one-step backside attack accounts for inversion."],
+      unlock: "The first notebook page opens: mechanism claims must explain stereochemical evidence.",
+      reasoning: { prompt: "Which two records directly support this mechanism assignment?", evidenceIds: ["conditions", "outcome"], explanation: "The conditions constrain the likely pathway and the stereochemical outcome tests that pathway. The shelf label is irrelevant." }
+    },
+    {
+      id: "geometry-lock", title: "The anti alignment", eyebrow: "LOCK 02 / STEREOCHEMISTRY",
+      objective: "Apply anti-periplanar geometry to predict an E2 product",
+      story: "A conformational sketch of 2-bromobutane is pinned beside a bulky base. Only one beta hydrogen is anti-periplanar to the C–Br bond in the drawn reactive conformer.",
+      question: "What product follows from the stated anti-periplanar E2 model?",
+      evidence: [
+        { id: "base", title: "Base card", type: "REFERENCE", body: "Potassium tert-butoxide is used under conditions modeled as strong, bulky base. The question assumes concerted E2 elimination is the dominant teaching pathway.", clue: "The model specifies a concerted elimination." },
+        { id: "conformer", title: "Reactive conformer", type: "OBSERVATION", body: "In the supplied staggered conformation, the anti beta hydrogen lies on carbon 3. Removing it while bromide leaves creates the C2=C3 bond with the higher-priority carbon substituents on opposite sides.", clue: "The geometry fixes both the double-bond location and E/Z relationship." },
+        { id: "thermometer", title: "Thermometer note", type: "CONTEXT", body: "The room temperature was recorded as 22 °C.", clue: "The stated conformer supplies the decisive information." }
+      ],
+      required: ["base", "conformer"],
+      options: ["(E)-2-butene", "(Z)-2-butene", "1-butene"], answer: 0,
+      feedback: ["Correct. The anti hydrogen on carbon 3 gives 2-butene, and the described arrangement gives E geometry.", "Z would require the higher-priority groups to be on the same side, contrary to the supplied conformer.", "1-butene would require abstraction from the other beta carbon, which is not the specified anti alignment."],
+      explanation: "E2 elimination is stereospecific because the breaking C–H and C–Br bonds align anti-periplanar in the reactive conformation. The problem provides the relevant anti hydrogen and the resulting relative arrangement, so no unprovided conformer needs to be assumed.",
+      hints: ["Find the beta carbon bearing the anti hydrogen.", "Form the double bond between that beta carbon and the carbon bearing bromine.", "Use the stated opposite-side arrangement to assign E."],
+      unlock: "A stereochemical seal breaks: geometry can be evidence, not decoration.",
+      reasoning: { prompt: "Which two records are required to justify the product?", evidenceIds: ["base", "conformer"], explanation: "The base card supplies the E2 model; the conformer identifies the anti hydrogen and product geometry." }
+    },
+    {
+      id: "spectra-lock", title: "The spectral cabinet", eyebrow: "LOCK 03 / STRUCTURE",
+      objective: "Use IR and proton NMR evidence together to identify a constitutional isomer",
+      story: "Three possible formulas are written on a cabinet. A sample has formula C3H6O. Identify the structure supported by both spectra rather than by formula alone.",
+      question: "Which structure best matches the spectral evidence?",
+      evidence: [
+        { id: "ir", title: "IR spectrum note", type: "REFERENCE", body: "A strong absorption appears near 1715 cm⁻¹. No broad O–H absorption is reported between 2500–3300 cm⁻¹ in this simplified spectrum.", clue: "A carbonyl is present; a carboxylic-acid O–H signal is not." },
+        { id: "nmr", title: "1H NMR integration", type: "OBSERVATION", body: "Two signals are reported: a singlet integrating to 3 H near 2.1 ppm and a singlet integrating to 3 H near 9.8 ppm.", clue: "One methyl group is adjacent to a carbonyl, and one aldehydic proton is present." },
+        { id: "mass", title: "Mass label", type: "CONTEXT", body: "The molecular-ion region is marked 58 on the instrument printout.", clue: "The formula is already supplied; the decisive distinction comes from functional-group and proton evidence." }
+      ],
+      required: ["ir", "nmr"],
+      options: ["Propanal, CH3CH2CHO", "Propanone, CH3COCH3", "Cyclopropanol"], answer: 0,
+      feedback: ["Correct. The aldehydic 1 H signal and carbonyl evidence identify propanal.", "Propanone would have one 6 H methyl singlet and no aldehydic proton.", "Cyclopropanol lacks the carbonyl signal given by the IR evidence."],
+      explanation: "The IR establishes a carbonyl-containing compound. The 9.8 ppm one-proton signal is characteristic of an aldehydic proton in this teaching data, while the 3 H signal fits the methyl adjacent to that carbonyl. Together those observations select propanal.",
+      hints: ["First identify the functional group from IR.", "A proton near 9.8 ppm is unusually far downfield.", "Count the 3 H methyl and the 1 H aldehyde."],
+      unlock: "The cabinet opens: structure assignment requires signals to agree with each other.",
+      reasoning: { prompt: "Which two records directly identify the isomer?", evidenceIds: ["ir", "nmr"], explanation: "IR supplies the carbonyl constraint and NMR supplies the aldehydic proton and integration pattern. The mass label is redundant here." }
+    },
+    {
+      id: "aromatic-lock", title: "The ring ledger", eyebrow: "LOCK 04 / AROMATICITY",
+      objective: "Predict directing effects and relative activation in electrophilic aromatic substitution",
+      story: "A nitration notebook compares anisole, chlorobenzene, and nitrobenzene under the same fictional electrophilic aromatic substitution conditions.",
+      question: "Which prediction best matches the electronic effects stated in the records?",
+      evidence: [
+        { id: "substituent", title: "Resonance map", type: "REFERENCE", body: "Anisole’s oxygen lone pair can donate electron density by resonance to ortho and para positions. A nitro group withdraws strongly by resonance and directs incoming electrophiles meta in the usual teaching model.", clue: "Resonance changes both reactivity and favored position." },
+        { id: "rate", title: "Relative-rate table", type: "OBSERVATION", body: "Under matched conditions, anisole reacts faster than benzene. Nitrobenzene reacts much more slowly than benzene. Chlorobenzene is deactivated overall but gives mainly ortho/para substitution in this simplified comparison.", clue: "Activation and directing category are related but not identical." },
+        { id: "glassware", title: "Glassware inventory", type: "CONTEXT", body: "Three identical round-bottom flasks were used.", clue: "The flasks do not determine regioselectivity." }
+      ],
+      required: ["substituent", "rate"],
+      options: ["Anisole is activated and ortho/para-directing; nitrobenzene is deactivated and meta-directing", "Nitrobenzene is activated because the nitro group contains oxygen", "Chlorobenzene must be meta-directing because it is deactivated"], answer: 0,
+      feedback: ["Correct. The supplied resonance and rate evidence supports these two linked predictions.", "Oxygen alone does not determine donation; the nitro group withdraws by resonance in the stated model.", "Halogens are a classic exception: deactivated overall yet ortho/para-directing in this model."],
+      explanation: "Resonance donation from methoxy stabilizes intermediates leading to ortho/para products and increases reactivity. Nitro withdrawal destabilizes those intermediates, deactivates the ring, and favors meta substitution. Chlorobenzene illustrates why rate and directing effect must be evaluated separately.",
+      hints: ["Separate the question ‘faster or slower?’ from ‘where does it react?’", "Compare resonance donation and withdrawal.", "Methoxy donates; nitro withdraws."],
+      unlock: "The aromatic ledger yields: directing effects are mechanistic claims about intermediate stabilization.",
+      reasoning: { prompt: "Which two records support the aromatic prediction?", evidenceIds: ["substituent", "rate"], explanation: "The resonance map explains directing effects; the rate table supplies the comparative reactivity observations." }
+    },
+    {
+      id: "carbonyl-lock", title: "The enolate cipher", eyebrow: "LOCK 05 / CARBONYL CHEMISTRY",
+      objective: "Explain why an enolate gives an aldol addition product under the stated conditions",
+      story: "The final page describes acetone treated with dilute hydroxide at low temperature, followed by prompt neutral workup. The isolated product contains both an alcohol and a ketone.",
+      question: "Which explanation best accounts for the observed product?",
+      evidence: [
+        { id: "conditions", title: "Condition log", type: "REFERENCE", body: "Acetone was exposed to dilute hydroxide at low temperature, then neutralized promptly. The teaching model assumes reversible enolate formation followed by carbonyl addition; extended heating and dehydration are excluded.", clue: "The conditions favor addition rather than dehydration in this model." },
+        { id: "product", title: "Product evidence", type: "OBSERVATION", body: "The product spectrum retains one ketone carbonyl and shows an O–H absorption. Its carbon count is double that of acetone.", clue: "Two acetone units joined while one carbonyl became an alcohol-bearing carbon." },
+        { id: "cleanup", title: "Cleanup record", type: "CONTEXT", body: "The reaction bench was wiped with ethanol after workup.", clue: "Cleanup does not create the product connectivity." }
+      ],
+      required: ["conditions", "product"],
+      options: ["An acetone enolate added to another acetone carbonyl, giving a beta-hydroxy ketone before dehydration", "Hydroxide reduced acetone directly to a secondary alcohol", "Acetone underwent SN2 substitution at its carbonyl carbon"], answer: 0,
+      feedback: ["Correct. The evidence is consistent with aldol addition: C–C bond formation, retained ketone, and new alcohol.", "Hydroxide is not a hydride reducing agent, and the carbon count doubled.", "Carbonyl carbon does not undergo the stated SN2 process; the evidence instead indicates nucleophilic addition and C–C bond formation."],
+      explanation: "Under the specified simplified conditions, acetone forms a small equilibrium concentration of enolate. That enolate adds to another acetone carbonyl; protonation gives a beta-hydroxy ketone. The retained carbonyl, new O–H group, and doubled carbon count distinguish addition from reduction or substitution.",
+      hints: ["Account for both the doubled carbon count and the O–H group.", "One carbonyl remains, while another becomes an alcohol-bearing center.", "An enolate can add to another carbonyl: this is aldol addition."],
+      unlock: "The archive is restored: conditions and product evidence together constrain the carbonyl pathway.",
+      reasoning: { prompt: "Which two records directly support the aldol-addition explanation?", evidenceIds: ["conditions", "product"], explanation: "The condition log specifies the enolate/addition model; product evidence tests its predicted connectivity and functional groups." }
+    }
+  ],
+  transfer: {
+    question: "A secondary alkyl bromide is treated with sodium ethoxide in ethanol. Which claim is best supported before running the reaction?",
+    options: ["A strong base can make E2 competition important; substrate, solvent, and product data are needed before claiming a single exclusive pathway", "The reaction must be SN2 because ethoxide contains oxygen", "The reaction must be SN1 because bromide is a leaving group"],
+    answer: 0,
+    explanation: "Mechanism prediction is evidence-based rather than a single-rule lookup. A secondary substrate with a strong base commonly has E2 competition; actual product and kinetic evidence would be needed to make a stronger claim."
+  }
+});
