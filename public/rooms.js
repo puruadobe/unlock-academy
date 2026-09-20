@@ -709,3 +709,134 @@ STARTER_ROOMS.push({
     "explanation": "At the A locus P(A_)=3/4; at the B locus P(bb)=1/4. Independent assortment permits multiplication: 3/4 × 1/4 = 3/16. The linked pair from the previous lock must not be assumed independent."
   }
 });
+
+// Advanced Grade 12 organic chemistry mission. Reactions and spectra are
+// fictional teaching data; sources provide background, not answer keys.
+STARTER_ROOMS.push({
+  id: "organic-chemistry-advanced",
+  topic: "Organic Chemistry",
+  title: "The Molecular Archive",
+  subtitle: "Read the mechanism. Decode the spectra. Rebuild the synthesis route.",
+  description: "An archive of reaction notebooks has been scrambled. Use experimental conditions, stereochemical constraints, and spectral evidence to reconstruct an advanced organic chemistry sequence.",
+  duration: "25–35 min",
+  level: "Advanced",
+  color: "purple",
+  icon: "⌬",
+  fiction: "A fictional Grade 12 laboratory investigation. Reaction conditions and spectra are simplified for learning; no laboratory procedure is supplied.",
+  objectives: [
+    "Use substrate, nucleophile, and solvent evidence to distinguish SN1 from SN2 reasoning",
+    "Apply anti-periplanar geometry to predict an E2 product",
+    "Use IR and proton NMR evidence together to identify a constitutional isomer",
+    "Predict directing effects and relative activation in electrophilic aromatic substitution",
+    "Explain why an enolate gives an aldol addition product under the stated conditions"
+  ],
+  learningPlan: {
+    audience: "Advanced Grade 12 chemistry learners",
+    prerequisites: ["Lewis structures and resonance", "acid-base strength", "stereochemistry", "IR and 1H NMR interpretation"],
+    bigQuestion: "How can structural evidence and reaction conditions constrain a mechanism more strongly than a memorized reaction name?"
+  },
+  sources: [
+    { title: "OpenStax Organic Chemistry — substitution and elimination reactivity", url: "https://openstax.org/books/organic-chemistry/pages/11-12-a-summary-of-reactivity-sn1-sn2-e1-e1cb-and-e2" },
+    { title: "OpenStax Organic Chemistry — reaction summary", url: "https://openstax.org/books/organic-chemistry/pages/11-summary-of-reactions" },
+    { title: "OpenStax Organic Chemistry — aromatic substitution", url: "https://openstax.org/books/organic-chemistry/pages/16-summary" }
+  ],
+  puzzles: [
+    {
+      id: "mechanism-lock", title: "The inversion record", eyebrow: "LOCK 01 / MECHANISM",
+      objective: "Use substrate, nucleophile, and solvent evidence to distinguish SN1 from SN2 reasoning",
+      story: "A sealed vial is labeled (S)-2-bromobutane. The product log records one major substitution product. Determine the mechanism that best accounts for all observations.",
+      question: "Which mechanism best explains the evidence?",
+      evidence: [
+        { id: "conditions", title: "Reaction conditions", type: "REFERENCE", body: "(S)-2-bromobutane was treated with sodium azide in dry DMSO at room temperature. DMSO is polar aprotic; azide is a strong nucleophile but weak base in this teaching model.", clue: "The medium keeps the nucleophile available for backside approach." },
+        { id: "outcome", title: "Product analysis", type: "OBSERVATION", body: "The major substitution product is predominantly (R)-2-azidobutane. No rearranged carbon skeleton was detected in this simplified data set.", clue: "Configuration changed at the reacting stereocenter." },
+        { id: "label", title: "Archive label", type: "CONTEXT", body: "The vial was stored on shelf B-14 beneath a blue lamp.", clue: "Storage metadata does not choose a mechanism." }
+      ],
+      required: ["conditions", "outcome"],
+      options: ["SN2, because a nucleophile attacks in one step from the side opposite the leaving group", "SN1, because a freely rotating carbocation gives the observed inversion", "E2, because azide removes a beta hydrogen to form the substitution product"],
+      answer: 0,
+      feedback: ["Correct. The polar aprotic conditions and inversion support a concerted backside substitution model.", "A planar carbocation would generally erase the starting configuration rather than specifically predict inversion.", "E2 gives an alkene, not the recorded azide substitution product."],
+      explanation: "The conclusion follows from the combined evidence: polar aprotic solvent plus a nucleophile favors direct attack, and the observed inversion is consistent with backside attack. Real systems can have competing pathways, but this question constrains the model explicitly.",
+      hints: ["Does the product preserve, invert, or lose configuration?", "Ask whether a planar intermediate is needed.", "A one-step backside attack accounts for inversion."],
+      unlock: "The first notebook page opens: mechanism claims must explain stereochemical evidence.",
+      reasoning: { prompt: "Which two records directly support this mechanism assignment?", evidenceIds: ["conditions", "outcome"], explanation: "The conditions constrain the likely pathway and the stereochemical outcome tests that pathway. The shelf label is irrelevant." }
+    },
+    {
+      id: "geometry-lock", title: "The anti alignment", eyebrow: "LOCK 02 / STEREOCHEMISTRY",
+      objective: "Apply anti-periplanar geometry to predict an E2 product",
+      story: "A conformational sketch of 2-bromobutane is pinned beside a bulky base. Only one beta hydrogen is anti-periplanar to the C–Br bond in the drawn reactive conformer.",
+      question: "What product follows from the stated anti-periplanar E2 model?",
+      evidence: [
+        { id: "base", title: "Base card", type: "REFERENCE", body: "Potassium tert-butoxide is used under conditions modeled as strong, bulky base. The question assumes concerted E2 elimination is the dominant teaching pathway.", clue: "The model specifies a concerted elimination." },
+        { id: "conformer", title: "Reactive conformer", type: "OBSERVATION", body: "In the supplied staggered conformation, the anti beta hydrogen lies on carbon 3. Removing it while bromide leaves creates the C2=C3 bond with the higher-priority carbon substituents on opposite sides.", clue: "The geometry fixes both the double-bond location and E/Z relationship." },
+        { id: "thermometer", title: "Thermometer note", type: "CONTEXT", body: "The room temperature was recorded as 22 °C.", clue: "The stated conformer supplies the decisive information." }
+      ],
+      required: ["base", "conformer"],
+      options: ["(E)-2-butene", "(Z)-2-butene", "1-butene"], answer: 0,
+      feedback: ["Correct. The anti hydrogen on carbon 3 gives 2-butene, and the described arrangement gives E geometry.", "Z would require the higher-priority groups to be on the same side, contrary to the supplied conformer.", "1-butene would require abstraction from the other beta carbon, which is not the specified anti alignment."],
+      explanation: "E2 elimination is stereospecific because the breaking C–H and C–Br bonds align anti-periplanar in the reactive conformation. The problem provides the relevant anti hydrogen and the resulting relative arrangement, so no unprovided conformer needs to be assumed.",
+      hints: ["Find the beta carbon bearing the anti hydrogen.", "Form the double bond between that beta carbon and the carbon bearing bromine.", "Use the stated opposite-side arrangement to assign E."],
+      unlock: "A stereochemical seal breaks: geometry can be evidence, not decoration.",
+      reasoning: { prompt: "Which two records are required to justify the product?", evidenceIds: ["base", "conformer"], explanation: "The base card supplies the E2 model; the conformer identifies the anti hydrogen and product geometry." }
+    },
+    {
+      id: "spectra-lock", title: "The spectral cabinet", eyebrow: "LOCK 03 / STRUCTURE",
+      objective: "Use IR and proton NMR evidence together to identify a constitutional isomer",
+      story: "Three possible formulas are written on a cabinet. A sample has formula C3H6O. Identify the structure supported by both spectra rather than by formula alone.",
+      question: "Which structure best matches the spectral evidence?",
+      evidence: [
+        { id: "ir", title: "IR spectrum note", type: "REFERENCE", body: "A strong absorption appears near 1715 cm⁻¹. No broad O–H absorption is reported between 2500–3300 cm⁻¹ in this simplified spectrum.", clue: "A carbonyl is present; a carboxylic-acid O–H signal is not." },
+        { id: "nmr", title: "1H NMR integration", type: "OBSERVATION", body: "Two signals are reported: a singlet integrating to 3 H near 2.1 ppm and a singlet integrating to 3 H near 9.8 ppm.", clue: "One methyl group is adjacent to a carbonyl, and one aldehydic proton is present." },
+        { id: "mass", title: "Mass label", type: "CONTEXT", body: "The molecular-ion region is marked 58 on the instrument printout.", clue: "The formula is already supplied; the decisive distinction comes from functional-group and proton evidence." }
+      ],
+      required: ["ir", "nmr"],
+      options: ["Propanal, CH3CH2CHO", "Propanone, CH3COCH3", "Cyclopropanol"], answer: 0,
+      feedback: ["Correct. The aldehydic 1 H signal and carbonyl evidence identify propanal.", "Propanone would have one 6 H methyl singlet and no aldehydic proton.", "Cyclopropanol lacks the carbonyl signal given by the IR evidence."],
+      explanation: "The IR establishes a carbonyl-containing compound. The 9.8 ppm one-proton signal is characteristic of an aldehydic proton in this teaching data, while the 3 H signal fits the methyl adjacent to that carbonyl. Together those observations select propanal.",
+      hints: ["First identify the functional group from IR.", "A proton near 9.8 ppm is unusually far downfield.", "Count the 3 H methyl and the 1 H aldehyde."],
+      unlock: "The cabinet opens: structure assignment requires signals to agree with each other.",
+      reasoning: { prompt: "Which two records directly identify the isomer?", evidenceIds: ["ir", "nmr"], explanation: "IR supplies the carbonyl constraint and NMR supplies the aldehydic proton and integration pattern. The mass label is redundant here." }
+    },
+    {
+      id: "aromatic-lock", title: "The ring ledger", eyebrow: "LOCK 04 / AROMATICITY",
+      objective: "Predict directing effects and relative activation in electrophilic aromatic substitution",
+      story: "A nitration notebook compares anisole, chlorobenzene, and nitrobenzene under the same fictional electrophilic aromatic substitution conditions.",
+      question: "Which prediction best matches the electronic effects stated in the records?",
+      evidence: [
+        { id: "substituent", title: "Resonance map", type: "REFERENCE", body: "Anisole’s oxygen lone pair can donate electron density by resonance to ortho and para positions. A nitro group withdraws strongly by resonance and directs incoming electrophiles meta in the usual teaching model.", clue: "Resonance changes both reactivity and favored position." },
+        { id: "rate", title: "Relative-rate table", type: "OBSERVATION", body: "Under matched conditions, anisole reacts faster than benzene. Nitrobenzene reacts much more slowly than benzene. Chlorobenzene is deactivated overall but gives mainly ortho/para substitution in this simplified comparison.", clue: "Activation and directing category are related but not identical." },
+        { id: "glassware", title: "Glassware inventory", type: "CONTEXT", body: "Three identical round-bottom flasks were used.", clue: "The flasks do not determine regioselectivity." }
+      ],
+      required: ["substituent", "rate"],
+      options: ["Anisole is activated and ortho/para-directing; nitrobenzene is deactivated and meta-directing", "Nitrobenzene is activated because the nitro group contains oxygen", "Chlorobenzene must be meta-directing because it is deactivated"], answer: 0,
+      feedback: ["Correct. The supplied resonance and rate evidence supports these two linked predictions.", "Oxygen alone does not determine donation; the nitro group withdraws by resonance in the stated model.", "Halogens are a classic exception: deactivated overall yet ortho/para-directing in this model."],
+      explanation: "Resonance donation from methoxy stabilizes intermediates leading to ortho/para products and increases reactivity. Nitro withdrawal destabilizes those intermediates, deactivates the ring, and favors meta substitution. Chlorobenzene illustrates why rate and directing effect must be evaluated separately.",
+      hints: ["Separate the question ‘faster or slower?’ from ‘where does it react?’", "Compare resonance donation and withdrawal.", "Methoxy donates; nitro withdraws."],
+      unlock: "The aromatic ledger yields: directing effects are mechanistic claims about intermediate stabilization.",
+      reasoning: { prompt: "Which two records support the aromatic prediction?", evidenceIds: ["substituent", "rate"], explanation: "The resonance map explains directing effects; the rate table supplies the comparative reactivity observations." }
+    },
+    {
+      id: "carbonyl-lock", title: "The enolate cipher", eyebrow: "LOCK 05 / CARBONYL CHEMISTRY",
+      objective: "Explain why an enolate gives an aldol addition product under the stated conditions",
+      story: "The final page describes acetone treated with dilute hydroxide at low temperature, followed by prompt neutral workup. The isolated product contains both an alcohol and a ketone.",
+      question: "Which explanation best accounts for the observed product?",
+      evidence: [
+        { id: "conditions", title: "Condition log", type: "REFERENCE", body: "Acetone was exposed to dilute hydroxide at low temperature, then neutralized promptly. The teaching model assumes reversible enolate formation followed by carbonyl addition; extended heating and dehydration are excluded.", clue: "The conditions favor addition rather than dehydration in this model." },
+        { id: "product", title: "Product evidence", type: "OBSERVATION", body: "The product spectrum retains one ketone carbonyl and shows an O–H absorption. Its carbon count is double that of acetone.", clue: "Two acetone units joined while one carbonyl became an alcohol-bearing carbon." },
+        { id: "cleanup", title: "Cleanup record", type: "CONTEXT", body: "The reaction bench was wiped with ethanol after workup.", clue: "Cleanup does not create the product connectivity." }
+      ],
+      required: ["conditions", "product"],
+      options: ["An acetone enolate added to another acetone carbonyl, giving a beta-hydroxy ketone before dehydration", "Hydroxide reduced acetone directly to a secondary alcohol", "Acetone underwent SN2 substitution at its carbonyl carbon"], answer: 0,
+      feedback: ["Correct. The evidence is consistent with aldol addition: C–C bond formation, retained ketone, and new alcohol.", "Hydroxide is not a hydride reducing agent, and the carbon count doubled.", "Carbonyl carbon does not undergo the stated SN2 process; the evidence instead indicates nucleophilic addition and C–C bond formation."],
+      explanation: "Under the specified simplified conditions, acetone forms a small equilibrium concentration of enolate. That enolate adds to another acetone carbonyl; protonation gives a beta-hydroxy ketone. The retained carbonyl, new O–H group, and doubled carbon count distinguish addition from reduction or substitution.",
+      hints: ["Account for both the doubled carbon count and the O–H group.", "One carbonyl remains, while another becomes an alcohol-bearing center.", "An enolate can add to another carbonyl: this is aldol addition."],
+      unlock: "The archive is restored: conditions and product evidence together constrain the carbonyl pathway.",
+      reasoning: { prompt: "Which two records directly support the aldol-addition explanation?", evidenceIds: ["conditions", "product"], explanation: "The condition log specifies the enolate/addition model; product evidence tests its predicted connectivity and functional groups." }
+    }
+  ],
+  transfer: {
+    question: "A secondary alkyl bromide is treated with sodium ethoxide in ethanol. Which claim is best supported before running the reaction?",
+    options: ["A strong base can make E2 competition important; substrate, solvent, and product data are needed before claiming a single exclusive pathway", "The reaction must be SN2 because ethoxide contains oxygen", "The reaction must be SN1 because bromide is a leaving group"],
+    answer: 0,
+    explanation: "Mechanism prediction is evidence-based rather than a single-rule lookup. A secondary substrate with a strong base commonly has E2 competition; actual product and kinetic evidence would be needed to make a stronger claim."
+  }
+});
